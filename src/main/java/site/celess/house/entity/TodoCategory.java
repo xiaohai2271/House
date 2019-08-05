@@ -1,10 +1,13 @@
 package site.celess.house.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,28 +26,36 @@ public class TodoCategory {
     @Column(name = "tc_name")
     private String name;
 
+    @JsonIgnore
     @Column(name = "tc_todo")
     public String todo;
 
     @Column(name = "tc_time")
     private Long time;
 
-    public Integer[] getTodo() {
+    public List<Integer> getTodo() {
         String[] tmpTodo = todo.substring(1, todo.length() - 1).split(",");
-        List<Integer>  todoInt = new ArrayList<>();
-        for (int i = 0; i < tmpTodo.length; i++) {
-            if (!"".equals(tmpTodo[i])) {
-                todoInt.add(Integer.parseInt(tmpTodo[i]));
+        List<Integer> todoInt = new ArrayList<>();
+        for (String s : tmpTodo) {
+            if (!"".equals(s)) {
+                todoInt.add(Integer.parseInt(s));
             }
         }
-        return (Integer[]) todoInt.toArray(new Integer[todoInt.size()]);
+        return todoInt;
     }
 
-    public void setTodo(Integer[] todo) {
-        this.todo = Arrays.toString(todo).replaceAll(" ", "");
+    public void setTodo(List<Integer> todoList) {
+        // 去除“, ”后面的空格
+        this.todo = todoList.toString().replaceAll(", ", ",");
     }
 
     public void setTodo(String todo) {
         this.todo = todo;
+    }
+
+    public String getTime() {
+        // TODO : 使用数据库内存储的dateFormat格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return sdf.format(new Date(time));
     }
 }

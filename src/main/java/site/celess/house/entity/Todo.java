@@ -3,6 +3,8 @@ package site.celess.house.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @Author: 小海
@@ -28,4 +30,10 @@ public class Todo {
 
     @Column(name = "t_time")
     private Long time;
+
+    public String getTime() {
+        // TODO : 使用数据库内存储的dateFormat格式
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        return sdf.format(new Date(time));
+    }
 }

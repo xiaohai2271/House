@@ -5,11 +5,11 @@ USE `house`;
 CREATE TABLE `mood`
 (
     `m_id`    int        NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    `m_type`  tinyint(1) NOT NULL comment '心情类型',
+    `m_type`  tinyint(1) NOT NULL comment '情绪类型',
     `m_desc`  tinytext   NOT NULL comment '描述',
-    `m_score` tinyint(2) NOT NULL comment '心情分0-10',
+    `m_score` tinyint(2) NOT NULL comment '情绪分0-10',
     `m_time`  bigint(13) not null comment '时间戳'
-) comment '心情表';
+) comment '情绪表';
 
 CREATE TABLE `todo_category`
 (
