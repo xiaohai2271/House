@@ -1,7 +1,10 @@
 package site.celess.house.service.serviceimpl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import site.celess.house.entity.Todo;
 import site.celess.house.entity.TodoCategory;
 import site.celess.house.enumpac.ResponseEnum;
@@ -10,8 +13,8 @@ import site.celess.house.repository.TodoCategoryRepository;
 import site.celess.house.repository.TodoRepository;
 import site.celess.house.service.TodoService;
 
-import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: 小海
@@ -20,6 +23,7 @@ import java.util.List;
  */
 @Service
 public class TodoServiceImpl implements TodoService {
+    private final static Logger logger = LoggerFactory.getLogger(TodoServiceImpl.class);
     @Autowired
     TodoCategoryRepository todoCategoryRepository;
     @Autowired
@@ -39,7 +43,7 @@ public class TodoServiceImpl implements TodoService {
     }
 
     @Override
-    @Transactional(rollbackOn = Exception.class)
+    @Transactional(rollbackFor = Exception.class)
     public Todo createTodoItem(String desc, Integer categoryId) {
         // 查找categoryId 对应的分类
         TodoCategory todoCategory = todoCategoryRepository.findTodoCategoryById(categoryId);
@@ -94,22 +98,43 @@ public class TodoServiceImpl implements TodoService {
         return todoRepository.save(todo);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean deleteTodoCategory(Integer id) {
-        if (!todoCategoryRepository.existsById(id)) {
+        Optional<TodoCategory> todoCategoryOptional = todoCategoryRepository.findById(id);
+        if (!todoCategoryOptional.isPresent()) {
             throw new ResponseException(ResponseEnum.TODOCATEGORY_NOT_EXIST);
         }
-        // FIXME : 删除时应该删除其子item
+        TodoCategory todoCategory = todoCategoryOptional.get();
+        // 批量删除
+        todoRepository.deleteBatch(todoCategory.getTodo());
         todoCategoryRepository.deleteById(id);
         return true;
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public boolean deleteTodo(Integer id) {
-        if (!todoRepository.existsById(id)) {
+        Optional<Todo> optionalTodo = todoRepository.findById(id);
+        // 查询数据是否存在
+        if (!optionalTodo.isPresent()) {
             throw new ResponseException(ResponseEnum.TODO_NOT_EXIST);
         }
-        // FIXME : 删除todo item时应该更新其对应的分类的todo字段
+        // 获取待删除的todo item
+        Todo todo = optionalTodo.get();
+        // 获取todo item对应的分类信息
+        TodoCategory todoCategory = todoCategoryRepository.findTodoCategoryById(todo.getCategory());
+        if (todoCategory == null) {
+            // 此处不应该出现这种情况，若出现则说明数据库被修改
+            logger.debug("=> id:{}删除失败", todo.getCategory());
+            return false;
+        }
+        // 先更新分类的todo字段
+        List<Integer> todo1 = todoCategory.getTodo();
+        todo1.removeIf(todo2 -> todo2.equals(todo.getId()));
+        todoCategory.setTodo(todo1);
+        todoCategoryRepository.save(todoCategory);
+        // 删除todo item
         todoRepository.deleteById(id);
         return true;
     }
