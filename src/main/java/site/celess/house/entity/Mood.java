@@ -31,9 +31,7 @@ public class Mood {
     @Column(name = "m_time")
     private Long time;
 
-    public String getTime() {
-        // TODO : 使用数据库内存储的dateFormat格式
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        return sdf.format(new Date(time));
+    public Date getTime() {
+        return new Date(time);
     }
 }

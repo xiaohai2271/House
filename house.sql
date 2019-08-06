@@ -28,17 +28,3 @@ CREATE TABLE `todo`
     `t_category` int        NOT NULL,
     `t_time`     bigint(13) NOT NULL
 ) comment 'TODO list';
-
-CREATE TABLE `web_config`
-(
-    `config_id`    int PRIMARY KEY AUTO_INCREMENT,
-    `config_name`  varchar(255) not null,
-    `config_value` varchar(255) not null,
-    unique key `u_config_name` (`config_name`)
-);
-
-
-### 密码为123456789
-INSERT INTO `web_config`(config_name, config_value)
-VALUES ('password', '25F9E794323B453885F5181F1B624D0B'),
-       ('dateFormat', 'yyyy-MM-dd HH:mm:ss')
