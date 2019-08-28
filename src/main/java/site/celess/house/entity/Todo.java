@@ -13,6 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Data
+@Table(name = "todo")
 public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

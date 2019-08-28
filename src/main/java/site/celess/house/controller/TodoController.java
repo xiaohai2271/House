@@ -12,6 +12,7 @@ import site.celess.house.util.ResponseUtil;
  * @Description：
  */
 @RestController
+@RequestMapping("/api")
 public class TodoController {
     @Autowired
     TodoService todoService;

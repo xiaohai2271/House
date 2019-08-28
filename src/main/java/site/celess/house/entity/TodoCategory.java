@@ -17,6 +17,7 @@ import java.util.List;
  */
 @Data
 @Entity
+@Table(name = "todo_category")
 public class TodoCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

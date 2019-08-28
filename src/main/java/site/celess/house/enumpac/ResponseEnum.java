@@ -29,7 +29,14 @@ public enum ResponseEnum {
     TODOCATEGORY_NOT_EXIST(2101, "分类不存在"),
     TODOCATEGORY_HAS_EXIST(2102, "分类已存在"),
     TODO_NOT_EXIST(2201, "Todo项不存在"),
-    TODO_HAS_EXIST(2202, "Todo项已存在");
+    TODO_HAS_EXIST(2202, "Todo项已存在"),
+    PASSWORD_ILLEGAL(2302, "密码输入不合法"),
+
+    // 9xxx 用户情况
+    LOGIN_FAILURE(9001, "登录失败"),
+    LOGIN_SUCCESS(9002, "登录成功"),
+    HAVE_NOT_LOGIN(9003, "还没登录"),
+    NO_PASSWORD(9010, "登录密码缺失");
 
     private int code;
     private String msg;

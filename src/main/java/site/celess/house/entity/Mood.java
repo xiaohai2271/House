@@ -13,6 +13,7 @@ import java.util.Date;
  */
 @Data
 @Entity
+@Table(name = "mood")
 public class Mood {
     @Id
     @Column(name = "m_id")

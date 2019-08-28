@@ -5,14 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import site.celess.house.util.RedisUtil;
+import site.celess.house.entity.WebConfig;
+import site.celess.house.service.WebConfigService;
 
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: 小海
@@ -21,14 +21,17 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class Authorization implements HandlerInterceptor {
-
+    @Autowired
+    WebConfigService webConfigService;
 
     private static final Logger logger = LoggerFactory.getLogger(Authorization.class);
-    @Autowired
-    RedisUtil redisUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        // todo : this is just authorize , and there also need a response data
+        if (request.getSession().isNew()) {
+            response.sendRedirect("/");
+        }
         Cookie[] cookies = request.getCookies();
         String uuid = null;
         for (Cookie cookie : cookies) {
@@ -37,13 +40,13 @@ public class Authorization implements HandlerInterceptor {
                 break;
             }
         }
-        // 获取缓存里面的uuid
-        String uuidFromCache = redisUtil.get("House-uuid");
-        if (uuid == null || uuidFromCache == null) {
-            // 没读取到 uuid 的cookie 或者 缓存里么没写入uuid (伪造的uuid cookie)
+        // get the uuid from memory
+        WebConfig uuidConfig = webConfigService.findByKey("uuid");
+        if (uuid == null || uuidConfig == null || uuidConfig.getValue() == null) {
+            // there isn`t cookie which contain uuid or there isn`t uuid in memory
             return false;
         }
-        return uuidFromCache.equals(uuid);
+        return uuidConfig.getValue().equals(uuid);
     }
 
     @Override
@@ -63,7 +66,5 @@ public class Authorization implements HandlerInterceptor {
         // 更新cookie
         uuidCookie.setMaxAge(10800);
         response.addCookie(uuidCookie);
-        // 更新redis
-        redisUtil.setEx("House-uuid", uuidCookie.getValue(), 3, TimeUnit.HOURS);
     }
 }
