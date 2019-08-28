@@ -84,7 +84,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo updateTodoItem(String desc, Integer schedule, Integer id) {
-        Todo todo = todoRepository.findTodosByid(id);
+        Todo todo = todoRepository.findTodoById(id);
         if (todo == null) {
             throw new ResponseException(ResponseEnum.TODO_NOT_EXIST);
         }

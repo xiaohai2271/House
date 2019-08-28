@@ -16,12 +16,26 @@ import java.util.List;
  */
 @Repository
 public interface TodoRepository extends JpaRepository<Todo, Integer> {
-    Todo findTodosByid(Integer id);
+    /**
+     * find one data through id
+     * @param id id
+     * @return data
+     */
+    Todo findTodoById(Integer id);
 
+    /**
+     * find all data which 'category' filed is the provide parameter
+     * @param categoryId id
+     * @return a list of data
+     */
     List<Todo> findAllByCategory(Integer categoryId);
 
+    /**
+     * remove data through id in list
+     * @param ids id list to remove
+     */
     @Modifying
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Query("delete from Todo  where id in (?1)")
     void deleteBatch(List<Integer> ids);
 }
