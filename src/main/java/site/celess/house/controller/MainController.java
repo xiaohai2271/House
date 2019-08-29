@@ -2,6 +2,7 @@ package site.celess.house.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @Author: 小海
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @Description：
  */
 @Controller
+@ApiIgnore
 public class MainController {
 
     @RequestMapping({"", "index"})
