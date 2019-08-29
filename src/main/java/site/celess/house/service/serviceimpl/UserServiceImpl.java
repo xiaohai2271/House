@@ -95,6 +95,8 @@ public class UserServiceImpl implements UserService {
         if (c == null) {
             throw new ResponseException(ResponseEnum.HAVE_NOT_LOGIN);
         }
+        WebConfig lastLoginTime = webConfigRepository.findByKey("lastLoginTime");
+        responseJson.put("lastLoginTime", lastLoginTime.getValue());
         return responseJson;
     }
 }

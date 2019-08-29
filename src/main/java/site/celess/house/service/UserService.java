@@ -13,9 +13,28 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Service
 public interface UserService {
+    /**
+     * login
+     *
+     * @param pwd      password
+     * @param response HttpServletResponse
+     * @return login status
+     */
     boolean login(String pwd, HttpServletResponse response);
 
+    /**
+     * logout
+     *
+     * @param response HttpServletResponse
+     * @return logout status
+     */
     boolean logout(HttpServletResponse response);
 
+    /**
+     * get login status
+     *
+     * @param request HttpServletRequest
+     * @return a json object contain lastLoginTime
+     */
     JSONObject loginStatus(HttpServletRequest request);
 }

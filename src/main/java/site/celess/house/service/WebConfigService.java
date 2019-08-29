@@ -12,6 +12,7 @@ import site.celess.house.entity.WebConfig;
 public interface WebConfigService {
     /**
      * find a configuration by key name
+     *
      * @param key key Name
      * @return configuration
      */
@@ -19,6 +20,7 @@ public interface WebConfigService {
 
     /**
      * insert or update a configuration into db
+     *
      * @param config the configuration to insert or update
      * @return the configuration  after update
      */
