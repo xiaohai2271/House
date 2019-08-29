@@ -8,11 +8,13 @@ import site.celess.house.enumpac.ResponseEnum;
 import site.celess.house.exception.ResponseException;
 import site.celess.house.repository.WebConfigRepository;
 import site.celess.house.service.UserService;
+import site.celess.house.util.DateFormatUtil;
 import site.celess.house.util.MD5Util;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -25,6 +27,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     WebConfigRepository webConfigRepository;
+    @Autowired
+    DateFormatUtil dateFormatUtil;
 
 
     @Override
@@ -96,7 +100,8 @@ public class UserServiceImpl implements UserService {
             throw new ResponseException(ResponseEnum.HAVE_NOT_LOGIN);
         }
         WebConfig lastLoginTime = webConfigRepository.findByKey("lastLoginTime");
-        responseJson.put("lastLoginTime", lastLoginTime.getValue());
+
+        responseJson.put("lastLoginTime", dateFormatUtil.get(Long.parseLong(lastLoginTime.getValue())));
         return responseJson;
     }
 }
