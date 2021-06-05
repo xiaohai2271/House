@@ -26,7 +26,7 @@ public class StringsUtil {
     public static <T> String toJson(T obj) {
         if (objectMapper == null) {
             objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new SimpleDateFormat(DateFormatUtil.dateFormat == null ? DATE_FORMAT : DateFormatUtil.dateFormat));
+            objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
         }
         String s;
         try {
@@ -41,7 +41,7 @@ public class StringsUtil {
     public static <T> T toObject(String jsonStr, Class<T> tClass) {
         if (objectMapper == null) {
             objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new SimpleDateFormat(DateFormatUtil.dateFormat == null ? DATE_FORMAT : DateFormatUtil.dateFormat));
+            objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
         }
         T obj;
         try {

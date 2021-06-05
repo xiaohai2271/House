@@ -14,7 +14,7 @@ import java.util.Date;
 @Component
 public class DateFormatUtil {
     @Value("${spring.jackson.date-format}")
-    public static String dateFormat;
+    public String dateFormat;
 
     public String get(Date date) {
         if (date == null) {
