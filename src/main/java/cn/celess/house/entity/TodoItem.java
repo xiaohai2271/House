@@ -2,6 +2,8 @@ package cn.celess.house.entity;
 
 import java.util.Date;
 
+import cn.celess.house.entity.vo.BaseVO;
+import cn.celess.house.entity.vo.TodoItemVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -39,5 +41,10 @@ public class TodoItem extends BaseEntity<TodoItem, Integer> {
     @Override
     public Integer getPrimaryKey() {
         return id;
+    }
+
+    @Override
+    public TodoItemVO toViewObject() {
+        return super.beanCopy(this, new TodoItemVO());
     }
 }

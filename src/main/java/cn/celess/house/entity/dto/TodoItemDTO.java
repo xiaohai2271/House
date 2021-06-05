@@ -26,4 +26,9 @@ public class TodoItemDTO extends BaseDTO<TodoItem> {
 
     private Date deadlineDate;
 
+    @Override
+    public TodoItem toEntity() {
+        TodoItem todoItem = new TodoItem();
+        return beanCopy(this, todoItem);
+    }
 }

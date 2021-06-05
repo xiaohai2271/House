@@ -1,7 +1,7 @@
 package cn.celess.house.entity;
 
-import cn.celess.house.entity.dto.BaseDTO;
 import cn.celess.house.entity.vo.BaseVO;
+import org.springframework.beans.BeanUtils;
 
 /**
  * @author: 小海
@@ -16,7 +16,12 @@ public abstract class BaseEntity<T, ID> {
      */
     public abstract ID getPrimaryKey();
 
-    public BaseVO toViewObject() {
+    public BaseVO<?> toViewObject() {
         return null;
+    }
+
+    protected  final <VO> VO beanCopy(T entity, VO vo) {
+        BeanUtils.copyProperties(entity, vo);
+        return vo;
     }
 }

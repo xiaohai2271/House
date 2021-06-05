@@ -9,6 +9,6 @@ import lombok.ToString;
  * @description：
  */
 @Data
-public class TodoItemVO extends BaseVO {
+public class TodoItemVO extends BaseVO<TodoItemVO> {
 
 }

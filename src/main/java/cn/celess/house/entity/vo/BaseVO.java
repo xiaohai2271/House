@@ -8,5 +8,5 @@ import lombok.Data;
  * @description：
  */
 @Data
-public class BaseVO {
+public class BaseVO<T> {
 }

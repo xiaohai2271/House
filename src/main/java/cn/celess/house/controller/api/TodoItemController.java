@@ -24,10 +24,10 @@ public class TodoItemController {
     @Resource
     TodoItemService todoItemService;
 
-    public Response create(TodoItemDTO todoItem) {
+    public Response create(TodoItemDTO todoItemDTO) {
         return ResponseUtil.success(
                 todoItemService.insert(
-                        todoItem.toDataTransferObject()
+                        todoItemDTO.toEntity()
                 ).toViewObject()
         );
     }
