@@ -16,7 +16,17 @@ public class ResponseUtil {
      * @param data 响应的具体数据
      * @return Response
      */
-    public static Response success(BaseVO data) {
+    public static Response success(BaseVO<?> data) {
+        return new Response(ResponseEnum.SUCCESS, data);
+    }
+
+    /**
+     * 成功的响应
+     *
+     * @param data 响应的具体数据
+     * @return Response
+     */
+    public static Response success(Object data) {
         return new Response(ResponseEnum.SUCCESS, data);
     }
 

@@ -30,7 +30,7 @@ public class TodoItem extends BaseEntity<TodoItem, Integer> {
 
     private String description;
 
-    private String topicId;
+    private Integer topicId;
 
     private Date createDate;
 

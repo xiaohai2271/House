@@ -3,6 +3,7 @@ package cn.celess.house.service;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: 小海
@@ -25,6 +26,14 @@ public interface IBaseService<T, IDTYPE> {
      * @return 是否成功
      */
     boolean remove(IDTYPE id);
+
+    /**
+     * 删除数据
+     *
+     * @param ids 数据id集
+     * @return 是否成功
+     */
+    boolean remove(IDTYPE[] ids);
 
     /**
      * 更新数据

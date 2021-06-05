@@ -3,8 +3,6 @@ package cn.celess.house.service.impl;
 import cn.celess.house.dao.UserDao;
 import cn.celess.house.entity.User;
 import cn.celess.house.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service;
  * @description：
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, Integer> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, Integer, UserDao> implements UserService {
     private final UserDao userDao;
 
     public UserServiceImpl(UserDao userDao) {

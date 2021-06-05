@@ -18,7 +18,7 @@ public class TodoItemDTO extends BaseDTO<TodoItem> {
 
     private String description;
 
-    private String topicId;
+    private Integer topicId;
 
     private Date createDate;
 

@@ -14,3 +14,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+logging:
+  level:
+    cn:
+      celess:
+        house:
+          util: debug

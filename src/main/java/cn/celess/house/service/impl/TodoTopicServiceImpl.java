@@ -3,8 +3,7 @@ package cn.celess.house.service.impl;
 import cn.celess.house.dao.TodoTopicDao;
 import cn.celess.house.entity.TodoTopic;
 import cn.celess.house.service.TodoTopicService;
-import io.swagger.models.auth.In;
-import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @description：
  */
 @Service
-public class TodoTopicServiceImpl extends BaseServiceImpl<TodoTopic, Integer> implements TodoTopicService {
+public class TodoTopicServiceImpl extends BaseServiceImpl<TodoTopic, Integer, TodoTopicDao> implements TodoTopicService {
 
     private TodoTopicDao todoTopicDao;
 

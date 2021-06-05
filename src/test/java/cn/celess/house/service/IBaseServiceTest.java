@@ -2,7 +2,7 @@ package cn.celess.house.service;
 
 import cn.celess.house.AbstractTest;
 import cn.celess.house.entity.User;
-import cn.celess.house.util.MD5Util;
+import cn.celess.house.util.StringsUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -40,7 +40,7 @@ public class IBaseServiceTest extends AbstractTest {
 
         assertNotNull(user.getId());
 
-        user.setPassword(MD5Util.getMD5("11111111"));
+        user.setPassword(StringsUtil.getMD5("11111111"));
         userService.update(user);
 
         assertEquals(user, userService.queryById(user.getId()));
@@ -62,7 +62,7 @@ public class IBaseServiceTest extends AbstractTest {
     private User createUser() {
         User user = new User();
         user.setEmail("zh56462271@qq.com");
-        user.setPassword(MD5Util.getMD5("123456"));
+        user.setPassword(StringsUtil.getMD5("123456"));
         return user;
     }
 }

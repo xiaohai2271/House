@@ -7,19 +7,20 @@ import cn.celess.house.service.IBaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: 小海
  * @date： 2021/06/05 11:28
  * @description：
  */
-public class BaseServiceImpl<T extends BaseEntity<?, ID>, ID> implements IBaseService<T, ID> {
-    private JpaRepository<T, ID> repository;
+public class BaseServiceImpl<T extends BaseEntity<?, ID>, ID, DAO extends JpaRepository<T, ID>> implements IBaseService<T, ID> {
+    private DAO repository;
 
     public BaseServiceImpl() {
     }
 
-    public BaseServiceImpl(JpaRepository<T, ID> repository) {
+    public BaseServiceImpl(DAO repository) {
         this.repository = repository;
     }
 
@@ -31,6 +32,12 @@ public class BaseServiceImpl<T extends BaseEntity<?, ID>, ID> implements IBaseSe
     @Override
     public boolean remove(ID id) {
         repository.deleteById(id);
+        return true;
+    }
+
+    @Override
+    public boolean remove(ID[] ids) {
+        repository.deleteAllByIdInBatch(List.of(ids));
         return true;
     }
 

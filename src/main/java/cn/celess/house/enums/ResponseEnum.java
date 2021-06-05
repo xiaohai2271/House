@@ -23,6 +23,7 @@ public enum ResponseEnum {
     PARAMETER_ILLEGAL(10101, "数据非法"),
     PARAMETER_ERROR(10102, "参数填写有误"),
     PARAMETER_PK_NULL(10103, "id不能为空"),
+    PARAMETER_PK_NOT_NULL(10104, "id不为空"),
 
     // 2xxxx数据问题
     DATA_NOT_EXIST(20001, "数据不存在"),
