@@ -2,6 +2,8 @@ package cn.celess.house.entity;
 
 import lombok.Data;
 
+import javax.persistence.*;
+
 /**
  * (User)表实体类
  *
@@ -10,11 +12,19 @@ import lombok.Data;
  */
 
 @Data
-public class User {
-
+@Entity
+@Table(name = "user")
+public class User extends BaseEntity<Integer> {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String email;
 
     private String password;
+
+    @Override
+    public Integer getPrimaryKey() {
+        return id;
+    }
 }

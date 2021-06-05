@@ -22,22 +22,22 @@ public class SwaggerConfig {
     @Bean
     public Docket restApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo("House project's APIs", "1.0"))
+                .apiInfo(apiInfo())
                 .useDefaultResponseMessages(true)
                 .forCodeGeneration(false)
                 .enable(true)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("site.celess.house.controller"))
+                .apis(RequestHandlerSelectors.basePackage("cn.celess.house.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
-    private ApiInfo apiInfo(String title, String version) {
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title(title)
+                .title("House project's APIs")
                 .description("更多请关注: https://www.celess.cn")
                 .contact(new Contact("小海博客", "https://www.celess.cn", "a@celess.cn"))
-                .version(version)
+                .version("1.0")
                 .build();
     }
 }

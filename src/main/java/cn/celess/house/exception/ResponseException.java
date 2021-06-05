@@ -1,7 +1,7 @@
 package cn.celess.house.exception;
 
 import lombok.Getter;
-import cn.celess.house.enumpac.ResponseEnum;
+import cn.celess.house.enums.ResponseEnum;
 
 /**
  * @Author: 小海

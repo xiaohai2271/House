@@ -1,5 +1,9 @@
 package cn.celess.house.service;
 
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 /**
  * @author: 小海
  * @date： 2021/06/05 00:42
@@ -43,5 +47,5 @@ public interface IBaseService<T, IDTYPE> {
      *
      * @return 所有数据
      */
-    T queryAll();
+    List<T> queryAll();
 }

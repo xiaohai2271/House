@@ -4,6 +4,8 @@ import java.util.Date;
 
 import lombok.Data;
 
+import javax.persistence.*;
+
 /**
  * (TdTopic)表实体类
  *
@@ -11,8 +13,12 @@ import lombok.Data;
  * @since 2021-06-05 00:42:01
  */
 @Data
-public class TodoTopic {
+@Entity
+@Table(name = "td_topic")
+public class TodoTopic extends BaseEntity<Integer> {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
@@ -24,4 +30,9 @@ public class TodoTopic {
     private String color;
 
     private String icon;
+
+    @Override
+    public Integer getPrimaryKey() {
+        return id;
+    }
 }

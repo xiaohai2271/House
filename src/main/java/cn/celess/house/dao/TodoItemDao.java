@@ -11,6 +11,6 @@ import cn.celess.house.entity.TodoItem;
  * @since 2021-06-05 00:41:14
  */
 @Repository
-public interface TdItemDao extends JpaRepository<TodoItem, Integer> {
+public interface TodoItemDao extends JpaRepository<TodoItem, Integer> {
 
 }
