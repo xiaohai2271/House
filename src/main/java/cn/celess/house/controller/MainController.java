@@ -10,12 +10,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * @Description：
  */
 @Controller
-@ApiIgnore
+@RequestMapping
 public class MainController {
-
-    @RequestMapping({"", "index"})
-    public String index() {
-        return "index";
-    }
 
 }

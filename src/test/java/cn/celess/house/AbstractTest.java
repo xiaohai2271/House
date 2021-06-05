@@ -10,5 +10,5 @@ import org.springframework.test.context.ContextConfiguration;
  */
 @SpringBootTest
 @ActiveProfiles("test")
-public class BaseTest {
+public abstract class AbstractTest {
 }

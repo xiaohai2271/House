@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "td_topic")
-public class TodoTopic extends BaseEntity<Integer> {
+public class TodoTopic extends BaseEntity<TodoTopic,Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,6 @@
 package cn.celess.house.service;
 
-import cn.celess.house.BaseTest;
+import cn.celess.house.AbstractTest;
 import cn.celess.house.entity.User;
 import cn.celess.house.util.MD5Util;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 
-public class IBaseServiceTest extends BaseTest {
+public class IBaseServiceTest extends AbstractTest {
 
     @Autowired
     UserService userService;

@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "td_item")
-public class TodoItem extends BaseEntity<Integer> {
+public class TodoItem extends BaseEntity<TodoItem, Integer> {
 
     @Id
     @Column

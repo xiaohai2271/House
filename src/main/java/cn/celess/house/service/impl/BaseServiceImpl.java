@@ -13,7 +13,7 @@ import java.util.List;
  * @date： 2021/06/05 11:28
  * @description：
  */
-public class BaseServiceImpl<T extends BaseEntity<ID>, ID> implements IBaseService<T, ID> {
+public class BaseServiceImpl<T extends BaseEntity<?, ID>, ID> implements IBaseService<T, ID> {
     private JpaRepository<T, ID> repository;
 
     public BaseServiceImpl() {
