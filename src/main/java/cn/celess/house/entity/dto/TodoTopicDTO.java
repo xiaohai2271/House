@@ -23,4 +23,9 @@ public class TodoTopicDTO extends BaseDTO<TodoTopic> {
     private String color;
 
     private String icon;
+
+    @Override
+    public TodoTopic toEntity() {
+        return beanCopy(this, new TodoTopic());
+    }
 }

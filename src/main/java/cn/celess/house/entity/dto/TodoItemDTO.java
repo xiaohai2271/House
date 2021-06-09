@@ -28,7 +28,6 @@ public class TodoItemDTO extends BaseDTO<TodoItem> {
 
     @Override
     public TodoItem toEntity() {
-        TodoItem todoItem = new TodoItem();
-        return beanCopy(this, todoItem);
+        return beanCopy(this, new TodoItem());
     }
 }

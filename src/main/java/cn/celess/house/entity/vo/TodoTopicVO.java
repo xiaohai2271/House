@@ -3,6 +3,7 @@ package cn.celess.house.entity.vo;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author: 小海
@@ -22,4 +23,7 @@ public class TodoTopicVO extends BaseVO<TodoTopicVO> {
     private String color;
 
     private String icon;
+
+    private List<TodoItemVO> items;
+
 }
