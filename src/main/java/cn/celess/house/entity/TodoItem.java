@@ -32,6 +32,8 @@ public class TodoItem extends BaseEntity<TodoItem, Integer> {
 
     private Integer topicId;
 
+    private Boolean isDone;
+
     private Date createDate;
 
     private Date completeDate;
@@ -45,6 +47,8 @@ public class TodoItem extends BaseEntity<TodoItem, Integer> {
 
     @Override
     public TodoItemVO toViewObject() {
-        return super.beanCopy(this, new TodoItemVO());
+        TodoItemVO todoItemVO = super.beanCopy(this, new TodoItemVO());
+        todoItemVO.setDone(isDone);
+        return todoItemVO;
     }
 }

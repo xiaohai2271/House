@@ -20,6 +20,8 @@ public class TodoItemVO extends BaseVO<TodoItemVO> {
 
     private Integer topicId;
 
+    private Boolean done;
+    
     private Date createDate;
 
     private Date completeDate;
