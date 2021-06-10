@@ -29,3 +29,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+
+## web
+
+dist/
+node_modules/
+tests/__coverage__/
+tests/**/*.jsx
+
