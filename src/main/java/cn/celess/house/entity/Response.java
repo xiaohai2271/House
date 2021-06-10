@@ -9,21 +9,21 @@ import cn.celess.house.enums.ResponseEnum;
  * @Description： 响应数据
  */
 @Data
-public class Response {
+public class Response<T> {
     private int code;
     private String msg;
-    private Object data;
+    private T data;
 
     public Response() {
     }
 
-    public Response(int code, String msg, Object data) {
+    public Response(int code, String msg, T data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
     }
 
-    public Response(ResponseEnum enu, Object data) {
+    public Response(ResponseEnum enu, T data) {
         this.code = enu.getCode();
         this.msg = enu.getMsg();
         this.data = data;

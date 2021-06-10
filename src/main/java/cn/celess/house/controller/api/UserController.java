@@ -21,7 +21,7 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/login")
-    public Response login() {
+    public Response<String> login() {
         return null;
     }
 }

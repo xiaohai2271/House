@@ -4,14 +4,16 @@ import cn.celess.house.entity.BaseEntity;
 import cn.celess.house.entity.Response;
 import cn.celess.house.entity.TodoItem;
 import cn.celess.house.entity.dto.TodoItemDTO;
+import cn.celess.house.entity.vo.TodoItemVO;
 import cn.celess.house.enums.ResponseEnum;
 import cn.celess.house.exception.ResponseException;
 import cn.celess.house.service.TodoItemService;
 import cn.celess.house.util.ResponseUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author: 小海
@@ -26,7 +28,7 @@ public class TodoItemController {
     TodoItemService todoItemService;
 
     @PostMapping("/create")
-    public Response create(@RequestBody TodoItemDTO todoItemDTO) {
+    public Response<TodoItemVO> create(@RequestBody TodoItemDTO todoItemDTO) {
         if (todoItemDTO.getId() != null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NOT_NULL);
         }
@@ -38,7 +40,7 @@ public class TodoItemController {
     }
 
     @DeleteMapping("/delete")
-    public Response delete(@RequestBody TodoItemDTO todoItemDTO) {
+    public Response<Boolean> delete(@RequestBody TodoItemDTO todoItemDTO) {
         if (todoItemDTO.getId() == null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NULL);
         }
@@ -46,23 +48,28 @@ public class TodoItemController {
     }
 
     @DeleteMapping("/delete/ids")
-    public Response delete(@RequestBody Integer[] ids) {
+    public Response<Boolean> delete(@RequestBody Integer[] ids) {
         if (ids == null || ids.length == 0) {
-            return ResponseUtil.success(null);
+            return ResponseUtil.failure();
         }
         return ResponseUtil.success(todoItemService.remove(ids));
     }
 
     @PutMapping("/update")
-    public Response update(@RequestBody TodoItemDTO todoItemDTO) {
+    public Response<TodoItemVO> update(@RequestBody TodoItemDTO todoItemDTO) {
         if (todoItemDTO.getId() == null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NULL);
         }
-        return ResponseUtil.success(todoItemService.update(todoItemDTO.toEntity()));
+        return ResponseUtil.success(todoItemService.update(todoItemDTO.toEntity()).toViewObject());
     }
 
     @GetMapping("/")
-    public Response query() {
-        return ResponseUtil.success(todoItemService.queryAll());
+    public Response<List<TodoItemVO>> query() {
+        return ResponseUtil.success(
+                todoItemService.queryAll()
+                        .stream()
+                        .map(TodoItem::toViewObject)
+                        .collect(Collectors.toList())
+        );
     }
 }

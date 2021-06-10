@@ -1,5 +1,6 @@
 package cn.celess.house.exception;
 
+import cn.celess.house.util.ResponseUtil;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -15,9 +16,9 @@ public class HouseExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    public Response excHandler(Exception e) {
+    public Response<Object> excHandler(Exception e) {
         if (e instanceof ResponseException) {
-            return new Response(((ResponseException) e).getCode(), ((ResponseException) e).getMsg(), null);
+            return ResponseUtil.error((ResponseException) e);
         }
         return null;
     }

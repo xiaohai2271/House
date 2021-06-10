@@ -3,6 +3,7 @@ package cn.celess.house.util;
 import cn.celess.house.entity.Response;
 import cn.celess.house.entity.vo.BaseVO;
 import cn.celess.house.enums.ResponseEnum;
+import cn.celess.house.exception.ResponseException;
 
 /**
  * @Author: 小海
@@ -16,8 +17,8 @@ public class ResponseUtil {
      * @param data 响应的具体数据
      * @return Response
      */
-    public static Response success(BaseVO<?> data) {
-        return new Response(ResponseEnum.SUCCESS, data);
+    public static <T extends BaseVO<T>> Response<T> success(T data) {
+        return new Response<T>(ResponseEnum.SUCCESS, data);
     }
 
     /**
@@ -26,8 +27,8 @@ public class ResponseUtil {
      * @param data 响应的具体数据
      * @return Response
      */
-    public static Response success(Object data) {
-        return new Response(ResponseEnum.SUCCESS, data);
+    public static <T> Response<T> success(T data) {
+        return new Response<T>(ResponseEnum.SUCCESS, data);
     }
 
     /**
@@ -35,8 +36,8 @@ public class ResponseUtil {
      *
      * @return Response
      */
-    public static Response failure() {
-        return new Response(ResponseEnum.FAILURE, null);
+    public static <T> Response<T> failure() {
+        return new Response<T>(ResponseEnum.FAILURE, null);
     }
 
     /**
@@ -44,8 +45,8 @@ public class ResponseUtil {
      *
      * @return Response
      */
-    public static Response failure(Object data) {
-        return new Response(ResponseEnum.FAILURE, data);
+    public static <T> Response<T> failure(T data) {
+        return new Response<T>(ResponseEnum.FAILURE, data);
     }
 
     /**
@@ -54,8 +55,8 @@ public class ResponseUtil {
      * @param enu 响应状态
      * @return Response
      */
-    public static Response response(ResponseEnum enu) {
-        return new Response(enu, null);
+    public static <T> Response<T> response(ResponseEnum enu) {
+        return new Response<T>(enu, null);
     }
 
     /**
@@ -65,7 +66,28 @@ public class ResponseUtil {
      * @param data 响应数据
      * @return Response
      */
-    public static Response response(ResponseEnum enu, Object data) {
-        return new Response(enu, data);
+    public static <T> Response<T> response(ResponseEnum enu, T data) {
+        return new Response<T>(enu, data);
+    }
+
+    /**
+     * 待状态码的响应
+     *
+     * @param ex   异常
+     * @return Response
+     */
+    public static <T> Response<T> error(ResponseException ex) {
+        return new Response<T>(ex.getCode(), ex.getMsg(), null);
+    }
+
+    /**
+     * 待状态码的响应
+     *
+     * @param ex   异常
+     * @param data 响应数据
+     * @return Response
+     */
+    public static <T> Response<T> error(ResponseException ex, T data) {
+        return new Response<T>(ex.getCode(), ex.getMsg(), data);
     }
 }

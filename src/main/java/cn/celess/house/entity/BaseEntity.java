@@ -20,7 +20,7 @@ public abstract class BaseEntity<T, ID> {
         return null;
     }
 
-    protected  final <VO> VO beanCopy(T entity, VO vo) {
+    protected  final <VO extends BaseVO<VO>> VO beanCopy(T entity, VO vo) {
         BeanUtils.copyProperties(entity, vo);
         return vo;
     }
