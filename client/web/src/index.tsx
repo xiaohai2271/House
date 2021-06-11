@@ -1,7 +1,8 @@
-import * as React from "react";
-import { render } from "react-dom";
-import App from "./components/App";
+import React from "react";
+import ReactDOM from "react-dom";
 
-const rootEl = document.getElementById("root");
+import "./index.less";
 
-render(<App />, rootEl);
+import App from "./view/App";
+
+ReactDOM.render(<App />, document.getElementById("root"));

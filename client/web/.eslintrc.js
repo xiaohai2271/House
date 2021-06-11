@@ -1,27 +1,45 @@
 module.exports = {
-    extends: [
-        "plugin:react/recommended", // Uses the recommended rules from @eslint-plugin-react
-        "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-        "plugin:prettier/recommended" // Enables eslint-plugin-prettier and eslint-config-prettier. This will display prettier errors as ESLint errors.
+  env: {
+    browser: true,
+    es2020: true,
+  },
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:prettier/recommended",
+    "plugin:react-hooks/recommended",
+  ],
+  globals: {
+    Atomics: "readonly",
+    SharedArrayBuffer: "readonly",
+  },
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    project: ["./src/tsconfig.json"],
+    ecmaFeatures: {
+      jsx: true,
+    },
+    sourceType: "module",
+  },
+  plugins: ["react", "@typescript-eslint", "react-hooks"],
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
+  rules: {
+    "react/prop-types": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+    "@typescript-eslint/explicit-function-return-type": [
+      "warn",
+      {
+        allowExpressions: true,
+        allowTypedFunctionExpressions: true,
+        allowHigherOrderFunctions: true,
+      },
     ],
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-        sourceType: "module",
-        ecmaVersion: 2020,
-        ecmaFeatures: {
-            jsx: true // Allows for the parsing of JSX
-        }
-    },
-    plugins: [
-        "@typescript-eslint"
-    ],
-    settings: {
-        react: {
-            version: "detect" // Tells eslint-plugin-react to automatically detect the version of React to use
-        }
-    },
-    // Fine tune rules
-    rules: {
-        "@typescript-eslint/no-var-requires": 0
-    },
+  },
 };

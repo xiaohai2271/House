@@ -38,4 +38,5 @@ dist/
 node_modules/
 tests/__coverage__/
 tests/**/*.jsx
+package-lock.json
 
