@@ -3,6 +3,6 @@ import ReactDOM from "react-dom";
 
 import "./index.less";
 
-import App from "./view/App";
+import ToDoApp from "./view/App";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<ToDoApp />, document.getElementById("root"));
