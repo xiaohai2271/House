@@ -1,8 +1,7 @@
-const path = require("path");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const ReactRefreshTypeScript = require("react-refresh-typescript");
 
-const config = require("./webpack.common");
+const { config } = require("./webpack.common");
 
 config.mode("development");
 

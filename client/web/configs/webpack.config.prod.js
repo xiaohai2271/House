@@ -3,7 +3,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const config = require("./webpack.common");
+const { config, distPath } = require("./webpack.common");
 
 config.mode("production");
 
@@ -32,7 +32,7 @@ config.plugin("copy").use(CopyPlugin, [
     patterns: [
       {
         from: path.resolve(__dirname, "../public/"),
-        to: path.resolve(__dirname, "../dist/"),
+        to: path.resolve(__dirname, distPath),
       },
     ],
   },

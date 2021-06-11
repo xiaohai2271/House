@@ -39,4 +39,5 @@ node_modules/
 tests/__coverage__/
 tests/**/*.jsx
 package-lock.json
+src/main/resources/templates/*
 

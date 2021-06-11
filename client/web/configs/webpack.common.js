@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const Config = require("webpack-chain");
 
 const config = new Config();
+const distPath = "../../../src/main/resources/templates";
 
 config.entry("index").add(path.resolve(__dirname, "../src/index.tsx"));
 
@@ -58,7 +59,7 @@ config.resolve.extensions
 config.resolve.alias.set("@", path.resolve(__dirname, "../src/"));
 
 config.output
-  .path(path.resolve(__dirname, "../dist/"))
+  .path(path.resolve(__dirname, distPath))
   .filename("[name].[contenthash].js")
   .chunkFilename("[name].[contenthash].js")
   .publicPath("/");
@@ -70,4 +71,4 @@ config.plugin("html").use(HtmlWebpackPlugin, [
   },
 ]);
 
-module.exports = config;
+module.exports = { config, distPath };
