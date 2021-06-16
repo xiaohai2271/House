@@ -13,8 +13,8 @@ import java.util.Date;
  */
 @Component
 public class DateFormatUtil {
-    @Value("${spring.jackson.date-format}")
-    public String dateFormat;
+    //    @Value("${spring.jackson.date-format}")
+    public String dateFormat = "yyyy-MM-dd HH:mm:ss";
 
     public String get(Date date) {
         if (date == null) {

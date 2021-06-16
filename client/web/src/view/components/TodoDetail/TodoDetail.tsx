@@ -59,32 +59,35 @@ const TopicDetail: FC<TopicDetailProps> = (props) => {
   const topicId = props.topicData.topicId;
 
   const [dataList, setDataList] = useState<TodoItemVO[]>([]);
-
+  const sort = (a: TodoItemVO, b: TodoItemVO) => {
+    return a.done ? -1 : b.done ? 1 : 0;
+  };
   useEffect(() => {
     if (isNaN(Number(topicId))) {
       //todo 查询所有的数据
       TodoItemApis.query().subscribe((obs) => {
+        const data = obs.data.sort(sort);
         switch (topicId) {
           case "all":
-            setDataList(obs.data);
+            setDataList(data);
             break;
           case "done":
-            setDataList(obs.data.filter((todo) => todo.done));
+            setDataList(data.filter((todo) => todo.done));
             break;
           case "task":
-            setDataList(obs.data.filter((todo) => !todo.done));
+            setDataList(data.filter((todo) => !todo.done));
             break;
           case "plan":
-            setDataList(obs.data.filter((todo) => !todo.deadlineDate));
+            setDataList(data.filter((todo) => todo.deadlineDate));
             break;
           default:
-            setDataList(obs.data);
+            setDataList(data);
             break;
         }
       });
     } else {
       TopicApis.queryOne(Number(topicId)).subscribe((obs) => {
-        setDataList(obs.data.items);
+        setDataList(obs.data.items.sort(sort));
       });
     }
   }, [topicId]);
@@ -158,7 +161,7 @@ const TopicDetail: FC<TopicDetailProps> = (props) => {
       <Header className="header" style={{ padding: 0 }}>
         <span className="title">{topicName}</span>
       </Header>
-      <Content style={{ margin: " 0" }}>
+      <Content style={{ margin: " 0", maxHeight: "100%", overflow: "auto" }}>
         <div className="site-layout-background" style={{ minHeight: 360 }}>
           {dataList.map((todo) => (
             <TodoItem key={todo.id} itemData={todo} />

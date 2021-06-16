@@ -11,6 +11,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss

@@ -19,3 +19,38 @@
 .add-task-input {
   border: none;
 }
+
+.right-layout {
+  background: rgb(111, 131, 211);
+  position: relative;
+  width: 100%;
+
+  .site-layout-background {
+    position: absolute;
+    padding: 100px 20px 30px 20px;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 50px;
+    overflow: auto;
+  }
+
+  .header {
+    padding: 0 20px !important;
+    height: 100px;
+    background: rgb(111, 131, 211);
+    z-index: 10;
+
+    .title {
+      color: white;
+      font-size: large;
+      padding: 3px 1px;
+      border-radius: 3px;
+      user-select: none;
+    }
+
+    .title:hover {
+      background: rgba(111-80, 131-80, 211-80, 0.5);
+    }
+  }
+}
