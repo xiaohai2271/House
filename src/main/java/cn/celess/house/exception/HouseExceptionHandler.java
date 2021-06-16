@@ -20,6 +20,7 @@ public class HouseExceptionHandler {
         if (e instanceof ResponseException) {
             return ResponseUtil.error((ResponseException) e);
         }
+        e.printStackTrace();
         return null;
     }
 }
