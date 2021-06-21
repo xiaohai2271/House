@@ -29,3 +29,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+
+## web
+
+dist/
+node_modules/
+
