@@ -21,11 +21,15 @@ export interface TopicDetailProps {
   };
 }
 
-const TodoItem: FC<{ itemData: TodoItemVO }> = (props) => {
+const TodoItem: FC<{
+  itemData: TodoItemVO;
+  onItemStatusChanged?: (status: boolean) => void;
+}> = (props) => {
   let data = props.itemData;
   const [todoItem, setTodoItem] = useState<TodoItemVO>(data);
   const handler = (status: boolean) => {
     setTodoItem({ ...todoItem, done: status });
+    props.onItemStatusChanged && props.onItemStatusChanged(status);
   };
   return (
     <li
@@ -54,6 +58,7 @@ const TodoItem: FC<{ itemData: TodoItemVO }> = (props) => {
     </li>
   );
 };
+
 const TopicDetail: FC<TopicDetailProps> = (props) => {
   const topicName = props.topicData.topicName;
   const topicId = props.topicData.topicId;
@@ -62,14 +67,15 @@ const TopicDetail: FC<TopicDetailProps> = (props) => {
   const sort = (a: TodoItemVO, b: TodoItemVO) => {
     return a.done ? -1 : b.done ? 1 : 0;
   };
+  let data: TodoItemVO[] = [];
   useEffect(() => {
     if (isNaN(Number(topicId))) {
       //todo 查询所有的数据
       TodoItemApis.query().subscribe((obs) => {
-        const data = obs.data.sort(sort);
+        data = obs.data;
         switch (topicId) {
           case "all":
-            setDataList(data);
+            setDataList(data.sort(sort));
             break;
           case "done":
             setDataList(data.filter((todo) => todo.done));
@@ -109,6 +115,28 @@ const TopicDetail: FC<TopicDetailProps> = (props) => {
     });
   };
 
+  const itemDataChangeHandler = (status: boolean) => {
+    console.log(status, topicId);
+    data.sort(sort);
+    // 处理
+    // switch (topicId) {
+    //   case "all":
+    //     setDataList(data.sort(sort));
+    //     break;
+    //   case "done":
+    //     setDataList(data.filter((todo) => todo.done));
+    //     break;
+    //   case "task":
+    //     setDataList(data.filter((todo) => !todo.done));
+    //     break;
+    //   case "plan":
+    //     setDataList(data.filter((todo) => todo.deadlineDate));
+    //     break;
+    //   default:
+    //     setDataList(data);
+    //     break;
+    // }
+  };
   const addTask = showAddTodo ? (
     <Row wrap={false} align="middle">
       <Col flex="20px">
@@ -124,7 +152,7 @@ const TopicDetail: FC<TopicDetailProps> = (props) => {
           bordered={false}
           ref={inputRef}
           hidden={!showAddTodo}
-          onBlur={() => setShowAddTodo(false)}
+          onBlur={() => setTimeout(() => setShowAddTodo(false), 10)}
           onPressEnter={createTodoItem}
         />
       </Col>
@@ -134,6 +162,10 @@ const TopicDetail: FC<TopicDetailProps> = (props) => {
           type="dashed"
           icon={<CalendarOutlined />}
           title="添加截止日期"
+          onClick={() => {
+            console.log("aaa");
+            setTimeout(() => setShowAddTodo(true), 500);
+          }}
         />
       </Col>
     </Row>
@@ -164,7 +196,11 @@ const TopicDetail: FC<TopicDetailProps> = (props) => {
       <Content style={{ margin: " 0", maxHeight: "100%", overflow: "auto" }}>
         <div className="site-layout-background" style={{ minHeight: 360 }}>
           {dataList.map((todo) => (
-            <TodoItem key={todo.id} itemData={todo} />
+            <TodoItem
+              key={todo.id}
+              itemData={todo}
+              onItemStatusChanged={itemDataChangeHandler}
+            />
           ))}
         </div>
       </Content>
