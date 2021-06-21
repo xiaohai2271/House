@@ -1,0 +1,79 @@
+<nz-layout class="layout">
+  <nz-sider nzTheme="light" [nzWidth]="350">
+    <div class="logo">House To Do</div>
+
+
+    <div class="userinfo">
+      userinfo...
+    </div>
+
+
+    <ul nz-menu nzTheme="light" nzMode="inline" class="topic">
+      <ng-container *ngFor="let menuItem of menuInfo">
+        <li nz-menu-item *ngIf="menuItem.show" class="menu-item">
+          <i nz-icon [nzIconfont]="menuItem.icon"></i>
+          <span>{{menuItem.name}}</span>
+        </li>
+      </ng-container>
+      <nz-divider></nz-divider>
+      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item">
+        <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
+        <span>{{menuItem.title}}</span>
+      </li>
+      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item">
+        <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
+        <span>{{menuItem.title}}</span>
+      </li>
+      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item">
+        <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
+        <span>{{menuItem.title}}</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout class="right-layout">
+    <nz-content>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+      <p>11111111111</p>
+
+      <!--      <router-outlet></router-outlet>-->
+    </nz-content>
+  </nz-layout>
+</nz-layout>

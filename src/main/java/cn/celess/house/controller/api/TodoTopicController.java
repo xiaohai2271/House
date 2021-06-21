@@ -38,15 +38,15 @@ public class TodoTopicController {
         );
     }
 
-    @DeleteMapping("/delete")
-    public Response<Boolean> delete(@RequestBody TodoTopicDTO topicDto) {
-        if (topicDto.getId() == null) {
+    @PutMapping("/delete")
+    public Response<Boolean> delete(@RequestParam Integer id) {
+        if (id == null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NULL);
         }
-        return ResponseUtil.success(todoTopicService.remove(topicDto.getId()));
+        return ResponseUtil.success(todoTopicService.remove(id));
     }
 
-    @DeleteMapping("/delete/ids")
+    @PutMapping("/delete/ids")
     public Response<Boolean> delete(@RequestBody Integer[] ids) {
         if (ids == null || ids.length == 0) {
             return ResponseUtil.failure();
