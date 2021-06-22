@@ -1,0 +1,12 @@
+<div class="item-container">
+  <div class="item">
+    <span (click)="setItemStatus()">
+       <i *ngIf="!data.done" class="task" nz-icon nzIconfont="icon-all_noselects"></i>
+        <i *ngIf="data.done" class="done" nz-icon nzIconfont="icon-Done"></i>
+    </span>
+    <div>
+      <div>{{data.title}}</div>
+      <div class="deadline">{{data.deadlineDate|date:'yyy-MM-dd HH:mm:ss'}}</div>
+    </div>
+  </div>
+</div>
