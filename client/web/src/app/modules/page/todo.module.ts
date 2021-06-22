@@ -14,6 +14,7 @@ import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import {FormsModule} from "@angular/forms";
 import {NzGridModule} from "ng-zorro-antd/grid";
 import {NzNotificationService} from "ng-zorro-antd/notification";
+import {NzBadgeModule} from "ng-zorro-antd/badge";
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
     NzDatePickerModule,
     FormsModule,
     NzGridModule,
+    NzBadgeModule,
   ],
   providers: [NzNotificationService]
 })

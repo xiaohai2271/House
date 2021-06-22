@@ -1,34 +1,52 @@
 <nz-layout class="layout">
   <nz-sider nzTheme="light" [nzWidth]="350">
-    <div class="logo">House To Do</div>
+    <div class="sider-container">
+
+      <div class="logo">House To Do</div>
 
 
-    <div class="userinfo">
-      userinfo...
+      <div class="userinfo">
+        userinfo...
+      </div>
+
+
+      <ul nz-menu nzTheme="light" nzMode="inline" class="topic">
+        <ng-container *ngFor="let menuItem of menuInfo">
+          <li nz-menu-item *ngIf="menuItem.show" class="menu-item" (click)="setTopic(null,menuItem.menuInfo.id)">
+            <i nz-icon [nzIconfont]="menuItem.icon"></i>
+            <nz-badge [nzCount]="calUnDoneCount(null, menuItem.menuInfo.id)" style="width: 270px"
+                      [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
+              <div>{{menuItem.menuInfo.name}}</div>
+            </nz-badge>
+          </li>
+        </ng-container>
+        <nz-divider></nz-divider>
+        <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item" (click)="setTopic(menuItem,null)">
+          <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
+          <nz-badge [nzCount]="calUnDoneCount(menuItem, null)" style="width: 270px"
+                    [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
+            <div>{{menuItem.title}}</div>
+          </nz-badge>
+        </li>
+      </ul>
+      <div class="new-topic">
+        <i nz-icon nzType="plus" nzTheme="outline"></i>
+        <span style="margin-left: 10px;min-width: 80px"
+              (click)="showAddTopic(AddTopic)"
+              [style.display]="addTopicTipVisible?'inline':'none'"
+              *ngIf="addTopicTipVisible">新建列表
+        </span>
+        <input #AddTopic
+               nz-input
+               nzBorderless
+               type="text"
+               (keydown.escape)="addTopicTipVisible= true"
+               (keydown.enter)="submitTopicInfo($event)"
+               (focusout)="addTopicTipVisible=true"
+               [style.display]="addTopicTipVisible?'none':'inline'">
+      </div>
     </div>
 
-
-    <ul nz-menu nzTheme="light" nzMode="inline" class="topic">
-      <ng-container *ngFor="let menuItem of menuInfo">
-        <li nz-menu-item *ngIf="menuItem.show" class="menu-item" (click)="setTopic(null,menuItem.id)">
-          <i nz-icon [nzIconfont]="menuItem.icon"></i>
-          <span>{{menuItem.name}}</span>
-        </li>
-      </ng-container>
-      <nz-divider></nz-divider>
-      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item" (click)="setTopic(menuItem,null)">
-        <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
-        <span>{{menuItem.title}}</span>
-      </li>
-      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item" (click)="setTopic(menuItem,null)">
-        <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
-        <span>{{menuItem.title}}</span>
-      </li>
-      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item" (click)="setTopic(menuItem,null)">
-        <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
-        <span>{{menuItem.title}}</span>
-      </li>
-    </ul>
   </nz-sider>
   <nz-layout class="right-layout">
     <nz-header><span>{{topic?.title}}</span></nz-header>

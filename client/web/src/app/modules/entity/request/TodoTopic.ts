@@ -1,8 +1,8 @@
 export interface TodoTopic {
-  color: string;
+  color?: string;
   date: Date;
-  icon: string;
-  id: number;
+  icon?: string;
+  id?: number;
   title: string;
-  userId: number;
+  userId?: number;
 }

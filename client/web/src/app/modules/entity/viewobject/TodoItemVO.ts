@@ -7,4 +7,6 @@ export interface TodoItemVO {
   id: number;
   title: string;
   topicId: number;
+
+  unDoneCount: number;
 }

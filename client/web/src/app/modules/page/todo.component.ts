@@ -6,13 +6,25 @@ import {TodoItemVO} from "../entity/viewobject/TodoItemVO";
 import {TodoItem} from "../entity/request/TodoItem";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {formatDate} from "@angular/common";
+import {TodoTopic} from "../entity/request/TodoTopic";
 
 
 declare interface MenuItemInfo {
-  name: string,
-  id: number,
+  menuInfo: MenuID
   icon: string,
   show: boolean
+}
+
+declare interface MenuID {
+  id: number,
+  name: string
+}
+
+export const MENU: { [name: string]: MenuID } = {
+  all: {id: 1, name: '全部'},
+  plan: {id: 2, name: '计划'},
+  done: {id: 3, name: '已完成'},
+  task: {id: 4, name: '任务'}
 }
 
 @Component({
@@ -29,10 +41,10 @@ export class TodoComponent implements OnInit {
     });
 
     this.menuInfo = [
-      {name: '全部', id: 1, show: true, icon: 'icon-all_noselects'},
-      {name: '计划', id: 2, show: true, icon: 'icon-calendar'},
-      {name: '已完成', id: 3, show: true, icon: 'icon-done'},
-      {name: '任务', id: 4, show: true, icon: 'icon-plan'},
+      {menuInfo: MENU.all, show: true, icon: 'icon-all_noselects'},
+      {menuInfo: MENU.plan, show: true, icon: 'icon-calendar'},
+      {menuInfo: MENU.done, show: true, icon: 'icon-done'},
+      {menuInfo: MENU.task, show: true, icon: 'icon-plan'},
     ]
   }
 
@@ -45,6 +57,7 @@ export class TodoComponent implements OnInit {
 
   public addTaskData: TodoItem = {createDate: new Date(), title: ""};
   dataTimePickerVisible: boolean;
+  addTopicTipVisible: boolean = true;
 
   ngOnInit(): void {
     TopicApis.query().subscribe(obs => {
@@ -61,19 +74,19 @@ export class TodoComponent implements OnInit {
 
   setTopic(topic: TodoTopicVO, id: number) {
     switch (id) {
-      case 1:
+      case MENU.all.id:
         this.topic.title = '全部';
         this.topic.items = this.itemList;
         break;
-      case 2:
+      case MENU.plan.id:
         this.topic.title = '计划';
         this.topic.items = this.itemList.filter(top => top.deadlineDate);
         break;
-      case 3:
+      case MENU.done.id:
         this.topic.title = '已完成';
         this.topic.items = this.itemList.filter(top => top.done);
         break;
-      case 4:
+      case MENU.task.id:
         this.topic.title = '任务';
         this.topic.items = this.itemList.filter(top => !top.done);
         break;
@@ -82,7 +95,7 @@ export class TodoComponent implements OnInit {
         this.addTaskData.topicId = topic.id;
         break
     }
-    this.topic.items.sort(this.sort)
+    this.topic.items?.sort(this.sort)
   }
 
 
@@ -108,5 +121,46 @@ export class TodoComponent implements OnInit {
         );
       }
     })
+  }
+
+  showAddTopic(AddTopic: HTMLInputElement) {
+    this.addTopicTipVisible = false;
+    setTimeout(() => AddTopic.focus(), 100)
+  }
+
+  submitTopicInfo(e: InputEvent) {
+    console.log((e.target as HTMLInputElement).value)
+    TopicApis.create({
+      title: (e.target as HTMLInputElement).value,
+      date: new Date(),
+      userId: 1
+    }).subscribe(obs => {
+      if (obs.code == 0) {
+        this.notification.blank(
+          '创建成功😊',
+          ''
+        );
+        (e.target as HTMLInputElement).value = null;
+        this.addTopicTipVisible = true;
+        this.topicList.push(obs.data)
+      }
+    })
+  }
+
+  calUnDoneCount(topic: TodoTopicVO, id: number): number {
+    const filterRule = topic => !topic.done;
+    // if (!id) topic?.items?.filter(filterRule).length
+    switch (id) {
+      case MENU.all.id:
+        return this.itemList.filter(filterRule).length || null
+      case MENU.plan.id:
+        return this.itemList.filter(top => top.deadlineDate).filter(filterRule).length || null
+      case MENU.done.id:
+        return null
+      case MENU.task.id:
+        return this.itemList.filter(filterRule).length || null
+      default:
+        return topic.items?.filter(filterRule).length || null
+    }
   }
 }

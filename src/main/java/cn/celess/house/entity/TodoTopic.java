@@ -46,7 +46,9 @@ public class TodoTopic extends BaseEntity<TodoTopic, Integer> {
     @Override
     public TodoTopicVO toViewObject() {
         TodoTopicVO todoTopicVO = super.beanCopy(this, new TodoTopicVO());
-        todoTopicVO.setItems(this.todos.stream().map(TodoItem::toViewObject).collect(Collectors.toList()));
+        if (this.todos != null && this.todos.size() > 0) {
+            todoTopicVO.setItems(this.todos.stream().map(TodoItem::toViewObject).collect(Collectors.toList()));
+        }
         return todoTopicVO;
     }
 }

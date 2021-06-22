@@ -7,6 +7,25 @@
   user-select: none;
 }
 
+.sider-container {
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.topic {
+  flex-grow: 1;
+}
+
+.new-topic {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-basis: 60px;
+  flex-shrink: 0;
+}
+
 .layout {
   width: 100vw;
   height: 100vh;
@@ -16,21 +35,20 @@
   text-align: center;
   height: @logo-height;
   vertical-align: middle;
+  flex-basis: @logo-height;
   line-height: @logo-height;
+  flex-shrink: 0;
 }
 
 .userinfo {
   background: wheat;
   min-height: 60px;
-}
-
-
-.menu-item {
+  flex-basis: 60px;
+  flex-shrink: 0;
 }
 
 .topic {
   overflow-y: auto;
-  height: 100vh;
   overflow-x: hidden;
 }
 
@@ -108,4 +126,10 @@ nz-sider {
 
 nz-content, nz-header, nz-footer {
   background: #b37feb;
+}
+
+
+.new-topic {
+  border-top: 1px solid rgba(200, 200, 200, .5);
+  padding: 0 25px;
 }
