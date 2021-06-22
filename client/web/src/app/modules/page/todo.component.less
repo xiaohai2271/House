@@ -1,4 +1,12 @@
 @logo-height: 30px;
+
+@padding-left: 40px;
+
+
+* {
+  user-select: none;
+}
+
 .layout {
   width: 100vw;
   height: 100vh;
@@ -33,12 +41,71 @@ nz-sider {
   left: 0;
 }
 
-nz-content {
-  overflow-x: hidden;
-  height: 100vh;
-  overflow-y: auto;
-}
 
 .right-layout {
   margin-left: 350px;
+
+  nz-header {
+    height: 90px;
+    padding-left: @padding-left;
+    padding-right: @padding-left;
+    display: flex;
+    align-items: center;
+  }
+
+  nz-content {
+    overflow-x: hidden;
+    height: 100vh;
+    overflow-y: auto;
+    padding-left: @padding-left;
+    padding-right: @padding-left;
+  }
+
+  nz-footer {
+    height: 80px;
+    padding-left: @padding-left;
+    padding-right: @padding-left;
+    display: flex;
+    width: 100%;
+    align-items: center;
+
+    .add-task {
+      color: white;
+      border-radius: 5px;
+      padding-left: 20px;
+      min-height: 50px;
+      height: 50px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      background: rgba(111-50, 131-50, 211-50, 0.5);
+
+      i {
+        margin-right: 20px;
+      }
+
+      input {
+        color: #fff;
+        flex-wrap: wrap;
+      }
+
+      .add-task-container {
+        display: flex;
+        align-items: center;
+      }
+
+      .btn-group {
+        padding: 0 20px;
+        display: inline-block;
+
+        i {
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+nz-content, nz-header, nz-footer {
+  background: #b37feb;
 }

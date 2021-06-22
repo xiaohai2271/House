@@ -10,70 +10,91 @@
 
     <ul nz-menu nzTheme="light" nzMode="inline" class="topic">
       <ng-container *ngFor="let menuItem of menuInfo">
-        <li nz-menu-item *ngIf="menuItem.show" class="menu-item">
+        <li nz-menu-item *ngIf="menuItem.show" class="menu-item" (click)="setTopic(null,menuItem.id)">
           <i nz-icon [nzIconfont]="menuItem.icon"></i>
           <span>{{menuItem.name}}</span>
         </li>
       </ng-container>
       <nz-divider></nz-divider>
-      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item">
+      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item" (click)="setTopic(menuItem,null)">
         <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
         <span>{{menuItem.title}}</span>
       </li>
-      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item">
+      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item" (click)="setTopic(menuItem,null)">
         <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
         <span>{{menuItem.title}}</span>
       </li>
-      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item">
+      <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item" (click)="setTopic(menuItem,null)">
         <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
         <span>{{menuItem.title}}</span>
       </li>
     </ul>
   </nz-sider>
   <nz-layout class="right-layout">
+    <nz-header><span>{{topic?.title}}</span></nz-header>
     <nz-content>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-      <p>11111111111</p>
-
-      <!--      <router-outlet></router-outlet>-->
+      <ng-container *ngFor="let item of topic?.items">
+        <app-todo-item [data]="item" (onStatusChanged)="itemStatusChange($event)"></app-todo-item>
+      </ng-container>
     </nz-content>
+    <nz-footer>
+      <div class="add-task">
+        <ng-container *ngIf="!inputStatus">
+          <i nz-icon nzType="plus" nzTheme="outline" (click)="check2Input(true)"></i>
+          <span (click)="check2Input(true)">添加任务</span>
+        </ng-container>
+        <ng-container *ngIf="inputStatus"
+                      class="add-task-container">
+          <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
+          <input autofocus
+                 #inputElement
+                 nzBorderless
+                 nz-input
+                 [(ngModel)]="addTaskData.title"
+                 (focusin)="check2Input(true,inputElement)"
+                 (focusout)="check2Input(false)"
+                 (keydown.enter)="submitInfo()"
+                 placeholder="添加任务"/>
+          <div class="btn-group"
+               (focusin)="check2Input(true)"
+               (focusout)="check2Input(false)">
+            <button nz-button
+                    nz-popover
+                    nzGhost
+                    [nzPopoverTitle]="DateTimePickerTemplateHeader"
+                    [(nzPopoverVisible)]="dataTimePickerVisible"
+                    [nzPopoverContent]="DateTimePickerTemplate"
+                    nzType="dashed"
+                    title="添加截至日期">
+              <i nz-icon nzType="calendar" nzTheme="outline"></i>
+            </button>
+          </div>
+
+          <ng-template #DateTimePickerTemplate>
+            <nz-date-picker nzInline [(ngModel)]="addTaskData.deadlineDate"></nz-date-picker>
+          </ng-template>
+          <ng-template #DateTimePickerTemplateHeader>
+            <div nz-row>
+              <button nz-col
+                      nz-button
+                      nzSpan="6"
+                      nzType="default"
+                      (click)="dataTimePickerVisible = false">
+                取消
+              </button>
+              <button nz-col
+                      nz-button
+                      nzSpan="6"
+                      nzOffset="12"
+                      nzType="primary"
+                      (click)="dataTimePickerVisible = false">
+                确定
+              </button>
+            </div>
+
+          </ng-template>
+        </ng-container>
+      </div>
+    </nz-footer>
   </nz-layout>
 </nz-layout>

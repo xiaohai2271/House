@@ -3,7 +3,7 @@ export interface TodoItem {
   createDate: Date;
   deadlineDate?: Date;
   description?: string;
-  id: number | undefined;
+  id?: number;
   title: string;
-  topicId: number | undefined;
+  topicId?: number;
 }
