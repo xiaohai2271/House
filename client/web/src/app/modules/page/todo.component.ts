@@ -72,7 +72,19 @@ export class TodoComponent implements OnInit {
     this.topic = {color: "", date: "", icon: "", id: 0, items: [], title: "全部", userId: 0}
   }
 
-  setTopic(topic: TodoTopicVO, id: number) {
+  setTopic(topic: TodoTopicVO, id?: number) {
+
+    if (!id) {
+      this.topic = topic;
+      this.addTaskData.topicId = topic.id;
+      this.topic.items?.sort(this.sort)
+      return
+    }
+    this.topic = {
+      title: '',
+      items: [],
+      ...this.topic
+    }
     switch (id) {
       case MENU.all.id:
         this.topic.title = '全部';
@@ -91,8 +103,6 @@ export class TodoComponent implements OnInit {
         this.topic.items = this.itemList.filter(top => !top.done);
         break;
       default:
-        this.topic = topic;
-        this.addTaskData.topicId = topic.id;
         break
     }
     this.topic.items?.sort(this.sort)

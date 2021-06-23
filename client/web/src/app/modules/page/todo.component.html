@@ -21,11 +21,11 @@
           </li>
         </ng-container>
         <nz-divider></nz-divider>
-        <li nz-menu-item *ngFor="let menuItem of topicList" class="menu-item" (click)="setTopic(menuItem,null)">
-          <i nz-icon [nzIconfont]="menuItem.icon||'icon-menu'"></i>
-          <nz-badge [nzCount]="calUnDoneCount(menuItem, null)" style="width: 270px"
+        <li nz-menu-item *ngFor="let topicVO of topicList" class="menu-item" (click)="setTopic(topicVO)">
+          <i nz-icon [nzIconfont]="topicVO.icon||'icon-menu'"></i>
+          <nz-badge [nzCount]="calUnDoneCount(topicVO, null)" style="width: 270px"
                     [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
-            <div>{{menuItem.title}}</div>
+            <div>{{topicVO.title}}</div>
           </nz-badge>
         </li>
       </ul>
