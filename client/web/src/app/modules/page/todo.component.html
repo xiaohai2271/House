@@ -49,70 +49,86 @@
 
   </nz-sider>
   <nz-layout class="right-layout">
-    <nz-header><span>{{topic?.title}}</span></nz-header>
-    <nz-content>
-      <ng-container *ngFor="let item of topic?.items">
-        <app-todo-item [data]="item" (onStatusChanged)="itemStatusChange($event)"></app-todo-item>
-      </ng-container>
-    </nz-content>
-    <nz-footer>
-      <div class="add-task">
-        <ng-container *ngIf="!inputStatus">
-          <i nz-icon nzType="plus" nzTheme="outline" (click)="check2Input(true)"></i>
-          <span (click)="check2Input(true)">添加任务</span>
-        </ng-container>
-        <ng-container *ngIf="inputStatus"
-                      class="add-task-container">
-          <i nz-icon nzType="plus-circle" nzTheme="outline"></i>
-          <input autofocus
-                 #inputElement
-                 nzBorderless
-                 nz-input
-                 [(ngModel)]="addTaskData.title"
-                 (focusin)="check2Input(true,inputElement)"
-                 (focusout)="check2Input(false)"
-                 (keydown.enter)="submitInfo()"
-                 placeholder="添加任务"/>
-          <div class="btn-group"
-               (focusin)="check2Input(true)"
-               (focusout)="check2Input(false)">
-            <button nz-button
-                    nz-popover
-                    nzGhost
-                    [nzPopoverTitle]="DateTimePickerTemplateHeader"
-                    [(nzPopoverVisible)]="dataTimePickerVisible"
-                    [nzPopoverContent]="DateTimePickerTemplate"
-                    nzType="dashed"
-                    title="添加截至日期">
-              <i nz-icon nzType="calendar" nzTheme="outline"></i>
-            </button>
+    <nz-header nz-row><span>{{topic?.title}}</span></nz-header>
+    <nz-content nz-row>
+
+      <div nz-col nzFlex="auto" style="height: 100%">
+        <div class="card">
+          <div class="todo">
+            <ng-container *ngFor="let item of topic?.items">
+              <app-todo-item [data]="item" (onStatusChanged)="itemStatusChange($event)"></app-todo-item>
+            </ng-container>
           </div>
+        </div>
 
-          <ng-template #DateTimePickerTemplate>
-            <nz-date-picker nzInline [(ngModel)]="addTaskData.deadlineDate"></nz-date-picker>
-          </ng-template>
-          <ng-template #DateTimePickerTemplateHeader>
-            <div nz-row>
-              <button nz-col
-                      nz-button
-                      nzSpan="6"
-                      nzType="default"
-                      (click)="dataTimePickerVisible = false">
-                取消
-              </button>
-              <button nz-col
-                      nz-button
-                      nzSpan="6"
-                      nzOffset="12"
-                      nzType="primary"
-                      (click)="dataTimePickerVisible = false">
-                确定
-              </button>
-            </div>
-
-          </ng-template>
-        </ng-container>
       </div>
-    </nz-footer>
+      <div nz-col nzFlex="300px" nzOffset="1" style="height: 100%">
+        <div nz-row class="card" style="height: 50%;">
+        </div>
+        <div nz-row class="card" style="height:calc(50% - 30px);margin-top: 30px">
+        </div>
+      </div>
+
+
+    </nz-content>
+    <!--    <nz-footer>-->
+    <!--      <div class="add-task">-->
+    <!--        <ng-container *ngIf="!inputStatus">-->
+    <!--          <i nz-icon nzType="plus" nzTheme="outline" (click)="check2Input(true)"></i>-->
+    <!--          <span (click)="check2Input(true)">添加任务</span>-->
+    <!--        </ng-container>-->
+    <!--        <ng-container *ngIf="inputStatus"-->
+    <!--                      class="add-task-container">-->
+    <!--          <i nz-icon nzType="plus-circle" nzTheme="outline"></i>-->
+    <!--          <input autofocus-->
+    <!--                 #inputElement-->
+    <!--                 nzBorderless-->
+    <!--                 nz-input-->
+    <!--                 [(ngModel)]="addTaskData.title"-->
+    <!--                 (focusin)="check2Input(true,inputElement)"-->
+    <!--                 (focusout)="check2Input(false)"-->
+    <!--                 (keydown.enter)="submitInfo()"-->
+    <!--                 placeholder="添加任务"/>-->
+    <!--          <div class="btn-group"-->
+    <!--               (focusin)="check2Input(true)"-->
+    <!--               (focusout)="check2Input(false)">-->
+    <!--            <button nz-button-->
+    <!--                    nz-popover-->
+    <!--                    nzGhost-->
+    <!--                    [nzPopoverTitle]="DateTimePickerTemplateHeader"-->
+    <!--                    [(nzPopoverVisible)]="dataTimePickerVisible"-->
+    <!--                    [nzPopoverContent]="DateTimePickerTemplate"-->
+    <!--                    nzType="dashed"-->
+    <!--                    title="添加截至日期">-->
+    <!--              <i nz-icon nzType="calendar" nzTheme="outline"></i>-->
+    <!--            </button>-->
+    <!--          </div>-->
+
+    <!--          <ng-template #DateTimePickerTemplate>-->
+    <!--            <nz-date-picker nzInline [(ngModel)]="addTaskData.deadlineDate"></nz-date-picker>-->
+    <!--          </ng-template>-->
+    <!--          <ng-template #DateTimePickerTemplateHeader>-->
+    <!--            <div nz-row>-->
+    <!--              <button nz-col-->
+    <!--                      nz-button-->
+    <!--                      nzSpan="6"-->
+    <!--                      nzType="default"-->
+    <!--                      (click)="dataTimePickerVisible = false">-->
+    <!--                取消-->
+    <!--              </button>-->
+    <!--              <button nz-col-->
+    <!--                      nz-button-->
+    <!--                      nzSpan="6"-->
+    <!--                      nzOffset="12"-->
+    <!--                      nzType="primary"-->
+    <!--                      (click)="dataTimePickerVisible = false">-->
+    <!--                确定-->
+    <!--              </button>-->
+    <!--            </div>-->
+
+    <!--          </ng-template>-->
+    <!--        </ng-container>-->
+    <!--      </div>-->
+    <!--    </nz-footer>-->
   </nz-layout>
 </nz-layout>

@@ -41,7 +41,7 @@
 }
 
 .userinfo {
-  background: wheat;
+  //background: wheat;
   min-height: 60px;
   flex-basis: 60px;
   flex-shrink: 0;
@@ -64,7 +64,7 @@ nz-sider {
   margin-left: 350px;
 
   nz-header {
-    height: 90px;
+    height: 10vh;
     padding-left: @padding-left;
     padding-right: @padding-left;
     display: flex;
@@ -74,9 +74,10 @@ nz-sider {
   nz-content {
     overflow-x: hidden;
     height: 100vh;
-    overflow-y: auto;
+    overflow-y: hidden;
     padding-left: @padding-left;
     padding-right: @padding-left;
+    padding-bottom: 50px;
   }
 
   nz-footer {
@@ -125,11 +126,24 @@ nz-sider {
 }
 
 nz-content, nz-header, nz-footer {
-  background: #b37feb;
+  background: #f1f2f6;
 }
 
 
 .new-topic {
   border-top: 1px solid rgba(200, 200, 200, .5);
   padding: 0 25px;
+}
+
+
+.card {
+  height: 100%;
+  background: #fff;
+  clip-path: inset(0 round 20px);
+  padding: 3px 0;
+}
+
+.todo {
+  height: 100%;
+  overflow-y: auto;
 }

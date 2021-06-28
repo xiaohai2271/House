@@ -11,4 +11,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-
+  web:
+    resources:
+      static-locations: classpath:assets
