@@ -6,4 +6,5 @@ export interface TodoItem {
   id?: number;
   title: string;
   topicId?: number;
+  done?: boolean
 }

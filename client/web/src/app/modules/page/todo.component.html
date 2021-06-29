@@ -78,7 +78,6 @@
         </div>
       </div>
 
-
     </nz-content>
   </nz-layout>
 </nz-layout>
@@ -93,7 +92,7 @@
            nzPlacement="right"
            [nzTitle]="null"
            [nzWidth]="600"
-           (nzOnClose)="drawer.visible= false"
+           (nzOnClose)="drawer.close()"
            [nzBodyStyle]="{background:'#f6f6f6',padding:'0'}"
 >
   <ng-container *nzDrawerContent>
@@ -107,18 +106,70 @@
         </span>
       </div>
       <div class="drawer-content">
-        {{drawer.data|json}}
+        <div class="drawer-content-card">
+          <span *ngIf="drawer.data?.topic">
+            <i nz-icon nzIconfont="icon-send-l"></i>
+            {{drawer.data?.topic?.title}}
+          </span>
+          <span *ngIf="!drawer.data?.topic">
+          <i nz-icon nzIconfont="icon-Plus1"></i>
+            添加主题
+          </span>
+        </div>
+
+        <div class="drawer-content-card">
+          <span *ngIf="drawer.data?.deadlineDate">
+            <i nz-icon nzIconfont="icon-rili"></i>
+            {{drawer.data?.deadlineDate | date:'yyy/MM/dd HH:mm, EEEE'}}
+          </span>
+          <span *ngIf="!drawer.data?.deadlineDate">
+          <i nz-icon nzIconfont="icon-Plus1"></i>
+            添加截止日期
+          </span>
+        </div>
+
+        <div class="drawer-content-card">
+          <!--          <span *ngIf="drawer.data?.deadlineDate">-->
+          <!--            <i nz-icon nzIconfont="icon-rili"></i>-->
+          <!--            {{drawer.data?.deadlineDate | date:'yyy/MM/dd HH:mm, EEEE'}}-->
+          <!--          </span>-->
+          <!--          <span *ngIf="!drawer.data?.deadlineDate">-->
+          <i nz-icon nzIconfont="icon-Plus1"></i>
+          添加为打卡事件
+          <!--          </span>-->
+        </div>
+
+        <div class="drawer-content-card">
+          <span *ngIf="drawer.data?.description">
+            <i nz-icon nzIconfont="icon-plan"></i>
+            {{drawer.data?.description}}
+          </span>
+          <span *ngIf="!drawer.data?.description">
+          <i nz-icon nzIconfont="icon-Plus1"></i>
+            添加截止备注
+          </span>
+        </div>
       </div>
       <div class="drawer-footer">
-        <i nz-icon nzType="right" nzTheme="outline" class="drawer-footer-back"></i>
+        <i nz-icon nzType="right" nzTheme="outline" class="drawer-footer-back" (click)="drawer.visible = false"></i>
         <div *ngIf="drawer.data" class="drawer-footer-content">
-          <span *ngIf="!drawer.data.done">创建于 {{drawer.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}</span>
-          <span *ngIf="drawer.data.done">完成于 {{drawer.data.completeDate|date:'yyy/MM/dd HH:mm, EEEE'}}</span>
+          <span *ngIf="!drawer.data.done">
+            创建于 {{drawer.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}
+          </span>
+          <span *ngIf="drawer.data.done"
+                title="创建于 {{drawer.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}">
+            完成于 {{drawer.data.completeDate|date:'yyy/MM/dd HH:mm, EEEE'}}
+          </span>
         </div>
-        <i nz-icon class="drawer-footer-del"
-           style="color: red"
+
+        <i nz-icon
+           nz-popconfirm
+           class="drawer-footer-del"
            nzIconfont="icon-shanchu"
-           title="删除"></i>
+           title="删除"
+           (nzOnConfirm)="deleteItem(drawer.data)"
+           nzPopconfirmPlacement="top"
+           nzPopconfirmTitle="是否确定删除当前任务?"></i>
       </div>
     </div>
 

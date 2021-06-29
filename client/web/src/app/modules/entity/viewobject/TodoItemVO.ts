@@ -1,3 +1,5 @@
+import {TodoTopicVO} from "./TodoTopicVO";
+
 export interface TodoItemVO {
   completeDate: string;
   createDate: string;
@@ -9,4 +11,5 @@ export interface TodoItemVO {
   topicId: number;
 
   unDoneCount: number;
+  topic?: TodoTopicVO;
 }

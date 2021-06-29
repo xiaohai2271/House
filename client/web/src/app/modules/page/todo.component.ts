@@ -6,8 +6,6 @@ import {TodoItemVO} from "../entity/viewobject/TodoItemVO";
 import {TodoItem} from "../entity/request/TodoItem";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {formatDate} from "@angular/common";
-import {TodoTopic} from "../entity/request/TodoTopic";
-import {any} from "codelyzer/util/function";
 
 
 declare interface MenuItemInfo {
@@ -59,10 +57,33 @@ export class TodoComponent implements OnInit {
   public addTaskData: TodoItem = {createDate: new Date(), title: ""};
   dataTimePickerVisible: boolean;
   addTopicTipVisible: boolean = true;
-  drawer: { visible: boolean, data?: TodoItemVO } = {
+  drawer: { visible: boolean, data?: TodoItemVO, close: () => void, dataChanged: boolean } = {
     visible: false,
-    data: null
+    data: null,
+    dataChanged: false,
+    close: () => {
+      this.drawer.visible = false;
+      if (!this.drawer.dataChanged) return
+      const reqData: TodoItem = {
+        completeDate: this.drawer.data?.completeDate ? new Date(this.drawer.data?.completeDate) : null,
+        createDate: this.drawer.data?.createDate ? new Date(this.drawer.data?.createDate) : null,
+        deadlineDate: this.drawer.data?.deadlineDate ? new Date(this.drawer.data?.deadlineDate) : null,
+        description: this.drawer.data?.description,
+        id: this.drawer.data?.id,
+        title: this.drawer.data?.title,
+        topicId: this.drawer.data?.topicId,
+        done: this.drawer.data?.done
+      }
+      console.log(this.drawer.data)
+      console.log(reqData)
+      TodoItemApis.update(reqData)
+    }
   };
+
+  private setItemTopic = () => this.topic.items.forEach(it => {
+    let topicRes = this.topicList.filter(top => top.id == it.topicId)
+    it.topic = topicRes ? topicRes[0] : null;
+  })
 
   ngOnInit(): void {
     TopicApis.query().subscribe(obs => {
@@ -73,6 +94,12 @@ export class TodoComponent implements OnInit {
       this.topic.items = obs.data;
 
       this.topic.items.sort(this.sort)
+
+      if (this.topicList == null) {
+        setTimeout(this.setItemTopic, 1000)
+      } else {
+        this.setItemTopic();
+      }
     })
     this.topic = {color: "", date: "", icon: "", id: 0, items: [], title: "全部", userId: 0}
   }
@@ -180,7 +207,20 @@ export class TodoComponent implements OnInit {
   }
 
   deleteItem(data: TodoItemVO) {
-    console.log("delete", data)
+    this.drawer.visible = false;
+    TodoItemApis.deleteOne(data.id).subscribe(data => {
+      if (data.code == 0) {
+        this.notification.blank(
+          '删除成功😊',
+          ''
+        );
+      } else {
+        this.notification.blank(
+          '删除失败😣',
+          data.msg
+        );
+      }
+    })
   }
 
   showItemDetail(data: TodoItemVO) {
