@@ -28,3 +28,34 @@
 .item-container {
 
 }
+
+.item:hover {
+  background: rgba(230, 230, 230, .3);
+
+  .action {
+    visibility: visible;
+  }
+}
+
+.action {
+  flex-basis: 60px;
+  display: flex;
+  flex-direction: row;
+  vertical-align: center;
+  padding-right: 5px;
+  visibility: hidden;
+
+  i {
+    font-size: x-large;
+    margin: 0;
+    padding: 15px 10px;
+  }
+
+  i:hover {
+    background: rgba(200, 200, 200, .3);
+  }
+}
+
+.content {
+  flex: 1 1 auto;
+}

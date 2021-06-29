@@ -56,8 +56,17 @@
         <div class="card">
           <div class="todo">
             <ng-container *ngFor="let item of topic?.items">
-              <app-todo-item [data]="item" (onStatusChanged)="itemStatusChange($event)"></app-todo-item>
+              <app-todo-item [data]="item"
+                             (onStatusChanged)="itemStatusChange($event)"
+                             (onDelete)="deleteItem($event)"
+                             (onEdit)="showItemDetail($event)"
+                             (contentClick)="showItemDetail(item)"
+              ></app-todo-item>
             </ng-container>
+          </div>
+          <div class="add-task">
+            <i nz-icon nzType="plus" nzTheme="outline" class="add-task-icon"
+               (click)="inputStatus = true"></i>
           </div>
         </div>
 
@@ -71,64 +80,47 @@
 
 
     </nz-content>
-    <!--    <nz-footer>-->
-    <!--      <div class="add-task">-->
-    <!--        <ng-container *ngIf="!inputStatus">-->
-    <!--          <i nz-icon nzType="plus" nzTheme="outline" (click)="check2Input(true)"></i>-->
-    <!--          <span (click)="check2Input(true)">添加任务</span>-->
-    <!--        </ng-container>-->
-    <!--        <ng-container *ngIf="inputStatus"-->
-    <!--                      class="add-task-container">-->
-    <!--          <i nz-icon nzType="plus-circle" nzTheme="outline"></i>-->
-    <!--          <input autofocus-->
-    <!--                 #inputElement-->
-    <!--                 nzBorderless-->
-    <!--                 nz-input-->
-    <!--                 [(ngModel)]="addTaskData.title"-->
-    <!--                 (focusin)="check2Input(true,inputElement)"-->
-    <!--                 (focusout)="check2Input(false)"-->
-    <!--                 (keydown.enter)="submitInfo()"-->
-    <!--                 placeholder="添加任务"/>-->
-    <!--          <div class="btn-group"-->
-    <!--               (focusin)="check2Input(true)"-->
-    <!--               (focusout)="check2Input(false)">-->
-    <!--            <button nz-button-->
-    <!--                    nz-popover-->
-    <!--                    nzGhost-->
-    <!--                    [nzPopoverTitle]="DateTimePickerTemplateHeader"-->
-    <!--                    [(nzPopoverVisible)]="dataTimePickerVisible"-->
-    <!--                    [nzPopoverContent]="DateTimePickerTemplate"-->
-    <!--                    nzType="dashed"-->
-    <!--                    title="添加截至日期">-->
-    <!--              <i nz-icon nzType="calendar" nzTheme="outline"></i>-->
-    <!--            </button>-->
-    <!--          </div>-->
-
-    <!--          <ng-template #DateTimePickerTemplate>-->
-    <!--            <nz-date-picker nzInline [(ngModel)]="addTaskData.deadlineDate"></nz-date-picker>-->
-    <!--          </ng-template>-->
-    <!--          <ng-template #DateTimePickerTemplateHeader>-->
-    <!--            <div nz-row>-->
-    <!--              <button nz-col-->
-    <!--                      nz-button-->
-    <!--                      nzSpan="6"-->
-    <!--                      nzType="default"-->
-    <!--                      (click)="dataTimePickerVisible = false">-->
-    <!--                取消-->
-    <!--              </button>-->
-    <!--              <button nz-col-->
-    <!--                      nz-button-->
-    <!--                      nzSpan="6"-->
-    <!--                      nzOffset="12"-->
-    <!--                      nzType="primary"-->
-    <!--                      (click)="dataTimePickerVisible = false">-->
-    <!--                确定-->
-    <!--              </button>-->
-    <!--            </div>-->
-
-    <!--          </ng-template>-->
-    <!--        </ng-container>-->
-    <!--      </div>-->
-    <!--    </nz-footer>-->
   </nz-layout>
 </nz-layout>
+
+<nz-modal [(nzVisible)]="inputStatus" (nzOnCancel)="inputStatus =false" (nzOnOk)="inputStatus=false">
+
+</nz-modal>
+
+
+<nz-drawer [nzClosable]="false"
+           [nzVisible]="drawer.visible"
+           nzPlacement="right"
+           [nzTitle]="null"
+           [nzWidth]="600"
+           (nzOnClose)="drawer.visible= false"
+           [nzBodyStyle]="{background:'#f6f6f6',padding:'0'}"
+>
+  <ng-container *nzDrawerContent>
+    <div class="drawer-main">
+
+      <div class="drawer-header">
+        <i *ngIf="!drawer.data?.done" class="task" nz-icon nzIconfont="icon-all_noselects"></i>
+        <i *ngIf="drawer.data?.done" class="done" nz-icon nzIconfont="icon-Done"></i>
+        <span class="drawer-header-title" [style.text-decoration]="drawer.data?.done?'line-through':'unset'">
+          {{drawer.data?.title}}
+        </span>
+      </div>
+      <div class="drawer-content">
+        {{drawer.data|json}}
+      </div>
+      <div class="drawer-footer">
+        <i nz-icon nzType="right" nzTheme="outline" class="drawer-footer-back"></i>
+        <div *ngIf="drawer.data" class="drawer-footer-content">
+          <span *ngIf="!drawer.data.done">创建于 {{drawer.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}</span>
+          <span *ngIf="drawer.data.done">完成于 {{drawer.data.completeDate|date:'yyy/MM/dd HH:mm, EEEE'}}</span>
+        </div>
+        <i nz-icon class="drawer-footer-del"
+           style="color: red"
+           nzIconfont="icon-shanchu"
+           title="删除"></i>
+      </div>
+    </div>
+
+  </ng-container>
+</nz-drawer>

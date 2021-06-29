@@ -7,6 +7,7 @@ import {TodoItem} from "../entity/request/TodoItem";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {formatDate} from "@angular/common";
 import {TodoTopic} from "../entity/request/TodoTopic";
+import {any} from "codelyzer/util/function";
 
 
 declare interface MenuItemInfo {
@@ -37,7 +38,7 @@ export class TodoComponent implements OnInit {
               private notification: NzNotificationService,
   ) {
     this.iconService.fetchFromIconfont({
-      scriptUrl: '//at.alicdn.com/t/font_2623130_4tankwkjxet.js'
+      scriptUrl: '//at.alicdn.com/t/font_2623130_kyveddl18yg.js'
     });
 
     this.menuInfo = [
@@ -58,6 +59,10 @@ export class TodoComponent implements OnInit {
   public addTaskData: TodoItem = {createDate: new Date(), title: ""};
   dataTimePickerVisible: boolean;
   addTopicTipVisible: boolean = true;
+  drawer: { visible: boolean, data?: TodoItemVO } = {
+    visible: false,
+    data: null
+  };
 
   ngOnInit(): void {
     TopicApis.query().subscribe(obs => {
@@ -172,5 +177,14 @@ export class TodoComponent implements OnInit {
       default:
         return topic.items?.filter(filterRule).length || null
     }
+  }
+
+  deleteItem(data: TodoItemVO) {
+    console.log("delete", data)
+  }
+
+  showItemDetail(data: TodoItemVO) {
+    this.drawer.visible = true;
+    this.drawer.data = data;
   }
 }

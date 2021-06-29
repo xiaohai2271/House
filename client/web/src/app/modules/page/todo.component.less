@@ -88,40 +88,6 @@ nz-sider {
     width: 100%;
     align-items: center;
 
-    .add-task {
-      color: white;
-      border-radius: 5px;
-      padding-left: 20px;
-      min-height: 50px;
-      height: 50px;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      background: rgba(111-50, 131-50, 211-50, 0.5);
-
-      i {
-        margin-right: 20px;
-      }
-
-      input {
-        color: #fff;
-        flex-wrap: wrap;
-      }
-
-      .add-task-container {
-        display: flex;
-        align-items: center;
-      }
-
-      .btn-group {
-        padding: 0 20px;
-        display: inline-block;
-
-        i {
-          margin: 0;
-        }
-      }
-    }
   }
 }
 
@@ -140,10 +106,96 @@ nz-content, nz-header, nz-footer {
   height: 100%;
   background: #fff;
   clip-path: inset(0 round 20px);
-  padding: 3px 0;
 }
 
 .todo {
-  height: 100%;
+  height: calc(100% - 50px);
   overflow-y: auto;
+}
+
+
+.add-task {
+  color: white;
+  min-height: 50px;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background: rgba(111-50, 131-50, 211-50, 0.5);
+
+  .add-task-icon {
+    width: 60px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    color: #fff;
+    font-size: xx-large;
+    margin: 0 auto;
+  }
+
+  input {
+    color: #fff;
+    flex-wrap: wrap;
+  }
+
+  .add-task-container {
+    display: flex;
+    align-items: center;
+  }
+
+  .btn-group {
+    padding: 0 20px;
+    display: inline-block;
+
+    i {
+      margin: 0;
+    }
+  }
+}
+
+
+.drawer-main {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  .drawer-header {
+    font-size: larger;
+    background: #fff;
+    vertical-align: middle;
+    padding: 40px 20px;
+    flex-basis: 100px;
+
+    .drawer-header-title {
+      margin-left: 10px;
+      font-weight: bold;
+      font-size: x-large
+    }
+  }
+
+
+  .drawer-content {
+    flex: 1 1 auto;
+  }
+
+  .drawer-footer {
+    background: #fff;
+    height: 50px;
+    flex-basis: 50px;
+    display: flex;
+    align-items: center;
+
+    .drawer-footer-back {
+      flex-basis: 50px;
+      font-size: larger;
+    }
+
+    .drawer-footer-content {
+      flex: 1 1 auto;
+    }
+
+    .drawer-footer-del {
+      flex-basis: 50px;
+      font-size: x-large;
+    }
+  }
 }

@@ -13,6 +13,9 @@ export class TodoItemComponent implements OnInit {
 
   @Input("data") data: TodoItemVO;
   @Output("onStatusChanged") onStatusChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output("onDelete") onDelete: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
+  @Output("onEdit") onEdit: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
+  @Output("contentClick") contentClick: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
   }
@@ -21,5 +24,13 @@ export class TodoItemComponent implements OnInit {
   setItemStatus() {
     this.onStatusChanged.emit(!this.data.done)
     this.data.done = !this.data.done;
+  }
+
+  delete() {
+    this.onDelete.emit(this.data);
+  }
+
+  edit() {
+    this.onEdit.emit(this.data);
   }
 }

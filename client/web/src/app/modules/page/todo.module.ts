@@ -15,6 +15,9 @@ import {FormsModule} from "@angular/forms";
 import {NzGridModule} from "ng-zorro-antd/grid";
 import {NzNotificationService} from "ng-zorro-antd/notification";
 import {NzBadgeModule} from "ng-zorro-antd/badge";
+import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
+import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzDrawerModule} from "ng-zorro-antd/drawer";
 
 
 @NgModule({
@@ -35,6 +38,9 @@ import {NzBadgeModule} from "ng-zorro-antd/badge";
     FormsModule,
     NzGridModule,
     NzBadgeModule,
+    NzPopconfirmModule,
+    NzModalModule,
+    NzDrawerModule,
   ],
   providers: [NzNotificationService]
 })
