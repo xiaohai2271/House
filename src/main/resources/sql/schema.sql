@@ -34,7 +34,7 @@ CREATE TABLE td_item
     id            int primary key auto_increment,
     title         char(255) not null,
     description   text,
-    is_done       tinyint            default 0,
+    is_done       tinyint  not null  default 0,
     topic_id      int,
     create_date   timestamp not null default NOW(),
     complete_date timestamp,
