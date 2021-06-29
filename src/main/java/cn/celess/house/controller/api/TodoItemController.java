@@ -39,8 +39,8 @@ public class TodoItemController {
         );
     }
 
-    @PutMapping("/delete")
-    public Response<Boolean> delete(@RequestParam Integer id) {
+    @PutMapping("/delete/{id}")
+    public Response<Boolean> delete(@PathVariable("id") Integer id) {
         if (id == null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NULL);
         }

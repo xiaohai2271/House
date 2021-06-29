@@ -26,8 +26,12 @@ public class TodoItemDTO extends BaseDTO<TodoItem> {
 
     private Date deadlineDate;
 
+    private Boolean done;
+
     @Override
     public TodoItem toEntity() {
-        return beanCopy(this, new TodoItem());
+        TodoItem todoItem = beanCopy(this, new TodoItem());
+        todoItem.setIsDone(done);
+        return todoItem;
     }
 }

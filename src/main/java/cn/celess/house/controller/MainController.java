@@ -13,8 +13,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping
 public class MainController {
 
-    @RequestMapping("/**")
-    public String todo(){
-        return "forward:/assets/index.html";
-    }
+//    @RequestMapping("/**")
+//    public String todo(){
+//        return "forward:/assets/index.html";
+//    }
 }
