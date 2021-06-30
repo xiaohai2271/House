@@ -6,7 +6,10 @@
         <app-user-info></app-user-info>
       </div>
       <div class="topic">
-        <app-topic-list></app-topic-list>
+        <app-topic-list (onUpdateTopic)="updateTopic($event)"
+                        (onDeleteTopic)="deleteTopic($event)">
+
+        </app-topic-list>
       </div>
       <app-new-topic class="new-topic" (onCreateTopic)="createTopic($event)"></app-new-topic>
     </div>

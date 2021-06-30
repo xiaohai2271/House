@@ -7,6 +7,7 @@ import {NzNotificationService} from "ng-zorro-antd/notification";
 import {DrawerData} from "./components/item-detail/item-detail.component";
 import {TodoTopic} from "../entity/request/TodoTopic";
 import {TodoService} from "./todo.service";
+import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
 
 @Component({
   selector: 'app-todo',
@@ -104,6 +105,35 @@ export class TodoComponent implements OnInit {
       if (obs.code == 0) {
         this.notification.blank(
           '创建成功😊',
+          ''
+        );
+      }
+    })
+  }
+
+  deleteTopic(topicVO: TodoTopicVO) {
+    TopicApis.deleteOne(topicVO.id).subscribe(obs => {
+      if (obs.code == 0) {
+        this.notification.blank(
+          '删除成功😊',
+          ''
+        );
+      }
+    })
+  }
+
+  updateTopic(topicVO: TodoTopicVO) {
+    TopicApis.update({
+      date: new Date(topicVO.date),
+      userId: topicVO.userId,
+      color: topicVO.color,
+      icon: topicVO.icon,
+      id: topicVO.id,
+      title: topicVO.title
+    }).subscribe(obs => {
+      if (obs.code == 0) {
+        this.notification.blank(
+          '更新成功😊',
           ''
         );
       }

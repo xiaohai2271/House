@@ -1,6 +1,6 @@
 export class TodoTopic {
   color?: string;
-  date: Date;
+  date?: Date;
   icon?: string;
   id?: number;
   title: string;

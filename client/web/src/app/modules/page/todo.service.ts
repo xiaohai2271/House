@@ -74,13 +74,14 @@ export class TodoService {
   /**
    * 设置待办事项的主题
    */
-  private setItemTopic = () => isTodoTopicVO(this.topic) ?
-    this.topic.items.forEach(it => {
-      let topicRes = this.topicList.filter(top => top.id == it.topicId)
-      it.topic = topicRes ? topicRes[0] : null;
-    })
-    :
-    null
-
+  private setItemTopic = () => {
+    isTodoTopicVO(this.topic) ?
+      this.topic.items.forEach(it => {
+        let topicRes = this.topicList.filter(top => top.id == it.topicId)
+        it.topic = topicRes ? topicRes[0] : null;
+      })
+      :
+      null
+  }
 
 }

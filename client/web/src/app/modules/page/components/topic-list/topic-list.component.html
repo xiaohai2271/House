@@ -9,11 +9,53 @@
     </li>
   </ng-container>
   <nz-divider></nz-divider>
-  <li nz-menu-item *ngFor="let topicVO of todoService.topicList" class="menu-item" (click)="setTopic(topicVO)">
+  <li nz-menu-item
+      *ngFor="let topicVO of todoService.topicList"
+      class="menu-item"
+      (contextmenu)="createRightClickPop($event, menu, topicVO)"
+      (click)="setTopic(topicVO)">
     <i nz-icon [nzIconfont]="topicVO.icon||'icon-menu'"></i>
     <nz-badge [nzCount]="todoService.calUnDoneCount(topicVO, null)" style="width: 270px"
               [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
-      <div>{{topicVO.title}}</div>
+      <input *ngIf="editData.editStatus && topic.id == topicVO.id"
+             nz-input
+             id="input-{{topic.id}}"
+             [(ngModel)]="editData.data"
+             autofocus
+             type="text"
+             (focusout)="renameTopic(false)">
+      <div *ngIf="!editData.editStatus || topic.id != topicVO.id">{{topicVO.title}}</div>
     </nz-badge>
   </li>
 </ul>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu style="font-size: larger">
+    <li nz-menu-item (click)="renameTopic()"><i nz-icon nzType="edit" nzTheme="outline"></i>重命名此主题</li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item (click)="deleteTopic()" style="color: red"><i nz-icon nzType="delete" nzTheme="outline"></i>删除此主题
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
+
+<nz-modal
+  [(nzVisible)]="deleteModelData.visible"
+  [nzTitle]="null"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="deleteModelData.onCancel()"
+  (nzOnOk)="deleteModelData.onOK"
+  [nzWidth]="400"
+>
+  <ng-template #modalContent>
+    <h1>删除主题</h1>
+    <p><i nz-icon nzType="warning" nzTheme="outline" style="color: #fff000"> </i> 将永远删除"{{topic.title}}"</p>
+    <p *ngIf="topic.items?.length>0">此主题下待办事项不为空，他们将不会被删除。</p>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="danger" (click)="deleteModelData.onOK()">删除</button>
+    <button nz-button nzType="default" (click)="deleteModelData.onCancel()">取消</button>
+  </ng-template>
+</nz-modal>

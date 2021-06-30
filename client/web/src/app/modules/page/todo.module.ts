@@ -23,6 +23,7 @@ import {UserInfoComponent} from './components/user-info/user-info.component';
 import {TopicListComponent} from './components/topic-list/topic-list.component';
 import {NewTopicComponent} from './components/new-topic/new-topic.component';
 import {TodoService} from "./todo.service";
+import {NzDropDownModule} from "ng-zorro-antd/dropdown";
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import {TodoService} from "./todo.service";
     NzPopconfirmModule,
     NzModalModule,
     NzDrawerModule,
+    NzDropDownModule,
   ],
   providers: [
     NzNotificationService,
