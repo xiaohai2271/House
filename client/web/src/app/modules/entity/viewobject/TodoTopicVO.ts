@@ -1,6 +1,6 @@
 import {TodoItemVO} from "./TodoItemVO";
 
-export interface TodoTopicVO {
+export class TodoTopicVO {
   color: string;
   date: string;
   icon: string;
@@ -8,4 +8,5 @@ export interface TodoTopicVO {
   items: TodoItemVO[];
   title: string;
   userId: number;
+
 }

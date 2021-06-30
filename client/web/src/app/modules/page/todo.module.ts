@@ -18,10 +18,15 @@ import {NzBadgeModule} from "ng-zorro-antd/badge";
 import {NzPopconfirmModule} from "ng-zorro-antd/popconfirm";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {NzDrawerModule} from "ng-zorro-antd/drawer";
+import {ItemDetailComponent} from './components/item-detail/item-detail.component';
+import {UserInfoComponent} from './components/user-info/user-info.component';
+import {TopicListComponent} from './components/topic-list/topic-list.component';
+import {NewTopicComponent} from './components/new-topic/new-topic.component';
+import {TodoService} from "./todo.service";
 
 
 @NgModule({
-  declarations: [TodoComponent, TodoItemComponent],
+  declarations: [TodoComponent, TodoItemComponent, ItemDetailComponent, UserInfoComponent, TopicListComponent, NewTopicComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -42,7 +47,10 @@ import {NzDrawerModule} from "ng-zorro-antd/drawer";
     NzModalModule,
     NzDrawerModule,
   ],
-  providers: [NzNotificationService]
+  providers: [
+    NzNotificationService,
+    TodoService
+  ]
 })
 export class TodoModule {
 }

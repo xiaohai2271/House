@@ -1,4 +1,4 @@
-export interface TodoItem {
+export class TodoItem {
   completeDate?: Date;
   createDate: Date;
   deadlineDate?: Date;

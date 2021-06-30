@@ -15,6 +15,8 @@
 
 .topic {
   flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .new-topic {
@@ -24,6 +26,8 @@
   width: 100%;
   flex-basis: 60px;
   flex-shrink: 0;
+  border-top: 1px solid rgba(200, 200, 200, .5);
+  padding: 0 25px;
 }
 
 .layout {
@@ -47,10 +51,6 @@
   flex-shrink: 0;
 }
 
-.topic {
-  overflow-y: auto;
-  overflow-x: hidden;
-}
 
 nz-sider {
   overflow: hidden;
@@ -93,12 +93,6 @@ nz-sider {
 
 nz-content, nz-header, nz-footer {
   background: #f1f2f6;
-}
-
-
-.new-topic {
-  border-top: 1px solid rgba(200, 200, 200, .5);
-  padding: 0 25px;
 }
 
 
@@ -153,67 +147,4 @@ nz-content, nz-header, nz-footer {
 }
 
 
-.drawer-main {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
 
-  .drawer-header {
-    font-size: larger;
-    background: #fff;
-    vertical-align: middle;
-    padding: 40px 20px;
-    flex-basis: 100px;
-
-    .drawer-header-title {
-      margin-left: 10px;
-      font-weight: bold;
-      font-size: x-large
-    }
-  }
-
-
-  .drawer-content {
-    flex: 1 1 auto;
-    padding: 0 10px;
-
-
-    .drawer-content-card {
-      background: #fff;
-      padding: 20px;
-      align-items: center;
-      margin: 15px 0;
-      border: 1px solid #eaeaea;
-      font-size: large;
-
-      i {
-        margin-right: 15px;
-        font-size: x-large;
-        vertical-align: middle;
-      }
-    }
-  }
-
-  .drawer-footer {
-    background: #fff;
-    height: 50px;
-    flex-basis: 50px;
-    display: flex;
-    align-items: center;
-
-    .drawer-footer-back {
-      flex-basis: 50px;
-      font-size: larger;
-    }
-
-    .drawer-footer-content {
-      flex: 1 1 auto;
-    }
-
-    .drawer-footer-del {
-      flex-basis: 50px;
-      color: red;
-      font-size: x-large;
-    }
-  }
-}

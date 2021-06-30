@@ -1,0 +1,19 @@
+<ul nz-menu nzTheme="light" nzMode="inline" class="topic">
+  <ng-container *ngFor="let menuItem of todoService.menuInfo">
+    <li nz-menu-item *ngIf="menuItem.show" class="menu-item" (click)="setTopic(null,menuItem)">
+      <i nz-icon [nzIconfont]="menuItem.icon"></i>
+      <nz-badge [nzCount]="todoService.calUnDoneCount(null, menuItem)" style="width: 270px"
+                [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
+        <div>{{menuItem.menuInfo.name}}</div>
+      </nz-badge>
+    </li>
+  </ng-container>
+  <nz-divider></nz-divider>
+  <li nz-menu-item *ngFor="let topicVO of todoService.topicList" class="menu-item" (click)="setTopic(topicVO)">
+    <i nz-icon [nzIconfont]="topicVO.icon||'icon-menu'"></i>
+    <nz-badge [nzCount]="todoService.calUnDoneCount(topicVO, null)" style="width: 270px"
+              [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
+      <div>{{topicVO.title}}</div>
+    </nz-badge>
+  </li>
+</ul>

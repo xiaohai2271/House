@@ -1,6 +1,6 @@
 import {TodoTopicVO} from "./TodoTopicVO";
 
-export interface TodoItemVO {
+export class TodoItemVO {
   completeDate: string;
   createDate: string;
   deadlineDate: string;

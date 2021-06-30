@@ -1,4 +1,4 @@
-export interface TodoTopic {
+export class TodoTopic {
   color?: string;
   date: Date;
   icon?: string;

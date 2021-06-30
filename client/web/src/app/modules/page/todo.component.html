@@ -1,61 +1,24 @@
 <nz-layout class="layout">
   <nz-sider nzTheme="light" [nzWidth]="350">
     <div class="sider-container">
-
       <div class="logo">House To Do</div>
-
-
       <div class="userinfo">
-        userinfo...
+        <app-user-info></app-user-info>
       </div>
-
-
-      <ul nz-menu nzTheme="light" nzMode="inline" class="topic">
-        <ng-container *ngFor="let menuItem of menuInfo">
-          <li nz-menu-item *ngIf="menuItem.show" class="menu-item" (click)="setTopic(null,menuItem.menuInfo.id)">
-            <i nz-icon [nzIconfont]="menuItem.icon"></i>
-            <nz-badge [nzCount]="calUnDoneCount(null, menuItem.menuInfo.id)" style="width: 270px"
-                      [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
-              <div>{{menuItem.menuInfo.name}}</div>
-            </nz-badge>
-          </li>
-        </ng-container>
-        <nz-divider></nz-divider>
-        <li nz-menu-item *ngFor="let topicVO of topicList" class="menu-item" (click)="setTopic(topicVO)">
-          <i nz-icon [nzIconfont]="topicVO.icon||'icon-menu'"></i>
-          <nz-badge [nzCount]="calUnDoneCount(topicVO, null)" style="width: 270px"
-                    [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
-            <div>{{topicVO.title}}</div>
-          </nz-badge>
-        </li>
-      </ul>
-      <div class="new-topic">
-        <i nz-icon nzType="plus" nzTheme="outline"></i>
-        <span style="margin-left: 10px;min-width: 80px"
-              (click)="showAddTopic(AddTopic)"
-              [style.display]="addTopicTipVisible?'inline':'none'"
-              *ngIf="addTopicTipVisible">新建列表
-        </span>
-        <input #AddTopic
-               nz-input
-               nzBorderless
-               type="text"
-               (keydown.escape)="addTopicTipVisible= true"
-               (keydown.enter)="submitTopicInfo($event)"
-               (focusout)="addTopicTipVisible=true"
-               [style.display]="addTopicTipVisible?'none':'inline'">
+      <div class="topic">
+        <app-topic-list></app-topic-list>
       </div>
+      <app-new-topic class="new-topic" (onCreateTopic)="createTopic($event)"></app-new-topic>
     </div>
-
   </nz-sider>
   <nz-layout class="right-layout">
-    <nz-header nz-row><span>{{topic?.title}}</span></nz-header>
+    <nz-header nz-row><span>{{todoService.topic?.title}}</span></nz-header>
     <nz-content nz-row>
 
       <div nz-col nzFlex="auto" style="height: 100%">
         <div class="card">
           <div class="todo">
-            <ng-container *ngFor="let item of topic?.items">
+            <ng-container *ngFor="let item of todoService.topic?.items">
               <app-todo-item [data]="item"
                              (onStatusChanged)="itemStatusChange($event)"
                              (onDelete)="deleteItem($event)"
@@ -85,8 +48,6 @@
 <nz-modal [(nzVisible)]="inputStatus" (nzOnCancel)="inputStatus =false" (nzOnOk)="inputStatus=false">
 
 </nz-modal>
-
-
 <nz-drawer [nzClosable]="false"
            [nzVisible]="drawer.visible"
            nzPlacement="right"
@@ -96,82 +57,7 @@
            [nzBodyStyle]="{background:'#f6f6f6',padding:'0'}"
 >
   <ng-container *nzDrawerContent>
-    <div class="drawer-main">
-
-      <div class="drawer-header">
-        <i *ngIf="!drawer.data?.done" class="task" nz-icon nzIconfont="icon-all_noselects"></i>
-        <i *ngIf="drawer.data?.done" class="done" nz-icon nzIconfont="icon-Done"></i>
-        <span class="drawer-header-title" [style.text-decoration]="drawer.data?.done?'line-through':'unset'">
-          {{drawer.data?.title}}
-        </span>
-      </div>
-      <div class="drawer-content">
-        <div class="drawer-content-card">
-          <span *ngIf="drawer.data?.topic">
-            <i nz-icon nzIconfont="icon-send-l"></i>
-            {{drawer.data?.topic?.title}}
-          </span>
-          <span *ngIf="!drawer.data?.topic">
-          <i nz-icon nzIconfont="icon-Plus1"></i>
-            添加主题
-          </span>
-        </div>
-
-        <div class="drawer-content-card">
-          <span *ngIf="drawer.data?.deadlineDate">
-            <i nz-icon nzIconfont="icon-rili"></i>
-            {{drawer.data?.deadlineDate | date:'yyy/MM/dd HH:mm, EEEE'}}
-          </span>
-          <span *ngIf="!drawer.data?.deadlineDate">
-          <i nz-icon nzIconfont="icon-Plus1"></i>
-            添加截止日期
-          </span>
-        </div>
-
-        <div class="drawer-content-card">
-          <!--          <span *ngIf="drawer.data?.deadlineDate">-->
-          <!--            <i nz-icon nzIconfont="icon-rili"></i>-->
-          <!--            {{drawer.data?.deadlineDate | date:'yyy/MM/dd HH:mm, EEEE'}}-->
-          <!--          </span>-->
-          <!--          <span *ngIf="!drawer.data?.deadlineDate">-->
-          <i nz-icon nzIconfont="icon-Plus1"></i>
-          添加为打卡事件
-          <!--          </span>-->
-        </div>
-
-        <div class="drawer-content-card">
-          <span *ngIf="drawer.data?.description">
-            <i nz-icon nzIconfont="icon-plan"></i>
-            {{drawer.data?.description}}
-          </span>
-          <span *ngIf="!drawer.data?.description">
-          <i nz-icon nzIconfont="icon-Plus1"></i>
-            添加截止备注
-          </span>
-        </div>
-      </div>
-      <div class="drawer-footer">
-        <i nz-icon nzType="right" nzTheme="outline" class="drawer-footer-back" (click)="drawer.visible = false"></i>
-        <div *ngIf="drawer.data" class="drawer-footer-content">
-          <span *ngIf="!drawer.data.done">
-            创建于 {{drawer.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}
-          </span>
-          <span *ngIf="drawer.data.done"
-                title="创建于 {{drawer.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}">
-            完成于 {{drawer.data.completeDate|date:'yyy/MM/dd HH:mm, EEEE'}}
-          </span>
-        </div>
-
-        <i nz-icon
-           nz-popconfirm
-           class="drawer-footer-del"
-           nzIconfont="icon-shanchu"
-           title="删除"
-           (nzOnConfirm)="deleteItem(drawer.data)"
-           nzPopconfirmPlacement="top"
-           nzPopconfirmTitle="是否确定删除当前任务?"></i>
-      </div>
-    </div>
-
+    <app-item-detail [(drawer)]="drawer">
+    </app-item-detail>
   </ng-container>
 </nz-drawer>
