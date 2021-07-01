@@ -1,5 +1,5 @@
 <div class="item-container">
-  <div class="item">
+  <div class="item" nz-dropdown (contextmenu)="createRightClickPop($event, menu)" (nzVisibleChange)="update()">
     <span (click)="setItemStatus()">
        <i *ngIf="!data.done" class="task" nz-icon nzIconfont="icon-all_noselects"></i>
         <i *ngIf="data.done" class="done" nz-icon nzIconfont="icon-Done"></i>
@@ -20,3 +20,52 @@
     </div>
   </div>
 </div>
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu style="font-size: larger">
+    <li nz-menu-item (click)="setDoneStatus()">
+      <i nz-icon [nzIconfont]="data.done?'icon-all_noselects':'icon-done'"></i>标记为{{data.done ? '未' : '已'}}完成
+    </li>
+    <li nz-submenu [nzTitle]="title">
+      <ng-template #title>
+        <i nz-icon nzIconfont="icon-movedown"></i>移动到
+      </ng-template>
+      <ul>
+        <li nz-menu-item *ngFor="let top of todoService.topicList" (click)="setTopic(top)">
+          <i nz-icon nzIconfont="icon-liebiao"></i>{{top.title}}
+        </li>
+      </ul>
+    </li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-Deadline"></i>下周一截至</li>
+    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-Deadline"></i>本周六截至</li>
+    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-Deadline"></i>明天截至</li>
+    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-Deadline"></i>选择截至日期</li>
+    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-calendar"></i>删除截至日期</li>
+    <li nz-menu-divider></li>
+    <li nz-menu-item (click)="deleteTask()" nzDanger>
+      <i nz-icon nzType="delete" nzTheme="outline"></i>删除此任务
+    </li>
+  </ul>
+</nz-dropdown-menu>
+
+<nz-modal
+  [(nzVisible)]="deleteModelData.visible"
+  [nzTitle]="null"
+  [nzContent]="modalContent"
+  [nzFooter]="modalFooter"
+  (nzOnCancel)="deleteModelData.onCancel()"
+  (nzOnOk)="deleteModelData.onOK"
+  [nzWidth]="400"
+>
+  <ng-template #modalContent>
+    <h1>删除任务</h1>
+    <p><i nz-icon nzType="warning" nzTheme="outline" style="color: #fff000"> </i>
+      将永远删除"{{data.title}}"
+    </p>
+  </ng-template>
+
+  <ng-template #modalFooter>
+    <button nz-button nzType="danger" (click)="deleteModelData.onOK()">删除</button>
+    <button nz-button nzType="default" (click)="deleteModelData.onCancel()">取消</button>
+  </ng-template>
+</nz-modal>

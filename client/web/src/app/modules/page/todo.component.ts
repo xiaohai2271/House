@@ -23,7 +23,7 @@ export class TodoComponent implements OnInit {
               public todoService: TodoService
   ) {
     this.iconService.fetchFromIconfont({
-      scriptUrl: '//at.alicdn.com/t/font_2623130_cx9bcgh9kne.js'
+      scriptUrl: '//at.alicdn.com/t/font_2623130_a87m0sfgj2.js'
     });
   }
 
@@ -169,5 +169,17 @@ export class TodoComponent implements OnInit {
   dateChanged(date: Date) {
     const dateItem = this.todoService.topic?.items?.filter(top => isEqual(clearTime(new Date(top.createDate)), clearTime(date)));
     console.log(date, dateItem)
+  }
+
+  updateTodoItem(todoItem: TodoItem) {
+    console.log(todoItem)
+    TodoItemApis.update(todoItem).subscribe(obs => {
+      if (obs.code == 0) {
+        this.notification.blank(
+          '更新成功😊',
+          ''
+        );
+      }
+    })
   }
 }
