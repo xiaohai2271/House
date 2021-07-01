@@ -1,0 +1,37 @@
+<div class="add-task">
+  <div class="header">
+    <h2>添加待办事项</h2>
+    <nz-button-group>
+      <button nz-button nzType="link" class="cancel" (click)="onCancel.emit()">取消</button>
+      <button nz-button nzType="text" class="ok" (click)="onOkClick()" [disabled]="!data.title">确定</button>
+    </nz-button-group>
+  </div>
+  <input nz-input
+         type="text"
+         [(ngModel)]="data.title"
+         nzBorderless
+         nzSize="large"
+         class="input"
+         placeholder="今天想做些什么呢？">
+  <textarea nz-input
+            [(ngModel)]="data.desc"
+            nzBorderless
+            class="input desc"
+            placeholder="今天有啥特别的事呢？备注一下吧！"
+            [nzAutosize]="{ minRows: 2, maxRows: 8 }"></textarea>
+  <nz-button-group class="action">
+    <button nz-button nzType="text" (click)="setDeadLineVisible()">
+      <i nz-icon nzIconfont="icon-Deadline"></i>设置截止时间
+    </button>
+  </nz-button-group>
+  <div (focusout)="setUnVisible()">
+    <nz-date-picker
+      nzId="datatimepicker"
+      nzShowTime
+      *ngIf="data.deadLineVisible"
+      nzFormat="yyyy-MM-dd HH:mm:ss"
+      [(ngModel)]="data.deadLine"
+      nzPlaceHolder="选择截止时间"
+    ></nz-date-picker>
+  </div>
+</div>

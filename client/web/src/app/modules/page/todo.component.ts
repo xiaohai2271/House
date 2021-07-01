@@ -9,6 +9,8 @@ import {TodoTopic} from "../entity/request/TodoTopic";
 import {TodoService} from "./todo.service";
 import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
 import {clearTime, isEqual} from "./utils/Date";
+import {formatDate} from "@angular/common";
+import {isTodoTopicVO} from "./utils/Types";
 
 @Component({
   selector: 'app-todo',
@@ -21,11 +23,34 @@ export class TodoComponent implements OnInit {
               public todoService: TodoService
   ) {
     this.iconService.fetchFromIconfont({
-      scriptUrl: '//at.alicdn.com/t/font_2623130_kyveddl18yg.js'
+      scriptUrl: '//at.alicdn.com/t/font_2623130_cx9bcgh9kne.js'
     });
   }
 
-  public inputStatus: boolean = false;
+  addTaskData: {
+    visible: boolean
+    onCancel: () => void,
+    onOk: (todoItem: TodoItem) => void,
+  } = {
+    visible: false,
+    onCancel: () => {
+      this.addTaskData.visible = false
+    },
+    onOk: (todoItem: TodoItem) => {
+      todoItem.topicId = isTodoTopicVO(this.todoService.topic) ? this.todoService.topic.id : null
+      TodoItemApis.create(todoItem).subscribe(obs => {
+        if (obs.code == 0) {
+          this.notification.blank(
+            '创建成功😊',
+            todoItem.deadlineDate ?
+              `记得在${formatDate(todoItem.deadlineDate, "yyy/MM/dd HH:mm, EEEE", 'zh')}之前完成哦！`
+              : ''
+          );
+        }
+      })
+      this.addTaskData.visible = false
+    },
+  }
 
   drawer: DrawerData = {
     visible: false,
@@ -142,7 +167,7 @@ export class TodoComponent implements OnInit {
   }
 
   dateChanged(date: Date) {
-    const dateItem = this.todoService.topic.items.filter(top => isEqual(clearTime(new Date(top.createDate)), clearTime(date)));
+    const dateItem = this.todoService.topic?.items?.filter(top => isEqual(clearTime(new Date(top.createDate)), clearTime(date)));
     console.log(date, dateItem)
   }
 }
