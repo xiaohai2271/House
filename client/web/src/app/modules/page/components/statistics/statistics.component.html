@@ -1,0 +1,14 @@
+<div class="statistics">
+  <br>
+  <p style="text-align: center">共有 <span style="color: #1890ff"> {{todoService.topic.items?.length}} </span> 条代办事项</p>
+  <p style="text-align: center">已完成
+    <span style="color:orangered;"> {{todoService.topic.items?.length - todoService.calUnDoneCountSelf()}} </span> 条代办事项
+  </p>
+
+  <nz-calendar [(ngModel)]="selectedValue" [nzFullscreen]="false" (nzSelectChange)="selectChange($event)">
+    <div *nzDateFullCell="let date" class="events">
+      {{date.getDate()}}
+      <div class="dot" [style.background]="getBackground(date)"></div>
+    </div>
+  </nz-calendar>
+</div>

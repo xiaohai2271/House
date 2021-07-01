@@ -49,6 +49,15 @@ export class TodoService {
   }
 
 
+  calUnDoneCountSelf(): number {
+    if (isTodoTopicVO(this.topic)) {
+      const top: TodoTopicVO = this.topic;
+      return this.calUnDoneCount(top, null)
+    } else {
+      return this.calUnDoneCount(null, this.topic)
+    }
+  }
+
   /**
    * 计算每个主题的未完成的代办事项数目
    * @param topic 待计算的主题

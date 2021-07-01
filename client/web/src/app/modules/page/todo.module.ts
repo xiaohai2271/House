@@ -24,10 +24,13 @@ import {TopicListComponent} from './components/topic-list/topic-list.component';
 import {NewTopicComponent} from './components/new-topic/new-topic.component';
 import {TodoService} from "./todo.service";
 import {NzDropDownModule} from "ng-zorro-antd/dropdown";
+import {StatisticsComponent} from './components/statistics/statistics.component';
+import {ClockInComponent} from './components/clock-in/clock-in.component';
+import {NzCalendarModule} from "ng-zorro-antd/calendar";
 
 
 @NgModule({
-  declarations: [TodoComponent, TodoItemComponent, ItemDetailComponent, UserInfoComponent, TopicListComponent, NewTopicComponent],
+  declarations: [TodoComponent, TodoItemComponent, ItemDetailComponent, UserInfoComponent, TopicListComponent, NewTopicComponent, StatisticsComponent, ClockInComponent],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -48,6 +51,7 @@ import {NzDropDownModule} from "ng-zorro-antd/dropdown";
     NzModalModule,
     NzDrawerModule,
     NzDropDownModule,
+    NzCalendarModule,
   ],
   providers: [
     NzNotificationService,

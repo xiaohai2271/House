@@ -8,6 +8,7 @@ import {DrawerData} from "./components/item-detail/item-detail.component";
 import {TodoTopic} from "../entity/request/TodoTopic";
 import {TodoService} from "./todo.service";
 import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
+import {clearTime, isEqual} from "./utils/Date";
 
 @Component({
   selector: 'app-todo',
@@ -138,5 +139,10 @@ export class TodoComponent implements OnInit {
         );
       }
     })
+  }
+
+  dateChanged(date: Date) {
+    const dateItem = this.todoService.topic.items.filter(top => isEqual(clearTime(new Date(top.createDate)), clearTime(date)));
+    console.log(date, dateItem)
   }
 }

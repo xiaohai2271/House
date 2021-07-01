@@ -37,10 +37,12 @@
         </div>
 
       </div>
-      <div nz-col nzFlex="300px" nzOffset="1" style="height: 100%">
-        <div nz-row class="card" style="height: 50%;">
+      <div nz-col nzFlex="350px" nzOffset="1" style="height: 100%">
+        <div nz-row class="card" style="height: 60%;">
+          <app-statistics (onDateChanged)="dateChanged($event)"></app-statistics>
         </div>
-        <div nz-row class="card" style="height:calc(50% - 30px);margin-top: 30px">
+        <div nz-row class="card" style="height:calc(40% - 30px);margin-top: 30px">
+          <app-clock-in></app-clock-in>
         </div>
       </div>
 
