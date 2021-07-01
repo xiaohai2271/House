@@ -48,8 +48,10 @@
   </nz-layout>
 </nz-layout>
 
-<nz-modal [(nzVisible)]="inputStatus" (nzOnCancel)="inputStatus =false" (nzOnOk)="inputStatus=false">
-
+<nz-modal
+  [(nzVisible)]="inputStatus"
+  (nzOnCancel)="inputStatus =false"
+  (nzOnOk)="inputStatus=false">
 </nz-modal>
 <nz-drawer [nzClosable]="false"
            [nzVisible]="drawer.visible"
