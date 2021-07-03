@@ -13,4 +13,4 @@ spring:
       ddl-auto: none
   web:
     resources:
-      static-locations: classpath:assets
+      static-locations: classpath:templates/

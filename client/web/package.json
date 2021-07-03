@@ -7,7 +7,7 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "deploy": "npm run clean && ng build --prod && cpr dist/* ../../src/main/resources/templates -o",
+    "deploy": "npm run clean && ng build --prod && cpr dist ../../src/main/resources/templates -o",
     "clean": "del-cli \"dist\" \"../../src/main/resources/templates/*\" -f",
     "house": "cd ../../ && mvnw spring-boot:run",
     "e2e": "ng e2e"
