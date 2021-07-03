@@ -10,7 +10,7 @@ import {TodoService} from "./todo.service";
 import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
 import {clearTime, isEqual} from "./utils/Date";
 import {formatDate} from "@angular/common";
-import {isTodoTopicVO} from "./utils/Types";
+import {createModalData, isTodoTopicVO, ModalData} from "./utils/Types";
 
 @Component({
   selector: 'app-todo',
@@ -27,15 +27,10 @@ export class TodoComponent implements OnInit {
     });
   }
 
-  addTaskData: {
-    visible: boolean
-    onCancel: () => void,
-    onOk: (todoItem: TodoItem) => void,
-  } = {
-    visible: false,
-    onCancel: () => {
-      this.addTaskData.visible = false
-    },
+  /**
+   * 新增待办事项的弹窗数据集
+   */
+  addTaskData: ModalData<void> = createModalData({
     onOk: (todoItem: TodoItem) => {
       todoItem.topicId = isTodoTopicVO(this.todoService.topic) ? this.todoService.topic.id : null
       TodoItemApis.create(todoItem).subscribe(obs => {
@@ -48,10 +43,12 @@ export class TodoComponent implements OnInit {
           );
         }
       })
-      this.addTaskData.visible = false
+      this.addTaskData.onClose();
     },
-  }
-
+  })
+  /**
+   * 侧滑窗体数据集
+   */
   drawer: DrawerData = {
     visible: false,
     data: null,
@@ -75,30 +72,6 @@ export class TodoComponent implements OnInit {
   };
 
   ngOnInit(): void {
-  }
-
-
-  // check2Input(status: boolean, e?: HTMLInputElement) {
-  //   this.inputStatus = status;
-  //   this.dataTimePickerVisible = false;
-  //   e?.focus()
-  // }
-
-  /**
-   * 新建待办事项
-   */
-  submitInfo() {
-    // if (this.addTaskData.title.length == 0) {
-    //   return
-    // }
-    // TodoItemApis.create(this.addTaskData).subscribe(obs => {
-    //   if (obs.code == 0) {
-    //     this.notification.blank(
-    //       '创建成功😊',
-    //       `创建成功${(this.addTaskData.deadlineDate ? `,请在${formatDate(this.addTaskData.deadlineDate, 'yyyy-MM-dd HH:mm:ss', "zh_CN")}之前完成哦 :) ` : '')}`,
-    //     );
-    //   }
-    // })
   }
 
   deleteItem(data: TodoItemVO) {

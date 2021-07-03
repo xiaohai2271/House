@@ -4,7 +4,7 @@ import {NzContextMenuService, NzDropdownMenuComponent} from "ng-zorro-antd/dropd
 import {TodoService} from "../../todo.service";
 import {TodoItem} from "../../../entity/request/TodoItem";
 import {TodoTopicVO} from "../../../entity/viewobject/TodoTopicVO";
-import {ModalData} from "../../utils/Types";
+import {createModalData, ModalData} from "../../utils/Types";
 
 
 declare interface Weak {
@@ -37,16 +37,13 @@ export class TodoItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public deleteModelData: ModalData<any> = {
-    visible: false,
-    onCancel: () => this.deleteModelData.visible = false,
+  public deleteModelData: ModalData<any> = createModalData({
     onOk: () => {
       this.deleteModelData.visible = false;
       this.delete();
     }
-  }
-  choseDateData: ModalData<Date> = {
-    visible: false,
+  })
+  choseDateData: ModalData<Date> = createModalData<Date>({
     data: new Date(),
     onCancel: () => {
       this.choseDateData.visible = false
@@ -57,7 +54,7 @@ export class TodoItemComponent implements OnInit {
       this.choseDateData.onCancel();
       this.update();
     }
-  };
+  });
 
   setItemStatus() {
     this.data.done = !this.data.done;
