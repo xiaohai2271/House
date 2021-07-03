@@ -77,9 +77,6 @@ export class TodoComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  itemStatusChange(status: boolean) {
-    console.log(status)
-  }
 
   // check2Input(status: boolean, e?: HTMLInputElement) {
   //   this.inputStatus = status;

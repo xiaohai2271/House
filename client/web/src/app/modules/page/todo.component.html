@@ -23,7 +23,6 @@
           <div class="todo">
             <ng-container *ngFor="let item of todoService.topic?.items">
               <app-todo-item [data]="item"
-                             (onStatusChanged)="itemStatusChange($event)"
                              (onDelete)="deleteItem($event)"
                              (onEdit)="showItemDetail($event)"
                              (contentClick)="showItemDetail(item)"
