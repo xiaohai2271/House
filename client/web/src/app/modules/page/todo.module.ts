@@ -6,7 +6,7 @@ import {NzLayoutModule} from "ng-zorro-antd/layout";
 import {NzMenuModule} from "ng-zorro-antd/menu";
 import {IconsProviderModule} from "../../icons-provider.module";
 import {NzDividerModule} from "ng-zorro-antd/divider";
-import {TodoItemComponent} from "../component/todo-item/todo-item.component";
+import {TodoItemComponent} from "./components/todo-item/todo-item.component";
 import {NzInputModule} from "ng-zorro-antd/input";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzPopoverModule} from "ng-zorro-antd/popover";

@@ -36,11 +36,11 @@
       </ul>
     </li>
     <li nz-menu-divider></li>
-    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-Deadline"></i>下周一截至</li>
-    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-Deadline"></i>本周六截至</li>
-    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-Deadline"></i>明天截至</li>
-    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-Deadline"></i>选择截至日期</li>
-    <li nz-menu-item (click)="setDeadLine()"><i nz-icon nzIconfont="icon-calendar"></i>删除截至日期</li>
+    <li nz-menu-item (click)="setDeadLine(WEAK.nextMon)"><i nz-icon nzIconfont="icon-Deadline"></i>下周一截至</li>
+    <li nz-menu-item (click)="setDeadLine(WEAK.nextSat)"><i nz-icon nzIconfont="icon-Deadline"></i>本周六截至</li>
+    <li nz-menu-item (click)="setDeadLine(WEAK.tomorrow)"><i nz-icon nzIconfont="icon-Deadline"></i>明天截至</li>
+    <li nz-menu-item (click)="setDeadLine(WEAK.choose)"><i nz-icon nzIconfont="icon-Deadline"></i>选择截至日期</li>
+    <li nz-menu-item (click)="setDeadLine(WEAK.clear)"><i nz-icon nzIconfont="icon-calendar"></i>删除截至日期</li>
     <li nz-menu-divider></li>
     <li nz-menu-item (click)="deleteTask()" nzDanger>
       <i nz-icon nzType="delete" nzTheme="outline"></i>删除此任务

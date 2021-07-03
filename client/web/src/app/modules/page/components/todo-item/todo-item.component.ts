@@ -1,9 +1,19 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {TodoItemVO} from "../../entity/viewobject/TodoItemVO";
+import {TodoItemVO} from "../../../entity/viewobject/TodoItemVO";
 import {NzContextMenuService, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
-import {TodoService} from "../../page/todo.service";
-import {TodoItem} from "../../entity/request/TodoItem";
-import {TodoTopicVO} from "../../entity/viewobject/TodoTopicVO";
+import {TodoService} from "../../todo.service";
+import {TodoItem} from "../../../entity/request/TodoItem";
+import {TodoTopicVO} from "../../../entity/viewobject/TodoTopicVO";
+import {formatDate} from "@angular/common";
+
+
+declare interface Weak {
+  nextMon: number,
+  nextSat: number,
+  tomorrow: number,
+  choose: number,
+  clear: number
+}
 
 @Component({
   selector: 'app-todo-item',
@@ -61,6 +71,14 @@ export class TodoItemComponent implements OnInit {
     })
   }
 
+  public readonly WEAK: Weak = {
+    clear: -1,
+    choose: 0,
+    nextMon: 1,
+    nextSat: 2,
+    tomorrow: 3
+  }
+
   createRightClickPop = ($event: MouseEvent, menu: NzDropdownMenuComponent) => {
     this.nzContextMenuService.create($event, menu);
   }
@@ -79,7 +97,32 @@ export class TodoItemComponent implements OnInit {
     this.update()
   }
 
-  setDeadLine() {
-    // TODO::
+  setDeadLine(weak: number) {
+    let date = new Date(this.data.deadlineDate)
+    let jumpDay;
+    switch (weak) {
+      case this.WEAK.choose:
+        console.log("choose")
+        break
+      case this.WEAK.tomorrow:
+        date.setDate(date.getDate() + 1)
+        break
+      case this.WEAK.nextSat:
+        jumpDay = this.calcJumpDay(date.getDay(), 6)
+        date.setDate(date.getDate() + jumpDay);
+        break
+      case this.WEAK.nextMon:
+        jumpDay = this.calcJumpDay(date.getDay(), 1)
+        date.setDate(date.getDate() + jumpDay);
+        break
+      case this.WEAK.clear:
+        date = null;
+        break
+      default:
+    }
+    this.data.deadlineDate = date?.toISOString()
+    this.update();
   }
+
+  private calcJumpDay = (now: number, toDay: number) => (toDay <= now) ? -(now - toDay - 7) : toDay - now;
 }
