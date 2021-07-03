@@ -56,7 +56,7 @@ export class TodoItemComponent implements OnInit {
     }
   });
 
-  setItemStatus() {
+  setDoneStatus = () => {
     this.data.done = !this.data.done;
     this.data.completeDate = this.data.done ? new Date().toString() : null;
     this.update()
@@ -97,11 +97,6 @@ export class TodoItemComponent implements OnInit {
 
   setTopic = (top: TodoTopicVO) => {
     this.data.topic = top;
-    this.update()
-  }
-
-  setDoneStatus = () => {
-    this.data.done = !this.data.done;
     this.update()
   }
 

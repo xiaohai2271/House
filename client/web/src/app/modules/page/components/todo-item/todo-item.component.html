@@ -1,6 +1,6 @@
 <div class="item-container">
   <div class="item" nz-dropdown (contextmenu)="createRightClickPop($event, menu)" (nzVisibleChange)="update()">
-    <span (click)="setItemStatus()">
+    <span (click)="setDoneStatus()">
        <i *ngIf="!data.done" class="task" nz-icon nzIconfont="icon-all_noselects"></i>
         <i *ngIf="data.done" class="done" nz-icon nzIconfont="icon-Done"></i>
     </span>
