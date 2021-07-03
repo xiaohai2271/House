@@ -33,7 +33,17 @@ import {NzTagModule} from "ng-zorro-antd/tag";
 
 
 @NgModule({
-  declarations: [TodoComponent, TodoItemComponent, ItemDetailComponent, UserInfoComponent, TopicListComponent, NewTopicComponent, StatisticsComponent, ClockInComponent, NewTodoComponent],
+  declarations: [
+    TodoComponent,
+    TodoItemComponent,
+    ItemDetailComponent,
+    UserInfoComponent,
+    TopicListComponent,
+    NewTopicComponent,
+    StatisticsComponent,
+    ClockInComponent,
+    NewTodoComponent,
+  ],
   imports: [
     CommonModule,
     RouterModule.forChild([
@@ -60,7 +70,7 @@ import {NzTagModule} from "ng-zorro-antd/tag";
   ],
   providers: [
     NzNotificationService,
-    TodoService
+    TodoService,
   ]
 })
 export class TodoModule {

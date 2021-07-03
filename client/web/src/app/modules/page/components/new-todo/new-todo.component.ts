@@ -1,8 +1,4 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {TodoTopicVO} from "../../../entity/viewobject/TodoTopicVO";
-import {TodoService} from "../../todo.service";
-import {isTodoTopicVO} from "../../utils/Types";
-import {TodoTopic} from "../../../entity/request/TodoTopic";
 import {TodoItem} from "../../../entity/request/TodoItem";
 
 @Component({

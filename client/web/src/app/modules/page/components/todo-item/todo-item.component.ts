@@ -4,7 +4,7 @@ import {NzContextMenuService, NzDropdownMenuComponent} from "ng-zorro-antd/dropd
 import {TodoService} from "../../todo.service";
 import {TodoItem} from "../../../entity/request/TodoItem";
 import {TodoTopicVO} from "../../../entity/viewobject/TodoTopicVO";
-import {formatDate} from "@angular/common";
+import {ModalData} from "../../utils/Types";
 
 
 declare interface Weak {
@@ -38,20 +38,32 @@ export class TodoItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public deleteModelData: { visible: boolean, onCancel: () => void, onOK: () => void } = {
+  public deleteModelData: ModalData<any> = {
     visible: false,
-    onCancel: () => {
-      this.deleteModelData.visible = false;
-    },
-    onOK: () => {
+    onCancel: () => this.deleteModelData.visible = false,
+    onOk: () => {
       this.deleteModelData.visible = false;
       this.delete();
     }
   }
+  choseDateData: ModalData<Date> = {
+    visible: false,
+    data: new Date(),
+    onCancel: () => {
+      this.choseDateData.visible = false
+      this.choseDateData.data = new Date();
+    },
+    onOk: () => {
+      this.data.deadlineDate = this.choseDateData.data.toString();
+      this.choseDateData.onCancel();
+      this.update();
+    }
+  };
 
   setItemStatus() {
     this.onStatusChanged.emit(!this.data.done)
     this.data.done = !this.data.done;
+    this.update()
   }
 
   delete = () => this.onDelete.emit(this.data);
@@ -62,7 +74,7 @@ export class TodoItemComponent implements OnInit {
     this.onUpdate.emit({
       completeDate: this.data.completeDate ? new Date(this.data.completeDate) : null,
       createDate: new Date(this.data.createDate),
-      deadlineDate: new Date(this.data.deadlineDate),
+      deadlineDate: this.data.deadlineDate ? new Date(this.data.deadlineDate) : null,
       description: this.data.description,
       done: this.data.done,
       id: this.data.id,
@@ -98,17 +110,19 @@ export class TodoItemComponent implements OnInit {
   }
 
   setDeadLine(weak: number) {
-    let date = new Date(this.data.deadlineDate)
+    let date = new Date()
     let jumpDay;
     switch (weak) {
       case this.WEAK.choose:
-        console.log("choose")
-        break
+        this.choseDateData.visible = true;
+        if (this.data.deadlineDate) this.choseDateData.data = new Date(this.data.deadlineDate);
+        return
       case this.WEAK.tomorrow:
         date.setDate(date.getDate() + 1)
         break
       case this.WEAK.nextSat:
         jumpDay = this.calcJumpDay(date.getDay(), 6)
+        jumpDay = jumpDay % 7;
         date.setDate(date.getDate() + jumpDay);
         break
       case this.WEAK.nextMon:
@@ -125,4 +139,5 @@ export class TodoItemComponent implements OnInit {
   }
 
   private calcJumpDay = (now: number, toDay: number) => (toDay <= now) ? -(now - toDay - 7) : toDay - now;
+
 }

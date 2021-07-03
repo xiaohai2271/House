@@ -54,7 +54,7 @@
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
   (nzOnCancel)="deleteModelData.onCancel()"
-  (nzOnOk)="deleteModelData.onOK"
+  (nzOnOk)="deleteModelData.onOk()"
   [nzWidth]="400"
 >
   <ng-template #modalContent>
@@ -65,7 +65,43 @@
   </ng-template>
 
   <ng-template #modalFooter>
-    <button nz-button nzType="danger" (click)="deleteModelData.onOK()">删除</button>
+    <button nz-button nzType="danger" (click)="deleteModelData.onOk()">删除</button>
     <button nz-button nzType="default" (click)="deleteModelData.onCancel()">取消</button>
   </ng-template>
+</nz-modal>
+
+
+<nz-modal
+  [(nzVisible)]="choseDateData.visible"
+  [nzClosable]="false"
+  (nzOnCancel)="choseDateData.onCancel()"
+  [nzFooter]="null">
+  <div class="modal-header">
+    <h2>选择截止日期</h2>
+    <nz-button-group>
+      <button nz-button
+              nzType="link"
+              class="cancel"
+              (click)="choseDateData.onCancel()">取消
+      </button>
+      <button nz-button
+              nzType="text"
+              class="ok"
+              (click)="choseDateData.onOk()"
+              [disabled]="!choseDateData.data">确定
+      </button>
+    </nz-button-group>
+  </div>
+  <div style="display: flex;justify-content: center">
+    <nz-date-picker nzShowTime
+                    *ngIf="choseDateData.visible"
+                    nzFormat="yyyy-MM-dd HH:mm:ss"
+                    [(ngModel)]="choseDateData.data"
+                    nzPlaceHolder="Start"
+                    nzInline
+                    (nzOnOk)="choseDateData.onOk()">
+    </nz-date-picker>
+  </div>
+
+
 </nz-modal>
