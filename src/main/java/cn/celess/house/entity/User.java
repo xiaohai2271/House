@@ -1,6 +1,6 @@
 package cn.celess.house.entity;
 
-import cn.celess.house.entity.vo.BaseVO;
+import cn.celess.house.entity.dto.BaseDTO;
 import cn.celess.house.entity.vo.UserVO;
 import lombok.Data;
 
@@ -16,7 +16,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "user")
-public class User extends BaseEntity<User, Integer> {
+public class User implements BaseEntity<User, Integer>, BaseDTO<User> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -30,8 +30,14 @@ public class User extends BaseEntity<User, Integer> {
         return id;
     }
 
+
     @Override
-    public BaseVO<?> toViewObject() {
-        return super.beanCopy(this, new UserVO());
+    public UserVO toViewObject() {
+        return beanCopy(this, new UserVO());
+    }
+
+    @Override
+    public User toEntity() {
+        return this;
     }
 }

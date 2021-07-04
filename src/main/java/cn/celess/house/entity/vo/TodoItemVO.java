@@ -11,7 +11,7 @@ import java.util.Date;
  * @description：
  */
 @Data
-public class TodoItemVO extends BaseVO<TodoItem> {
+public class TodoItemVO implements BaseVO<TodoItem> {
     private Integer id;
 
     private String title;

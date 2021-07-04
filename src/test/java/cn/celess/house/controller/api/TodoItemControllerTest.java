@@ -7,6 +7,7 @@ import cn.celess.house.entity.dto.TodoItemDTO;
 import cn.celess.house.entity.vo.TodoItemVO;
 import cn.celess.house.enums.ResponseEnum;
 import cn.celess.house.util.StringsUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,10 @@ class TodoItemControllerTest extends AbstractTest {
 
     @Test
     void create() throws Exception {
+        String format = StringsUtil.getAndSetDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
         mockMvc.perform(MockMvcRequestBuilders.post("/api/todo/item/create")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(StringsUtil.toJson(createTodoItemDTO()))
-        )
+                .content(StringsUtil.toJson(createTodoItemDTO())))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(result -> {
                     String s = result.getResponse().getContentAsString(StandardCharsets.UTF_8);
@@ -44,6 +45,8 @@ class TodoItemControllerTest extends AbstractTest {
                     TodoItemVO todoItemVO = StringsUtil.toObject(StringsUtil.toJson(response.getData()), TodoItemVO.class);
                     assertNotNull(todoItemVO);
                     assertNotNull(todoItemVO.getId());
+                    // 恢复默认
+                    StringsUtil.getAndSetDateFormat(format);
                 });
     }
 

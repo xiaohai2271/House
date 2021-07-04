@@ -2,7 +2,6 @@ package cn.celess.house.service.impl;
 
 import cn.celess.house.dao.UserDao;
 import cn.celess.house.entity.User;
-import cn.celess.house.entity.dto.UserDTO;
 import cn.celess.house.entity.vo.UserVO;
 import cn.celess.house.service.UserService;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +15,7 @@ import javax.annotation.Resource;
  * @description：
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, Integer, UserVO, UserDTO> implements UserService {
+public class UserServiceImpl extends BaseServiceImpl<User, Integer, UserVO, User> implements UserService {
     @Resource
     private UserDao userDao;
 

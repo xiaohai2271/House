@@ -11,7 +11,7 @@ import java.util.Date;
  * @description：
  */
 @Data
-public class TodoItemDTO extends BaseDTO<TodoItem> {
+public class TodoItemDTO implements BaseDTO<TodoItem> {
     private Integer id;
 
     private String title;

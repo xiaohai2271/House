@@ -17,6 +17,7 @@ class StringsUtilTest {
 
     @Test
     void toJson() {
+        StringsUtil.getAndSetDateFormat("yyyy-MM-dd HH:mm:ss");
         TodoItemDTO todoItemDTO = new TodoItemDTO();
         todoItemDTO.setId(1);
         todoItemDTO.setCreateDate(new Date(1622904575221L));
@@ -25,12 +26,13 @@ class StringsUtilTest {
         todoItemDTO.setTopicId(1);
         String s = StringsUtil.toJson(todoItemDTO);
         assertEquals(
-                "{\"id\":1,\"title\":\"hello test\",\"description\":\"\",\"topicId\":1,\"createDate\":\"2021-06-05 22:49:35\",\"completeDate\":null,\"deadlineDate\":null}"
+                "{\"id\":1,\"title\":\"hello test\",\"description\":\"\",\"topicId\":1,\"createDate\":\"2021-06-05 22:49:35\",\"completeDate\":null,\"deadlineDate\":null,\"done\":null}"
                 , s);
     }
 
     @Test
     void toObject() {
+        StringsUtil.getAndSetDateFormat("yyyy-MM-dd HH:mm:ss");
         String s = "{\"id\":1,\"title\":\"hello test\",\"description\":\"\",\"topicId\":1,\"createDate\":\"2021-06-05 22:49:35\",\"completeDate\":null,\"deadlineDate\":null}";
         TodoItemDTO obj = StringsUtil.toObject(s, TodoItemDTO.class);
         assertNotNull(obj);

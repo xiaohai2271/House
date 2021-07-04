@@ -15,11 +15,10 @@ import javax.persistence.*;
  * @author 禾几海
  * @since 2021-06-05 00:41:14
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
 @Table(name = "td_item")
-public class TodoItem extends BaseEntity<TodoItem, Integer> {
+public class TodoItem implements BaseEntity<TodoItem, Integer> {
 
     @Id
     @Column
@@ -47,7 +46,7 @@ public class TodoItem extends BaseEntity<TodoItem, Integer> {
 
     @Override
     public TodoItemVO toViewObject() {
-        TodoItemVO todoItemVO = super.beanCopy(this, new TodoItemVO());
+        TodoItemVO todoItemVO = beanCopy(this, new TodoItemVO());
         todoItemVO.setDone(isDone);
         return todoItemVO;
     }

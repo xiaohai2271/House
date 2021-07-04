@@ -12,7 +12,7 @@ import java.util.List;
  * @description：
  */
 @Data
-public class TodoTopicVO extends BaseVO<TodoTopic> {
+public class TodoTopicVO implements BaseVO<TodoTopic> {
     private Integer id;
 
     private String title;

@@ -19,7 +19,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "td_topic")
-public class TodoTopic extends BaseEntity<TodoTopic, Integer> {
+public class TodoTopic implements BaseEntity<TodoTopic, Integer> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +42,6 @@ public class TodoTopic extends BaseEntity<TodoTopic, Integer> {
 
     @Override
     public TodoTopicVO toViewObject() {
-        return super.beanCopy(this, new TodoTopicVO());
+        return beanCopy(this, new TodoTopicVO());
     }
 }

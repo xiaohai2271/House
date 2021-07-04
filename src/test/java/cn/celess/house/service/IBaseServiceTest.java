@@ -2,7 +2,6 @@ package cn.celess.house.service;
 
 import cn.celess.house.AbstractTest;
 import cn.celess.house.entity.User;
-import cn.celess.house.entity.dto.UserDTO;
 import cn.celess.house.entity.vo.UserVO;
 import cn.celess.house.util.StringsUtil;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ public class IBaseServiceTest extends AbstractTest {
 
     @Test
     public void update() {
-        UserDTO user = createUser();
+        User user = createUser();
         UserVO insert = userService.insert(createUser());
 
         assertNotNull(insert.getId());
@@ -60,8 +59,8 @@ public class IBaseServiceTest extends AbstractTest {
         assertTrue(users.size() > 0);
     }
 
-    private UserDTO createUser() {
-        UserDTO user = new UserDTO();
+    private User createUser() {
+        User user = new User();
         user.setEmail("zh56462271@qq.com");
         user.setPassword(StringsUtil.getMD5("123456"));
         return user;

@@ -17,17 +17,23 @@ import java.text.SimpleDateFormat;
 @Slf4j
 public class StringsUtil {
     private static ObjectMapper objectMapper;
-    private static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     public static String getMD5(String str) {
         return DigestUtils.md5DigestAsHex(str.getBytes());
     }
 
+    public static String getAndSetDateFormat(String pattern) {
+        String p = StringsUtil.DATE_FORMAT;
+        StringsUtil.DATE_FORMAT = pattern;
+        return p;
+    }
+
     public static <T> String toJson(T obj) {
         if (objectMapper == null) {
             objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
         }
+        objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
         String s;
         try {
             s = objectMapper.writeValueAsString(obj);
@@ -41,8 +47,8 @@ public class StringsUtil {
     public static <T> T toObject(String jsonStr, Class<T> tClass) {
         if (objectMapper == null) {
             objectMapper = new ObjectMapper();
-            objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
         }
+        objectMapper.setDateFormat(new SimpleDateFormat(DATE_FORMAT));
         T obj;
         try {
             obj = objectMapper.readValue(jsonStr, tClass);

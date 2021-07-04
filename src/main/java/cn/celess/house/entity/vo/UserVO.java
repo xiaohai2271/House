@@ -9,7 +9,7 @@ import lombok.Data;
  * @description：
  */
 @Data
-public class UserVO extends BaseVO<User> {
+public class UserVO implements BaseVO<User> {
     private Integer id;
 
     private String email;

@@ -8,22 +8,22 @@ import org.springframework.beans.BeanUtils;
  * @date： 2021/06/05 11:34
  * @description：
  */
-public abstract class BaseEntity<T, ID> {
+public interface BaseEntity<T, ID> {
     /**
      * 返回主键值
      *
      * @return 主键值
      */
-    public abstract ID getPrimaryKey();
+    ID getPrimaryKey();
 
     /**
      * 定义返回成ViewObject的逻辑
      *
      * @return 对应的ViewObject
      */
-    public abstract <VO extends BaseVO<?>> VO toViewObject();
+    <VO extends BaseVO<?>> VO toViewObject();
 
-    protected final <VO extends BaseVO<?>> VO beanCopy(T entity, VO vo) {
+    default <VO extends BaseVO<?>> VO beanCopy(T entity, VO vo) {
         BeanUtils.copyProperties(entity, vo);
         return vo;
     }

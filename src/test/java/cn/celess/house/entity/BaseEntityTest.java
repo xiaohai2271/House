@@ -1,18 +1,19 @@
 package cn.celess.house.entity;
 
 import cn.celess.house.AbstractTest;
+import cn.celess.house.entity.dto.BaseDTO;
 import cn.celess.house.entity.vo.BaseVO;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BaseEntityTest extends AbstractTest {
-    static class TestVO extends BaseVO<TestEntity> {
+    static class TestVO implements BaseVO<TestEntity> {
         private int id;
         private String name;
     }
 
-    static class TestEntity extends BaseEntity<TestEntity, Integer> {
+    static class TestEntity implements BaseEntity<TestEntity, Integer>, BaseDTO<TestEntity> {
         private int id;
         private String name;
 
@@ -22,8 +23,12 @@ class BaseEntityTest extends AbstractTest {
         }
 
         @Override
-//      或者  public TestVO toViewObject() {
-        public BaseVO<TestEntity> toViewObject() {
+        public TestEntity toEntity() {
+            return this;
+        }
+
+        @Override
+        public TestVO toViewObject() {
             return beanCopy(this, new TestVO());
         }
     }
@@ -31,7 +36,7 @@ class BaseEntityTest extends AbstractTest {
     @Test
     void beanCopy() {
         TestEntity testEntity = new TestEntity();
-        TestVO testVO = (TestVO) testEntity.toViewObject();
+        TestVO testVO = testEntity.toViewObject();
         assertEquals(testEntity.id, testVO.id);
         assertEquals(testEntity.name, testVO.name);
     }

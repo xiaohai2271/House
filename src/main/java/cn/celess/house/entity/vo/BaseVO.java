@@ -8,6 +8,5 @@ import lombok.Data;
  * @date： 2021/06/05 14:51
  * @description：
  */
-@Data
-public class BaseVO<T extends BaseEntity<T, ?>> {
+public interface BaseVO<T extends BaseEntity<T, ?>> {
 }
