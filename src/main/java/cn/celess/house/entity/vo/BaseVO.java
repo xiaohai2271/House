@@ -1,5 +1,6 @@
 package cn.celess.house.entity.vo;
 
+import cn.celess.house.entity.BaseEntity;
 import lombok.Data;
 
 /**
@@ -8,5 +9,5 @@ import lombok.Data;
  * @description：
  */
 @Data
-public class BaseVO<T> {
+public class BaseVO<T extends BaseEntity<T, ?>> {
 }

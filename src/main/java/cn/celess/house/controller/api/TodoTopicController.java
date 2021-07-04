@@ -31,11 +31,7 @@ public class TodoTopicController {
         if (topicDto.getId() != null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NOT_NULL);
         }
-        return ResponseUtil.success(
-                todoTopicService.insert(
-                        topicDto.toEntity()
-                ).toViewObject()
-        );
+        return ResponseUtil.success(todoTopicService.insert(topicDto));
     }
 
     @PutMapping("/delete/{id}")
@@ -59,21 +55,16 @@ public class TodoTopicController {
         if (topicDto.getId() == null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NULL);
         }
-        return ResponseUtil.success(todoTopicService.update(topicDto.toEntity()).toViewObject());
+        return ResponseUtil.success(todoTopicService.update(topicDto));
     }
 
     @GetMapping("/{id}")
     public Response<TodoTopicVO> queryOne(@PathVariable("id") Integer id) {
-        return ResponseUtil.success(
-                todoTopicService.queryById(id).toViewObject()
-        );
+        return ResponseUtil.success(todoTopicService.queryById(id));
     }
 
     @GetMapping("/")
     public Response<List<TodoTopicVO>> query() {
-        return ResponseUtil.success(todoTopicService.queryAll()
-                .stream()
-                .map(TodoTopic::toViewObject)
-                .collect(Collectors.toList()));
+        return ResponseUtil.success(todoTopicService.queryAll());
     }
 }

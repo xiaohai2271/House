@@ -35,9 +35,6 @@ public class TodoTopic extends BaseEntity<TodoTopic, Integer> {
 
     private String icon;
 
-    @Transient
-    private List<TodoItem> todos;
-
     @Override
     public Integer getPrimaryKey() {
         return id;
@@ -45,10 +42,6 @@ public class TodoTopic extends BaseEntity<TodoTopic, Integer> {
 
     @Override
     public TodoTopicVO toViewObject() {
-        TodoTopicVO todoTopicVO = super.beanCopy(this, new TodoTopicVO());
-        if (this.todos != null && this.todos.size() > 0) {
-            todoTopicVO.setItems(this.todos.stream().map(TodoItem::toViewObject).collect(Collectors.toList()));
-        }
-        return todoTopicVO;
+        return super.beanCopy(this, new TodoTopicVO());
     }
 }

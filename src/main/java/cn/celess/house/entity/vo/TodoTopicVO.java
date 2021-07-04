@@ -1,5 +1,6 @@
 package cn.celess.house.entity.vo;
 
+import cn.celess.house.entity.TodoTopic;
 import lombok.Data;
 
 import java.util.Date;
@@ -11,19 +12,18 @@ import java.util.List;
  * @description：
  */
 @Data
-public class TodoTopicVO extends BaseVO<TodoTopicVO> {
+public class TodoTopicVO extends BaseVO<TodoTopic> {
     private Integer id;
 
     private String title;
 
     private Date date;
 
-    private Integer userId;
+    private UserVO user;
 
     private String color;
 
     private String icon;
 
     private List<TodoItemVO> items;
-
 }

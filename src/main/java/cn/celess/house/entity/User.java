@@ -1,5 +1,7 @@
 package cn.celess.house.entity;
 
+import cn.celess.house.entity.vo.BaseVO;
+import cn.celess.house.entity.vo.UserVO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,5 +28,10 @@ public class User extends BaseEntity<User, Integer> {
     @Override
     public Integer getPrimaryKey() {
         return id;
+    }
+
+    @Override
+    public BaseVO<?> toViewObject() {
+        return super.beanCopy(this, new UserVO());
     }
 }

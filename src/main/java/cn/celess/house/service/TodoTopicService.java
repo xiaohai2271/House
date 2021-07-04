@@ -1,6 +1,8 @@
 package cn.celess.house.service;
 
 import cn.celess.house.entity.TodoTopic;
+import cn.celess.house.entity.dto.TodoTopicDTO;
+import cn.celess.house.entity.vo.TodoTopicVO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -10,5 +12,5 @@ import org.springframework.stereotype.Service;
  * @since 2021-06-05 00:42:01
  */
 @Service
-public interface TodoTopicService extends IBaseService<TodoTopic, Integer> {
+public interface TodoTopicService extends IBaseService<TodoTopic, Integer, TodoTopicVO, TodoTopicDTO> {
 }

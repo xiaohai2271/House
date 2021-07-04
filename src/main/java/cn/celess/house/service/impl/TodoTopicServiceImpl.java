@@ -2,9 +2,14 @@ package cn.celess.house.service.impl;
 
 import cn.celess.house.dao.TodoItemDao;
 import cn.celess.house.dao.TodoTopicDao;
+import cn.celess.house.entity.TodoItem;
 import cn.celess.house.entity.TodoTopic;
+import cn.celess.house.entity.dto.TodoTopicDTO;
+import cn.celess.house.entity.vo.TodoTopicVO;
+import cn.celess.house.service.TodoItemService;
 import cn.celess.house.service.TodoTopicService;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,29 +22,30 @@ import java.util.stream.Collectors;
  * @description：
  */
 @Service
-public class TodoTopicServiceImpl extends BaseServiceImpl<TodoTopic, Integer, TodoTopicDao> implements TodoTopicService {
+public class TodoTopicServiceImpl extends BaseServiceImpl<TodoTopic, Integer, TodoTopicVO, TodoTopicDTO> implements TodoTopicService {
 
+    @Resource
     private TodoTopicDao todoTopicDao;
 
     @Resource
-    private TodoItemDao todoItemDao;
+    private TodoItemService todoItemService;
 
-    public TodoTopicServiceImpl(TodoTopicDao repository) {
-        super(repository);
-        this.todoTopicDao = repository;
+    @Override
+    public JpaRepository<TodoTopic, Integer> getJpaRepository() {
+        return todoTopicDao;
     }
 
     @Override
-    public TodoTopic queryById(Integer integer) {
-        TodoTopic todoTopic = super.queryById(integer);
-        todoTopic.setTodos(todoItemDao.findAllByTopicId(todoTopic.getId()));
-        return todoTopic;
+    public TodoTopicVO queryById(Integer integer) {
+        TodoTopicVO todoTopicVO = super.queryById(integer);
+        todoTopicVO.setItems(todoItemService.queryAllByTopic(integer));
+        return todoTopicVO;
     }
 
     @Override
-    public List<TodoTopic> queryAll() {
+    public List<TodoTopicVO> queryAll() {
         return super.queryAll().stream()
-                .peek(todoTopic -> todoTopic.setTodos(todoItemDao.findAllByTopicId(todoTopic.getId())))
+                .peek(top -> top.setItems(todoItemService.queryAllByTopic(top.getId())))
                 .collect(Collectors.toList());
     }
 }

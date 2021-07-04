@@ -2,6 +2,8 @@ package cn.celess.house.service;
 
 import cn.celess.house.AbstractTest;
 import cn.celess.house.entity.User;
+import cn.celess.house.entity.dto.UserDTO;
+import cn.celess.house.entity.vo.UserVO;
 import cn.celess.house.util.StringsUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,49 +20,48 @@ public class IBaseServiceTest extends AbstractTest {
 
     @Test
     public void insert() {
-        User user = createUser();
-        userService.insert(user);
-        assertNotNull(user.getId());
+        UserVO insert = userService.insert(createUser());
+        assertNotNull(insert.getId());
     }
 
     @Test
     public void remove() {
-        User user = createUser();
-        userService.insert(user);
+        UserVO insert = userService.insert(createUser());
 
-        assertNotNull(user.getId());
+        assertNotNull(insert.getId());
 
-        assertEquals(user, userService.queryById(user.getId()));
+        assertEquals(insert, userService.queryById(insert.getId()));
     }
 
     @Test
     public void update() {
-        User user = createUser();
-        userService.insert(user);
+        UserDTO user = createUser();
+        UserVO insert = userService.insert(createUser());
 
-        assertNotNull(user.getId());
+        assertNotNull(insert.getId());
 
         user.setPassword(StringsUtil.getMD5("11111111"));
-        userService.update(user);
+        user.setId(insert.getId());
+        UserVO update = userService.update(user);
 
-        assertEquals(user, userService.queryById(user.getId()));
+        assertEquals(update, userService.queryById(insert.getId()));
 
     }
 
     @Test
     public void queryById() {
-        User user = userService.insert(createUser());
+        UserVO user = userService.insert(createUser());
         assertNotNull(user);
     }
 
     @Test
     public void queryAll() {
-        List<User> users = userService.queryAll();
+        List<UserVO> users = userService.queryAll();
         assertTrue(users.size() > 0);
     }
 
-    private User createUser() {
-        User user = new User();
+    private UserDTO createUser() {
+        UserDTO user = new UserDTO();
         user.setEmail("zh56462271@qq.com");
         user.setPassword(StringsUtil.getMD5("123456"));
         return user;

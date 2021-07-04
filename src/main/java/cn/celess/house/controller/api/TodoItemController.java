@@ -32,11 +32,7 @@ public class TodoItemController {
         if (todoItemDTO.getId() != null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NOT_NULL);
         }
-        return ResponseUtil.success(
-                todoItemService.insert(
-                        todoItemDTO.toEntity()
-                ).toViewObject()
-        );
+        return ResponseUtil.success(todoItemService.insert(todoItemDTO));
     }
 
     @PutMapping("/delete/{id}")
@@ -60,16 +56,11 @@ public class TodoItemController {
         if (todoItemDTO.getId() == null) {
             throw new ResponseException(ResponseEnum.PARAMETER_PK_NULL);
         }
-        return ResponseUtil.success(todoItemService.update(todoItemDTO.toEntity()).toViewObject());
+        return ResponseUtil.success(todoItemService.update(todoItemDTO));
     }
 
     @GetMapping("/")
     public Response<List<TodoItemVO>> query() {
-        return ResponseUtil.success(
-                todoItemService.queryAll()
-                        .stream()
-                        .map(TodoItem::toViewObject)
-                        .collect(Collectors.toList())
-        );
+        return ResponseUtil.success(todoItemService.queryAll());
     }
 }

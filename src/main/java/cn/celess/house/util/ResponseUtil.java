@@ -17,7 +17,7 @@ public class ResponseUtil {
      * @param data 响应的具体数据
      * @return Response
      */
-    public static <T extends BaseVO<T>> Response<T> success(T data) {
+    public static <T extends BaseVO<?>> Response<T> success(T data) {
         return new Response<T>(ResponseEnum.SUCCESS, data);
     }
 

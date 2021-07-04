@@ -1,7 +1,7 @@
 package cn.celess.house.entity.vo;
 
+import cn.celess.house.entity.TodoItem;
 import lombok.Data;
-import lombok.ToString;
 
 import java.util.Date;
 
@@ -11,14 +11,14 @@ import java.util.Date;
  * @description：
  */
 @Data
-public class TodoItemVO extends BaseVO<TodoItemVO> {
+public class TodoItemVO extends BaseVO<TodoItem> {
     private Integer id;
 
     private String title;
 
     private String description;
 
-    private Integer topicId;
+    private TodoTopicVO topic;
 
     private Boolean done;
     

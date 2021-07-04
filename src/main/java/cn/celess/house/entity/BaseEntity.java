@@ -16,11 +16,14 @@ public abstract class BaseEntity<T, ID> {
      */
     public abstract ID getPrimaryKey();
 
-    public BaseVO<?> toViewObject() {
-        return null;
-    }
+    /**
+     * 定义返回成ViewObject的逻辑
+     *
+     * @return 对应的ViewObject
+     */
+    public abstract <VO extends BaseVO<?>> VO toViewObject();
 
-    protected  final <VO extends BaseVO<VO>> VO beanCopy(T entity, VO vo) {
+    protected final <VO extends BaseVO<?>> VO beanCopy(T entity, VO vo) {
         BeanUtils.copyProperties(entity, vo);
         return vo;
     }

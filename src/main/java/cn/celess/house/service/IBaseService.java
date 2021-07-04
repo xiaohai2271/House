@@ -1,5 +1,8 @@
 package cn.celess.house.service;
 
+import cn.celess.house.entity.BaseEntity;
+import cn.celess.house.entity.dto.BaseDTO;
+import cn.celess.house.entity.vo.BaseVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,14 +13,14 @@ import java.util.Map;
  * @date： 2021/06/05 00:42
  * @description：
  */
-public interface IBaseService<T, IDTYPE> {
+public interface IBaseService<E extends BaseEntity<E, IDTYPE>, IDTYPE, VO, DTO> {
     /**
      * 新增数据
      *
      * @param t 数据
      * @return 新增后的数据
      */
-    T insert(T t);
+    VO insert(DTO t);
 
     /**
      * 删除数据
@@ -41,7 +44,7 @@ public interface IBaseService<T, IDTYPE> {
      * @param t 数据
      * @return 更新后的数据
      */
-    T update(T t);
+    VO update(DTO t);
 
     /**
      * 查询数据
@@ -49,12 +52,12 @@ public interface IBaseService<T, IDTYPE> {
      * @param id id
      * @return 数据
      */
-    T queryById(IDTYPE id);
+    VO queryById(IDTYPE id);
 
     /**
      * 查询数据
      *
      * @return 所有数据
      */
-    List<T> queryAll();
+    List<VO> queryAll();
 }

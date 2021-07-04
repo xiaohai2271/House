@@ -2,8 +2,13 @@ package cn.celess.house.service.impl;
 
 import cn.celess.house.dao.UserDao;
 import cn.celess.house.entity.User;
+import cn.celess.house.entity.dto.UserDTO;
+import cn.celess.house.entity.vo.UserVO;
 import cn.celess.house.service.UserService;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 /**
  * @author: 小海
@@ -11,11 +16,12 @@ import org.springframework.stereotype.Service;
  * @description：
  */
 @Service
-public class UserServiceImpl extends BaseServiceImpl<User, Integer, UserDao> implements UserService {
-    private final UserDao userDao;
+public class UserServiceImpl extends BaseServiceImpl<User, Integer, UserVO, UserDTO> implements UserService {
+    @Resource
+    private UserDao userDao;
 
-    public UserServiceImpl(UserDao userDao) {
-        super(userDao);
-        this.userDao = userDao;
+    @Override
+    public JpaRepository<User, Integer> getJpaRepository() {
+        return userDao;
     }
 }

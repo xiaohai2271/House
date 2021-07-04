@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BaseEntityTest extends AbstractTest {
-    static class TestVO extends BaseVO<TestVO> {
+    static class TestVO extends BaseVO<TestEntity> {
         private int id;
         private String name;
     }
@@ -23,7 +23,7 @@ class BaseEntityTest extends AbstractTest {
 
         @Override
 //      或者  public TestVO toViewObject() {
-        public BaseVO<TestVO> toViewObject() {
+        public BaseVO<TestEntity> toViewObject() {
             return beanCopy(this, new TestVO());
         }
     }
