@@ -1,6 +1,7 @@
 package cn.celess.house.service.impl;
 
 import cn.celess.house.dao.TodoItemDao;
+import cn.celess.house.dao.TodoTopicDao;
 import cn.celess.house.entity.TodoItem;
 import cn.celess.house.entity.vo.TodoItemVO;
 import cn.celess.house.entity.dto.TodoItemDTO;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
 public class TodoItemServiceImpl extends BaseServiceImpl<TodoItem, Integer, TodoItemVO, TodoItemDTO> implements TodoItemService {
     @Resource
     private TodoItemDao todoItemDao;
+    @Resource
+    private TodoTopicDao todoTopicDao;
 
     @Override
     public JpaRepository<TodoItem, Integer> getJpaRepository() {
@@ -40,5 +44,12 @@ public class TodoItemServiceImpl extends BaseServiceImpl<TodoItem, Integer, Todo
                 .stream()
                 .map(TodoItem::toViewObject)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public TodoItemVO afterExecution(TodoItem entity, Function<TodoItem, TodoItemVO> function) {
+        TodoItemVO vo = super.afterExecution(entity, function);
+        vo.setTopic(todoTopicDao.getById(entity.getTopicId()).toViewObject());
+        return vo;
     }
 }

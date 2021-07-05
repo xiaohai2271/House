@@ -7,9 +7,10 @@ import cn.celess.house.enums.ResponseEnum;
 import cn.celess.house.exception.ResponseException;
 import cn.celess.house.service.IBaseService;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -21,13 +22,23 @@ public abstract class BaseServiceImpl<E extends BaseEntity<E, ID>, ID, VO extend
 
     public abstract JpaRepository<E, ID> getJpaRepository();
 
-    @Override
-    public VO insert(DTO t) {
-        checkNotNull(t);
-        return getJpaRepository().save(t.toEntity()).toViewObject();
+    protected final Function<E, VO> defaultConsumer = E::toViewObject;
+
+    public VO afterExecution(E entity, Function<E, VO> function) {
+        // just for fuck jpa many relationship
+        // if any good idea, I will try to replace this
+        return function.apply(entity);
     }
 
     @Override
+    @Transactional
+    public VO insert(DTO t) {
+        checkNotNull(t);
+        return afterExecution(getJpaRepository().save(t.toEntity()), defaultConsumer);
+    }
+
+    @Override
+    @Transactional
     public boolean remove(ID id) {
         checkNotNull(id);
         getJpaRepository().deleteById(id);
@@ -35,6 +46,7 @@ public abstract class BaseServiceImpl<E extends BaseEntity<E, ID>, ID, VO extend
     }
 
     @Override
+    @Transactional
     public boolean remove(ID[] ids) {
         checkNotNull(ids);
         getJpaRepository().deleteAllByIdInBatch(List.of(ids));
@@ -42,27 +54,30 @@ public abstract class BaseServiceImpl<E extends BaseEntity<E, ID>, ID, VO extend
     }
 
     @Override
+    @Transactional
     public VO update(DTO t) {
         checkNotNull(t);
         E entity = t.toEntity();
         if (entity.getPrimaryKey() != null) {
-            return getJpaRepository().save(entity).toViewObject();
+            return afterExecution(getJpaRepository().save(entity), defaultConsumer);
         }
         throw new ResponseException(ResponseEnum.PARAMETER_PK_NULL);
     }
 
     @Override
+    @Transactional
     public VO queryById(ID id) {
         checkNotNull(id);
         E e = getJpaRepository().findById(id).orElse(null);
-        return e != null ? e.toViewObject() : null;
+        return e != null ? afterExecution(e, defaultConsumer) : null;
     }
 
     @Override
+    @Transactional
     public List<VO> queryAll() {
         return getJpaRepository().findAll()
                 .stream()
-                .map(e -> (VO) e.toViewObject())
+                .map(e -> afterExecution(e, defaultConsumer))
                 .collect(Collectors.toList());
     }
 
