@@ -49,6 +49,9 @@ public class TodoItemServiceImpl extends BaseServiceImpl<TodoItem, Integer, Todo
     @Override
     public TodoItemVO afterExecution(TodoItem entity, Function<TodoItem, TodoItemVO> function) {
         TodoItemVO vo = super.afterExecution(entity, function);
+        if (entity.getTopicId() == null) {
+            return vo;
+        }
         vo.setTopic(todoTopicDao.getById(entity.getTopicId()).toViewObject());
         return vo;
     }
