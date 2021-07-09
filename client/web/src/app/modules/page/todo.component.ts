@@ -51,6 +51,7 @@ export class TodoComponent implements OnInit {
    */
   drawer: DrawerData = {
     visible: false,
+    editable: false,
     data: null,
     dataChanged: false,
     close: () => {
@@ -63,7 +64,7 @@ export class TodoComponent implements OnInit {
         description: this.drawer.data?.description,
         id: this.drawer.data?.id,
         title: this.drawer.data?.title,
-        topicId: this.drawer.data?.topicId,
+        topicId: this.drawer.data?.topic.id,
         done: this.drawer.data?.done
       }
       TodoItemApis.update(reqData)
@@ -91,9 +92,10 @@ export class TodoComponent implements OnInit {
     return false
   }
 
-  showItemDetail(data: TodoItemVO) {
+  showItemDetail(data: TodoItemVO, editMode: boolean = false) {
     this.drawer.visible = true;
     this.drawer.data = data;
+    this.drawer.editable = editMode;
   }
 
   createTopic(e: TodoTopic) {

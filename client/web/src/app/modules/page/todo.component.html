@@ -24,7 +24,7 @@
             <ng-container *ngFor="let item of todoService.topic?.items">
               <app-todo-item [data]="item"
                              (onDelete)="deleteItem($event)"
-                             (onEdit)="showItemDetail($event)"
+                             (onEdit)="showItemDetail($event,true)"
                              (contentClick)="showItemDetail(item)"
                              (onUpdate)="updateTodoItem($event)"
               ></app-todo-item>

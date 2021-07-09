@@ -8,8 +8,7 @@ export class TodoItemVO {
   done: boolean;
   id: number;
   title: string;
-  topicId: number;
+  topic?: TodoTopicVO;
 
   unDoneCount: number;
-  topic?: TodoTopicVO;
 }

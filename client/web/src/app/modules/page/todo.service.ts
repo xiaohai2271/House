@@ -4,6 +4,7 @@ import {MenuItemInfo, MENU} from "./utils/Menu";
 import {TodoItemVO} from "../entity/viewobject/TodoItemVO";
 import {TodoItemApis, TopicApis} from "../../http/apis";
 import {isTodoTopicVO} from "./utils/Types";
+import {Observable, Observer} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +18,16 @@ export class TodoService {
     })
     TodoItemApis.query().subscribe(obs => {
       this.itemList = obs.data;
-      if (this.topicList == null) {
-        setTimeout(this.setItemTopic, 1000)
-      } else {
-        this.setItemTopic();
-      }
+      // if (this.topicList == null) {
+      //   setTimeout(this.setItemTopic, 1000)
+      // } else {
+      //   this.setItemTopic();
+      // }
       this.initMenuItemInfo();
     })
     this.topic = this.menuItemInfos.all
+    new Observable<TodoTopicVO>(obs => this._topicObserver = obs)
+      .subscribe(obs => obs.items = this.itemList?.filter(it => it.topic?.id == obs.id))
   }
 
   public menuItemInfos: { [name: string]: MenuItemInfo } = {
@@ -35,7 +38,8 @@ export class TodoService {
   }
   public topicList: TodoTopicVO[] = [];
   public itemList: TodoItemVO[] = [];
-  public topic: TodoTopicVO | MenuItemInfo;
+  private _topic: TodoTopicVO | MenuItemInfo;
+  private _topicObserver: Observer<TodoTopicVO>;
   public menuInfo: MenuItemInfo[] = [];
 
 
@@ -65,7 +69,6 @@ export class TodoService {
    */
   calUnDoneCount(topic: TodoTopicVO, menuItem: MenuItemInfo): number {
     const filterRule = topic => !topic.done;
-    // if (!id) topic?.items?.filter(filterRule).length
     switch (menuItem?.menuInfo) {
       case MENU.all:
         return this.itemList.filter(filterRule).length || null
@@ -80,17 +83,15 @@ export class TodoService {
     }
   }
 
-  /**
-   * 设置待办事项的主题
-   */
-  private setItemTopic = () => {
-    isTodoTopicVO(this.topic) ?
-      this.topic.items.forEach(it => {
-        let topicRes = this.topicList.filter(top => top.id == it.topicId)
-        it.topic = topicRes ? topicRes[0] : null;
-      })
-      :
-      null
+  set topic(topic: TodoTopicVO | MenuItemInfo) {
+    this._topic = topic;
+    if (isTodoTopicVO(topic))
+      this._topicObserver.next(topic);
+    else
+      this.initMenuItemInfo();
   }
 
+  get topic(): TodoTopicVO | MenuItemInfo {
+    return this._topic;
+  }
 }

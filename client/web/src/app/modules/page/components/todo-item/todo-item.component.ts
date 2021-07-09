@@ -75,7 +75,7 @@ export class TodoItemComponent implements OnInit {
       done: this.data.done,
       id: this.data.id,
       title: this.data.title,
-      topicId: this.data.topic?.id || this.data.topicId
+      topicId: this.data.topic?.id
     })
   }
 
