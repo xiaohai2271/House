@@ -10,7 +10,7 @@ import {TodoService} from "./todo.service";
 import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
 import {clearTime, isEqual} from "./utils/Date";
 import {formatDate} from "@angular/common";
-import {createModalData, isTodoTopicVO, ModalData} from "./utils/Types";
+import {copyOf, createModalData, isTodoTopicVO, ModalData} from "./utils/Types";
 
 @Component({
   selector: 'app-todo',
@@ -67,7 +67,19 @@ export class TodoComponent implements OnInit {
         topicId: this.drawer.data?.topic.id,
         done: this.drawer.data?.done
       }
-      TodoItemApis.update(reqData)
+      TodoItemApis.update(reqData).subscribe(obs => {
+        if (obs.code == 0) {
+          this.notification.blank(
+            '更新成功😊',
+            ''
+          );
+        } else {
+          this.notification.blank(
+            '更新失败😣',
+            obs.msg
+          );
+        }
+      })
     },
     deleteItem: (data: TodoItemVO) => this.deleteItem(data)
   };
@@ -94,7 +106,7 @@ export class TodoComponent implements OnInit {
 
   showItemDetail(data: TodoItemVO, editMode: boolean = false) {
     this.drawer.visible = true;
-    this.drawer.data = data;
+    this.drawer.data = copyOf(data);
     this.drawer.editable = editMode;
   }
 

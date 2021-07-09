@@ -8,25 +8,48 @@
   </div>
   <div class="drawer-content">
     <div class="drawer-content-card">
-          <span *ngIf="drawer?.data?.topic">
-            <i nz-icon nzIconfont="icon-send-l"></i>
-            {{drawer?.data?.topic?.title}}
-          </span>
-      <span *ngIf="!drawer?.data?.topic">
-          <i nz-icon nzIconfont="icon-Plus1"></i>
-            添加主题
-          </span>
+      <i class="drawer-content-card-icon" nz-icon [nzIconfont]="drawer?.data?.topic?'icon-send-l':'icon-Plus1'"></i>
+      <div class="drawer-content-card-right">
+        <ng-container *ngIf="!drawer.editable">
+          <span *ngIf="drawer?.data?.topic">{{drawer?.data?.topic?.title}}</span>
+          <span *ngIf="!drawer?.data?.topic">添加主题</span>
+        </ng-container>
+        <ng-container *ngIf="drawer.editable">
+          <nz-select nzShowSearch
+                     nzAllowClear
+                     nzSize="large"
+                     style="width: 100%"
+                     (ngModelChange)="dataChanged()"
+                     nzPlaceHolder="选择一个合适的主题吧"
+                     [(ngModel)]="drawer.data.topic">
+            <nz-option *ngFor="let option of todoService.topicList"
+                       [nzLabel]="option.title"
+                       [nzValue]="option">
+            </nz-option>
+          </nz-select>
+        </ng-container>
+      </div>
     </div>
 
     <div class="drawer-content-card">
-          <span *ngIf="drawer?.data?.deadlineDate">
-            <i nz-icon nzIconfont="icon-rili"></i>
+      <i class="drawer-content-card-icon" nz-icon [nzIconfont]="drawer?.data?.deadlineDate?'icon-rili':'icon-Plus1'">
+      </i>
+      <div class="drawer-content-card-right">
+        <span *ngIf="drawer?.data?.deadlineDate && !drawer.editable">
             {{drawer?.data?.deadlineDate | date:'yyy/MM/dd HH:mm, EEEE'}}
-          </span>
-      <span *ngIf="!drawer?.data?.deadlineDate">
-          <i nz-icon nzIconfont="icon-Plus1"></i>
-            添加截止日期
-          </span>
+        </span>
+        <span *ngIf="!drawer.editable && !drawer?.data?.deadlineDate">添加截止日期</span>
+        <nz-date-picker
+          nzShowTime
+          nzSize="large"
+          style="width: 100%;"
+          *ngIf="drawer.editable"
+          (ngModelChange)="dataChanged()"
+          nzFormat="yyyy-MM-dd HH:mm:ss"
+          nzPlaceHolder="添加截止日期"
+          [(ngModel)]="drawer.data.deadlineDate"
+        ></nz-date-picker>
+      </div>
     </div>
 
     <div class="drawer-content-card">
@@ -35,30 +58,32 @@
       <!--            {{drawer?.data?.deadlineDate | date:'yyy/MM/dd HH:mm, EEEE'}}-->
       <!--          </span>-->
       <!--          <span *ngIf="!drawer?.data?.deadlineDate">-->
-      <i nz-icon nzIconfont="icon-Plus1"></i>
-      添加为打卡事件
+      <i class="drawer-content-card-icon" nz-icon nzIconfont="icon-Plus1"></i>
+      <div class="drawer-content-card-right">
+        <span>添加为打卡事件</span>
+      </div>
       <!--          </span>-->
     </div>
 
     <div class="drawer-content-card">
-          <span *ngIf="drawer?.data?.description">
-            <i nz-icon nzIconfont="icon-plan"></i>
-            {{drawer?.data?.description}}
-          </span>
-      <span *ngIf="!drawer?.data?.description">
-          <i nz-icon nzIconfont="icon-Plus1"></i>
-            添加截止备注
-          </span>
+      <i class="drawer-content-card-icon" nz-icon [nzIconfont]="drawer?.data?.description?'icon-plan':'icon-Plus1'"></i>
+      <div class="drawer-content-card-right">
+        <span *ngIf="drawer?.data?.description && !drawer?.editable">{{drawer?.data?.description}}</span>
+        <span *ngIf="!drawer?.data?.description && !drawer?.editable">添加截止备注</span>
+        <textarea nz-input
+                  [(ngModel)]="drawer.data.description"
+                  [nzAutosize]="{ minRows: 2, maxRows: 8 }"
+                  *ngIf="drawer?.editable" (ngModelChange)="dataChanged()"></textarea>
+      </div>
     </div>
   </div>
   <div class="drawer-footer">
-    <i nz-icon nzType="right" nzTheme="outline" class="drawer-footer-back" (click)="drawer.visible = false"></i>
+    <i nz-icon nzType="right" nzTheme="outline" class="drawer-footer-back" (click)="goBack()"></i>
     <div *ngIf="drawer?.data" class="drawer-footer-content">
           <span *ngIf="!drawer?.data.done">
             创建于 {{drawer?.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}
           </span>
-      <span *ngIf="drawer?.data.done"
-            title="创建于 {{drawer?.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}">
+      <span *ngIf="drawer?.data.done" title="创建于 {{drawer?.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}">
             完成于 {{drawer?.data.completeDate|date:'yyy/MM/dd HH:mm, EEEE'}}
           </span>
     </div>

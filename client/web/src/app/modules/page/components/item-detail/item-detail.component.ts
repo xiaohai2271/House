@@ -1,12 +1,14 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {TodoItemVO} from "../../../entity/viewobject/TodoItemVO";
+import {TodoService} from "../../todo.service";
 
 export interface DrawerData {
   visible: boolean,
   data?: TodoItemVO,
   close: () => void,
   dataChanged: boolean,
-  deleteItem: (data: TodoItemVO) => boolean
+  deleteItem: (data: TodoItemVO) => boolean,
+  editable: boolean
 }
 
 @Component({
@@ -19,7 +21,8 @@ export class ItemDetailComponent implements OnInit {
   @Input() drawer: DrawerData;
   @Output() drawerChange: EventEmitter<DrawerData> = new EventEmitter<DrawerData>();
 
-  constructor() {
+
+  constructor(public todoService: TodoService) {
   }
 
   ngOnInit(): void {
@@ -28,5 +31,14 @@ export class ItemDetailComponent implements OnInit {
   deleteItem(data: TodoItemVO) {
     this.drawer.deleteItem(data);
     this.drawer.visible = false;
+  }
+
+  goBack() {
+    this.drawer.dataChanged = false;
+    this.drawer.close();
+  }
+
+  dataChanged() {
+    this.drawer.dataChanged = true;
   }
 }

@@ -18,11 +18,6 @@ export class TodoService {
     })
     TodoItemApis.query().subscribe(obs => {
       this.itemList = obs.data;
-      // if (this.topicList == null) {
-      //   setTimeout(this.setItemTopic, 1000)
-      // } else {
-      //   this.setItemTopic();
-      // }
       this.initMenuItemInfo();
     })
     this.topic = this.menuItemInfos.all

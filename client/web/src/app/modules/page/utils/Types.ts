@@ -23,3 +23,12 @@ export function createModalData<T>(modalData?: ModalData<T>): ModalData<T> {
   obj.onClose = modalData.onClose || obj.onClose;
   return obj;
 }
+
+
+export function copyOf<T>(src: any): T {
+  let result = <T>{};
+  for (let id in src) {
+    (<any>result)[id] = (<any>src)[id];
+  }
+  return result;
+}
