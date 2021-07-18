@@ -8,14 +8,19 @@
   </div>
   <input nz-input
          type="text"
+         #titleInput
          [(ngModel)]="data.title"
          nzBorderless
          nzSize="large"
          class="input"
+         (keyup.enter)="onOkClick()"
+         (keyup.escape)="onCancel.emit()"
          placeholder="今天想做些什么呢？">
   <textarea nz-input
             [(ngModel)]="data.desc"
             nzBorderless
+            (keyup.enter)="onOkClick()"
+            (keyup.escape)="onCancel.emit()"
             class="input desc"
             placeholder="今天有啥特别的事呢？备注一下吧！"
             [nzAutosize]="{ minRows: 2, maxRows: 8 }"></textarea>
