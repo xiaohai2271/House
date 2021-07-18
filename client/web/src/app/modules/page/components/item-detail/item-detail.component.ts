@@ -1,4 +1,12 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import {TodoItemVO} from "../../../entity/viewobject/TodoItemVO";
 import {TodoService} from "../../todo.service";
 
@@ -16,7 +24,7 @@ export interface DrawerData {
   templateUrl: './item-detail.component.html',
   styleUrls: ['./item-detail.component.less']
 })
-export class ItemDetailComponent implements OnChanges {
+export class ItemDetailComponent implements OnChanges, OnInit, OnDestroy {
 
   @Input() drawer: DrawerData;
   @Output() drawerChange: EventEmitter<DrawerData> = new EventEmitter<DrawerData>();
@@ -24,6 +32,13 @@ export class ItemDetailComponent implements OnChanges {
   constructor(public todoService: TodoService) {
   }
 
+  ngOnInit(): void {
+    document.addEventListener("keyup", this.eventListener);
+  }
+
+  ngOnDestroy(): void {
+    document.removeEventListener("keyup", this.eventListener)
+  }
 
   ngOnChanges(): void {
     if (this.drawer.data) {
@@ -36,11 +51,13 @@ export class ItemDetailComponent implements OnChanges {
     this.drawer.visible = false;
   }
 
-  dataChanged() {
-
-  }
-
   inEditMode = () => {
     this.drawer.editable = true;
+  }
+
+  private eventListener = (e: KeyboardEvent) => {
+    if (!this.drawer.visible) return
+    if (e.code == 'Escape') this.drawer.editable = false;
+    if (e.code == 'Enter') this.drawer.close();
   }
 }

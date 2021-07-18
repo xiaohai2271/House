@@ -1,4 +1,4 @@
-<div class="drawer-main">
+<div class="drawer-main" id="drawerMain">
   <div class="drawer-header">
     <i *ngIf="!drawer?.data?.done" class="task" nz-icon nzIconfont="icon-all_noselects"></i>
     <i *ngIf="drawer?.data?.done" class="done" nz-icon nzIconfont="icon-Done"></i>
@@ -19,7 +19,6 @@
                      nzAllowClear
                      nzSize="large"
                      style="width: 100%"
-                     (ngModelChange)="dataChanged()"
                      nzPlaceHolder="选择一个合适的主题吧"
                      [(ngModel)]="drawer.data.topic">
             <nz-option *ngFor="let option of todoService.topicList"
@@ -44,7 +43,6 @@
           nzSize="large"
           style="width: 100%;"
           *ngIf="drawer.editable"
-          (ngModelChange)="dataChanged()"
           nzFormat="yyyy-MM-dd HH:mm:ss"
           nzPlaceHolder="添加截止日期"
           [(ngModel)]="drawer.data.deadlineDate"
@@ -74,7 +72,7 @@
         <textarea nz-input
                   [(ngModel)]="drawer.data.description"
                   [nzAutosize]="{ minRows: 2, maxRows: 8 }"
-                  *ngIf="drawer?.editable" (ngModelChange)="dataChanged()"></textarea>
+                  *ngIf="drawer?.editable"></textarea>
       </div>
     </div>
   </div>
