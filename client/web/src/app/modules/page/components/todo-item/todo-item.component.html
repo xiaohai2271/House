@@ -30,7 +30,10 @@
         <i nz-icon nzIconfont="icon-movedown"></i>移动到
       </ng-template>
       <ul>
-        <li nz-menu-item *ngFor="let top of todoService.topicList" (click)="setTopic(top)">
+        <li nz-menu-item
+            *ngFor="let top of todoService.topicList"
+            (click)="setTopic(top)"
+            [nzDisabled]="data.topic?.id == top.id">
           <i nz-icon nzIconfont="icon-liebiao"></i>{{top.title}}
         </li>
       </ul>

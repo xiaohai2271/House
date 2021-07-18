@@ -96,6 +96,9 @@ export class TodoItemComponent implements OnInit {
   }
 
   setTopic = (top: TodoTopicVO) => {
+    if (top.id == this.data.topic?.id) {
+      return
+    }
     this.data.topic = top;
     this.update()
   }
