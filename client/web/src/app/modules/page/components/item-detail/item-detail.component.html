@@ -11,8 +11,8 @@
       <i class="drawer-content-card-icon" nz-icon [nzIconfont]="drawer?.data?.topic?'icon-send-l':'icon-Plus1'"></i>
       <div class="drawer-content-card-right">
         <ng-container *ngIf="!drawer.editable">
-          <span *ngIf="drawer?.data?.topic">{{drawer?.data?.topic?.title}}</span>
-          <span *ngIf="!drawer?.data?.topic">添加主题</span>
+          <span *ngIf="drawer?.data?.topic" (click)="inEditMode()">{{drawer?.data?.topic?.title}}</span>
+          <span *ngIf="!drawer?.data?.topic" (click)="inEditMode()">添加主题</span>
         </ng-container>
         <ng-container *ngIf="drawer.editable">
           <nz-select nzShowSearch
@@ -35,10 +35,10 @@
       <i class="drawer-content-card-icon" nz-icon [nzIconfont]="drawer?.data?.deadlineDate?'icon-rili':'icon-Plus1'">
       </i>
       <div class="drawer-content-card-right">
-        <span *ngIf="drawer?.data?.deadlineDate && !drawer.editable">
+        <span *ngIf="drawer?.data?.deadlineDate && !drawer.editable" (click)="inEditMode()">
             {{drawer?.data?.deadlineDate | date:'yyy/MM/dd HH:mm, EEEE'}}
         </span>
-        <span *ngIf="!drawer.editable && !drawer?.data?.deadlineDate">添加截止日期</span>
+        <span *ngIf="!drawer.editable && !drawer?.data?.deadlineDate" (click)="inEditMode()">添加截止日期</span>
         <nz-date-picker
           nzShowTime
           nzSize="large"
@@ -60,7 +60,7 @@
       <!--          <span *ngIf="!drawer?.data?.deadlineDate">-->
       <i class="drawer-content-card-icon" nz-icon nzIconfont="icon-Plus1"></i>
       <div class="drawer-content-card-right">
-        <span>添加为打卡事件</span>
+        <span (click)="inEditMode()">添加为打卡事件</span>
       </div>
       <!--          </span>-->
     </div>
@@ -68,8 +68,9 @@
     <div class="drawer-content-card">
       <i class="drawer-content-card-icon" nz-icon [nzIconfont]="drawer?.data?.description?'icon-plan':'icon-Plus1'"></i>
       <div class="drawer-content-card-right">
-        <span *ngIf="drawer?.data?.description && !drawer?.editable">{{drawer?.data?.description}}</span>
-        <span *ngIf="!drawer?.data?.description && !drawer?.editable">添加截止备注</span>
+        <span *ngIf="drawer?.data?.description && !drawer?.editable"
+              (click)="inEditMode()">{{drawer?.data?.description}}</span>
+        <span *ngIf="!drawer?.data?.description && !drawer?.editable" (click)="inEditMode()">添加备注</span>
         <textarea nz-input
                   [(ngModel)]="drawer.data.description"
                   [nzAutosize]="{ minRows: 2, maxRows: 8 }"
@@ -78,7 +79,7 @@
     </div>
   </div>
   <div class="drawer-footer">
-    <i nz-icon nzType="right" nzTheme="outline" class="drawer-footer-back" (click)="goBack()"></i>
+    <i nz-icon nzType="right" nzTheme="outline" class="drawer-footer-back" (click)="this.drawer.close"></i>
     <div *ngIf="drawer?.data" class="drawer-footer-content">
           <span *ngIf="!drawer?.data.done">
             创建于 {{drawer?.data.createDate|date:'yyy/MM/dd HH:mm, EEEE'}}

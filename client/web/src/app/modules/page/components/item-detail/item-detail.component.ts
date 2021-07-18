@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {TodoItemVO} from "../../../entity/viewobject/TodoItemVO";
 import {TodoService} from "../../todo.service";
 
@@ -6,7 +6,7 @@ export interface DrawerData {
   visible: boolean,
   data?: TodoItemVO,
   close: () => void,
-  dataChanged: boolean,
+  checkDataChange: (oldVal: TodoItemVO, newVal: TodoItemVO) => boolean
   deleteItem: (data: TodoItemVO) => boolean,
   editable: boolean
 }
@@ -16,16 +16,19 @@ export interface DrawerData {
   templateUrl: './item-detail.component.html',
   styleUrls: ['./item-detail.component.less']
 })
-export class ItemDetailComponent implements OnInit {
+export class ItemDetailComponent implements OnChanges {
 
   @Input() drawer: DrawerData;
   @Output() drawerChange: EventEmitter<DrawerData> = new EventEmitter<DrawerData>();
 
-
   constructor(public todoService: TodoService) {
   }
 
-  ngOnInit(): void {
+
+  ngOnChanges(): void {
+    if (this.drawer.data) {
+      this.drawer.data.topic = this.todoService.topicList.filter(top => top.id == this.drawer.data.topic?.id).pop()
+    }
   }
 
   deleteItem(data: TodoItemVO) {
@@ -33,12 +36,11 @@ export class ItemDetailComponent implements OnInit {
     this.drawer.visible = false;
   }
 
-  goBack() {
-    this.drawer.dataChanged = false;
-    this.drawer.close();
+  dataChanged() {
+
   }
 
-  dataChanged() {
-    this.drawer.dataChanged = true;
+  inEditMode = () => {
+    this.drawer.editable = true;
   }
 }

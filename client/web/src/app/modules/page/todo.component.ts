@@ -53,10 +53,16 @@ export class TodoComponent implements OnInit {
     visible: false,
     editable: false,
     data: null,
-    dataChanged: false,
+    checkDataChange: (oldVal: TodoItemVO, newVal: TodoItemVO) => {
+      return this.drawer.editable && (
+        oldVal.topic?.id != newVal.topic?.id ||
+        oldVal.deadlineDate != newVal.deadlineDate ||
+        oldVal.description != newVal.description
+      )
+    },
     close: () => {
       this.drawer.visible = false;
-      if (!this.drawer.dataChanged) return
+      if (!this.drawer.checkDataChange(this.oldTodoItemData, this.drawer.data)) return
       const reqData: TodoItem = {
         completeDate: this.drawer.data?.completeDate ? new Date(this.drawer.data?.completeDate) : null,
         createDate: this.drawer.data?.createDate ? new Date(this.drawer.data?.createDate) : null,
@@ -84,6 +90,8 @@ export class TodoComponent implements OnInit {
     deleteItem: (data: TodoItemVO) => this.deleteItem(data)
   };
 
+  private oldTodoItemData: TodoItemVO;
+
   ngOnInit(): void {
   }
 
@@ -106,7 +114,8 @@ export class TodoComponent implements OnInit {
 
   showItemDetail(data: TodoItemVO, editMode: boolean = false) {
     this.drawer.visible = true;
-    this.drawer.data = copyOf(data);
+    this.drawer.data = data;
+    this.oldTodoItemData = copyOf(data)
     this.drawer.editable = editMode;
   }
 
