@@ -32,7 +32,7 @@
           </div>
           <div class="add-task">
             <i nz-icon nzType="plus" nzTheme="outline" class="add-task-icon"
-               (click)="addTaskData.visible = true"></i>
+               (click)="addTaskData.onShow()"></i>
           </div>
         </div>
 
@@ -55,7 +55,8 @@
   [nzClosable]="false"
   (nzOnCancel)="addTaskData.onCancel()"
   [nzFooter]="null">
-  <app-new-todo (onCancel)="addTaskData.onCancel()" (onOk)="addTaskData.onOk($event)"></app-new-todo>
+  <app-new-todo (onCancel)="addTaskData.onCancel()" [(modelData)]="addTaskData"
+                (onOk)="addTaskData.onOk($event)"></app-new-todo>
 </nz-modal>
 <nz-drawer [nzClosable]="false"
            [nzVisible]="drawer.visible"

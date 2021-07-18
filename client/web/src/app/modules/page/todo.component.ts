@@ -31,6 +31,7 @@ export class TodoComponent implements OnInit {
    * 新增待办事项的弹窗数据集
    */
   addTaskData: ModalData<void> = createModalData({
+    visible: false,
     onOk: (todoItem: TodoItem) => {
       todoItem.topicId = isTodoTopicVO(this.todoService.topic) ? this.todoService.topic.id : null
       TodoItemApis.create(todoItem).subscribe(obs => {
@@ -44,7 +45,7 @@ export class TodoComponent implements OnInit {
         }
       })
       this.addTaskData.onClose();
-    },
+    }
   })
   /**
    * 侧滑窗体数据集

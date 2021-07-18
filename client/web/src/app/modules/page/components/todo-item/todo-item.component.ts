@@ -37,13 +37,15 @@ export class TodoItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  public deleteModelData: ModalData<any> = createModalData({
+  public deleteModelData: ModalData<void> = createModalData({
+    visible: false,
     onOk: () => {
       this.deleteModelData.visible = false;
       this.delete();
     }
   })
   choseDateData: ModalData<Date> = createModalData<Date>({
+    visible: false,
     data: new Date(),
     onCancel: () => {
       this.choseDateData.visible = false
