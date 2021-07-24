@@ -1,40 +1,40 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, NgZone, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {TodoItemVO} from "../../../entity/viewobject/TodoItemVO";
 import {NzContextMenuService, NzDropdownMenuComponent} from "ng-zorro-antd/dropdown";
 import {TodoService} from "../../todo.service";
 import {TodoItem} from "../../../entity/request/TodoItem";
 import {TodoTopicVO} from "../../../entity/viewobject/TodoTopicVO";
-import {createModalData, ModalData} from "../../utils/Types";
-
-
-declare interface Weak {
-  nextMon: number,
-  nextSat: number,
-  tomorrow: number,
-  choose: number,
-  clear: number
-}
+import {createModalData, MateInfo, ModalData, Weak} from "../../utils/Types";
+import {TodoItemService} from "./todo-item.service";
 
 @Component({
   selector: 'app-todo-item',
   templateUrl: './todo-item.component.html',
   styleUrls: ['./todo-item.component.less']
 })
-export class TodoItemComponent implements OnInit {
+export class TodoItemComponent implements OnInit, OnChanges {
 
   constructor(
     private nzContextMenuService: NzContextMenuService,
-    public todoService: TodoService
+    public todoService: TodoService,
+    public todoItemService: TodoItemService,
+    private zone: NgZone
   ) {
   }
 
-  @Input("data") data: TodoItemVO;
+  @Input() data: TodoItemVO;
+  // @Output("mateInfoChange") mateInfoChange: EventEmitter<MateInfo<TodoItemVO>> = new EventEmitter<MateInfo<TodoItemVO>>();
   @Output("onDelete") onDelete: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
   @Output("onEdit") onEdit: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
   @Output("onUpdate") onUpdate: EventEmitter<TodoItem> = new EventEmitter<TodoItem>();
   @Output("contentClick") contentClick: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // this.mateInfo = changes.mateInfo.currentValue;
   }
 
   public deleteModelData: ModalData<void> = createModalData({

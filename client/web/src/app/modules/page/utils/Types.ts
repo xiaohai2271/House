@@ -3,7 +3,6 @@ import {Observable, Observer} from "rxjs";
 
 export const isTodoTopicVO = (a: any): a is TodoTopicVO => typeof (a as TodoTopicVO)["id"] != "undefined";
 
-
 export class ModalData<T> {
   private _visible?: boolean = false;
   data?: T;
@@ -24,6 +23,24 @@ export class ModalData<T> {
   }
 
 }
+
+export declare interface Weak {
+  nextMon: number,
+  nextSat: number,
+  tomorrow: number,
+  choose: number,
+  clear: number
+}
+
+export declare interface MateInfo<T> {
+  topic: {
+    show: boolean,
+    expand: boolean
+  },
+  data: T
+}
+
+export type Sortable = (o1: any, o2: any) => number
 
 export function createModalData<T>(modalData?: ModalData<T>): ModalData<T> {
   const obj = new ModalData<T>();

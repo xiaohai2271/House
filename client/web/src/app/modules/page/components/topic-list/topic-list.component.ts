@@ -40,7 +40,6 @@ export class TopicListComponent implements OnInit {
 
   setTopic = (topic: TodoTopicVO, menuItem?: MenuItemInfo) => {
     this.todoService.topic = menuItem ? menuItem : topic;
-    console.log(this.todoService.topic)
   }
 
   createRightClickPop($event: MouseEvent, menu: NzDropdownMenuComponent, topicVO: TodoTopicVO) {

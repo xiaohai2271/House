@@ -10,7 +10,8 @@ import {TodoService} from "./todo.service";
 import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
 import {clearTime, isEqual} from "./utils/Date";
 import {formatDate} from "@angular/common";
-import {copyOf, createModalData, isTodoTopicVO, ModalData} from "./utils/Types";
+import {copyOf, createModalData, isTodoTopicVO, MateInfo, ModalData} from "./utils/Types";
+import {TodoItemService} from "./components/todo-item/todo-item.service";
 
 @Component({
   selector: 'app-todo',
@@ -20,7 +21,8 @@ import {copyOf, createModalData, isTodoTopicVO, ModalData} from "./utils/Types";
 export class TodoComponent implements OnInit {
   constructor(private iconService: NzIconService,
               private notification: NzNotificationService,
-              public todoService: TodoService
+              public todoService: TodoService,
+              public todoItemService: TodoItemService
   ) {
     this.iconService.fetchFromIconfont({
       scriptUrl: '//at.alicdn.com/t/font_2623130_a87m0sfgj2.js'
@@ -176,4 +178,5 @@ export class TodoComponent implements OnInit {
       }
     })
   }
+
 }

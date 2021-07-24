@@ -5,12 +5,17 @@ import {TodoItemVO} from "../entity/viewobject/TodoItemVO";
 import {TodoItemApis, TopicApis} from "../../http/apis";
 import {isTodoTopicVO} from "./utils/Types";
 import {Observable, Observer} from "rxjs";
+import {addListener, DATA_LISTENER_KEY, getListener} from "./utils/Listener";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  public sort = (a: TodoItemVO, b: TodoItemVO) => a.done ? -1 : (b.done ? 0 : 1);
+  public readonly LISTENER_KEY = {
+    topic: 'topic',
+    topicList: 'topicList',
+    todoItemList: "itemList"
+  }
 
   constructor() {
     TopicApis.query().subscribe(obs => {
@@ -21,8 +26,9 @@ export class TodoService {
       this.initMenuItemInfo();
     })
     this.topic = this.menuItemInfos.all
-    new Observable<TodoTopicVO>(obs => this._topicObserver = obs)
-      .subscribe(obs => obs.items = this.itemList?.filter(it => it.topic?.id == obs.id))
+    new Observable<TodoTopicVO>(obs => {
+      getListener(this.LISTENER_KEY.topic).push(obs)
+    }).subscribe(obs => obs.items = this.itemList?.filter(it => it.topic?.id == obs.id), error => null)
   }
 
   public menuItemInfos: { [name: string]: MenuItemInfo } = {
@@ -34,7 +40,7 @@ export class TodoService {
   public topicList: TodoTopicVO[] = [];
   public itemList: TodoItemVO[] = [];
   private _topic: TodoTopicVO | MenuItemInfo;
-  private _topicObserver: Observer<TodoTopicVO>;
+  private _listeners = new Map<string, Observer<any>[]>()
   public menuInfo: MenuItemInfo[] = [];
 
 
@@ -81,12 +87,16 @@ export class TodoService {
   set topic(topic: TodoTopicVO | MenuItemInfo) {
     this._topic = topic;
     if (isTodoTopicVO(topic))
-      this._topicObserver.next(topic);
-    else
+      getListener(this.LISTENER_KEY.topic).forEach(ons => ons.next(topic));
+    else {
       this.initMenuItemInfo();
+      getListener(this.LISTENER_KEY.topic).forEach(ons => ons.error(topic));
+    }
   }
 
   get topic(): TodoTopicVO | MenuItemInfo {
     return this._topic;
   }
+
+  addDataListener = <T>(key: DATA_LISTENER_KEY, observer: Observer<T>) => addListener<T>(key, observer);
 }

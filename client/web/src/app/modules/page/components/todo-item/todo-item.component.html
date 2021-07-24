@@ -1,5 +1,14 @@
 <div class="item-container">
-  <div class="item" nz-dropdown (contextmenu)="createRightClickPop($event, menu)" (nzVisibleChange)="update()">
+  <!--  item 的主题-->
+  <div class="show-topic" *ngIf="todoItemService.mateInfoMap.get(data.id)?.topic?.show"
+       (click)="todoItemService.dealClassifyChange(data)">
+    <i nz-icon [nzType]="todoItemService.mateInfoMap.get(data.id)?.topic?.expand?'down':'right'" nzTheme="outline"></i>
+    <span class="topic-title">{{data.topic?.title ? data.topic?.title : "未分类"}}</span>
+  </div>
+
+  <div *ngIf="todoItemService.mateInfoMap.get(data.id)?.topic?.expand" class="item" nz-dropdown
+       (contextmenu)="createRightClickPop($event, menu)"
+       (nzVisibleChange)="update()">
     <span (click)="setDoneStatus()">
        <i *ngIf="!data.done" class="task" nz-icon nzIconfont="icon-all_noselects"></i>
         <i *ngIf="data.done" class="done" nz-icon nzIconfont="icon-Done"></i>
@@ -23,7 +32,8 @@
 <nz-dropdown-menu #menu="nzDropdownMenu">
   <ul nz-menu style="font-size: larger">
     <li nz-menu-item (click)="setDoneStatus()">
-      <i nz-icon [nzIconfont]="data.done?'icon-all_noselects':'icon-done'"></i>标记为{{data.done ? '未' : '已'}}完成
+      <i nz-icon
+         [nzIconfont]="data.done?'icon-all_noselects':'icon-done'"></i>标记为{{data.done ? '未' : '已'}}完成
     </li>
     <li nz-submenu [nzTitle]="title">
       <ng-template #title>

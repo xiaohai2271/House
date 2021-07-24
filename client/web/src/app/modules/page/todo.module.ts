@@ -30,6 +30,7 @@ import {NzCalendarModule} from "ng-zorro-antd/calendar";
 import {NewTodoComponent} from './components/new-todo/new-todo.component';
 import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzTagModule} from "ng-zorro-antd/tag";
+import {TodoItemService} from "./components/todo-item/todo-item.service";
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import {NzTagModule} from "ng-zorro-antd/tag";
   providers: [
     NzNotificationService,
     TodoService,
+    TodoItemService
   ]
 })
 export class TodoModule {
