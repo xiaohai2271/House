@@ -27,3 +27,7 @@ export function getListener<T>(key: string): Observer<T>[] {
 export function emptyListener(key: DATA_LISTENER_KEY) {
   _listeners.get(key).splice(0, _listeners.get(key).length)
 }
+
+export function notifyListener(key: DATA_LISTENER_KEY, fun: (observer: Observer<any>) => void) {
+  getListener<any>(key).forEach(fun)
+}

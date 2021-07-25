@@ -4,7 +4,7 @@ import {TodoItemVO} from "../entity/viewobject/TodoItemVO";
 import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
 import {TodoService} from "./todo.service";
 import {MenuItemInfo} from "./utils/Menu";
-import {addListener, getListener} from "./utils/Listener";
+import {addListener, getListener, notifyListener} from "./utils/Listener";
 import {Observer} from "rxjs";
 import {TodoItemApis} from "../../http/apis";
 
@@ -14,11 +14,71 @@ import {TodoItemApis} from "../../http/apis";
 })
 export class TodoItemService {
 
-  public readonly LISTENER_KEY = "mateData";
+  public static readonly LISTENER_KEY = "mateData";
+  private itemList: TodoItemVO[] = [];
+  public static readonly ITEM_LIST_KEY = "itemList";
 
-  constructor(private todoService: TodoService) {
-    this.initMateInfoMap()
-    todoService.addDataListener<TodoTopicVO>(todoService.LISTENER_KEY.topic, {
+  constructor() {
+    this.initTodoItemData().then(r => this.initMateInfoMap());
+    this.listenTopicChange()
+  }
+
+  public mateInfoMap = new Map<number, MateInfo<TodoItemVO>>();
+
+  async initTodoItemData() {
+    let response = await TodoItemApis.query().toPromise();
+    this.itemList = response.data;
+    notifyListener(TodoItemService.ITEM_LIST_KEY, ob => {
+      ob.next(this.itemList)
+    })
+  }
+
+
+  initMateInfoMap() {
+    if (this.mateInfoMap.size > 0) return
+    console.log("initMateInfoMap")
+    let pre = null;
+    this.itemList.forEach(it => {
+      let result: MateInfo<TodoItemVO> = this.getOrDefault(it.id);
+      result.data = it;
+      result.topic.show = pre == undefined || it.topic?.id != pre.topic?.id
+      this.setInfo(it.id, result)
+      pre = it;
+    })
+  }
+
+  // 隐藏 让界面不显示数据
+  dealClassifyChange(item: TodoItemVO) {
+    this.mateInfoMap.forEach((v, k) => {
+      if (v.data?.topic?.id === item.topic?.id) {
+        v.topic.expand = !v.topic.expand;
+        this.notify(true, v)
+      }
+    })
+  }
+
+  getOrDefault(key: number) {
+    if (!this.mateInfoMap.get(key)) {
+      let result = {topic: {show: true, expand: true}, data: null};
+      this.setInfo(key, result)
+    }
+    return this.mateInfoMap.get(key)
+  }
+
+  setInfo(key: number, item: MateInfo<TodoItemVO>) {
+    this.mateInfoMap.set(key, item);
+    getListener<MateInfo<TodoItemVO>>(TodoItemService.LISTENER_KEY).forEach(obs => obs.next(item))
+  }
+
+  // 添加数据监听器
+  addListener = (observer: Observer<MateInfo<TodoItemVO>>) => addListener(TodoItemService.LISTENER_KEY, observer);
+
+  notify = (needNotify: boolean, info: MateInfo<TodoItemVO>) => {
+    if (needNotify) getListener<MateInfo<TodoItemVO>>(TodoItemService.LISTENER_KEY).forEach(obs => obs.next(info))
+  }
+
+  listenTopicChange() {
+    addListener<TodoTopicVO>(TodoService.LISTENER_KEY.topic, {
       next: top => {
         this.initMateInfoMap();
         this.mateInfoMap.forEach((v, k) => {
@@ -51,52 +111,5 @@ export class TodoItemService {
       },
       complete: () => null
     })
-  }
-
-  public mateInfoMap = new Map<number, MateInfo<TodoItemVO>>();
-
-  initMateInfoMap() {
-    if (this.mateInfoMap.size > 0) return
-    console.log("initMateInfoMap")
-    let pre = null;
-
-    TodoItemApis.query().subscribe(ob => {
-      ob.data.forEach(it => {
-        let result: MateInfo<TodoItemVO> = this.getOrDefault(it.id);
-        result.data = it;
-        result.topic.show = pre == undefined || it.topic?.id != pre.topic?.id
-        this.setInfo(it.id, result)
-        pre = it;
-      })
-    })
-  }
-
-  // 隐藏 让界面不显示数据
-  dealClassifyChange(item: TodoItemVO) {
-    this.mateInfoMap.forEach((v, k) => {
-      if (v.data?.topic?.id === item.topic?.id) {
-        v.topic.expand = !v.topic.expand;
-        this.notify(true, v)
-      }
-    })
-  }
-
-  getOrDefault(key: number) {
-    if (!this.mateInfoMap.get(key)) {
-      let result = {topic: {show: true, expand: true}, data: null};
-      this.setInfo(key, result)
-    }
-    return this.mateInfoMap.get(key)
-  }
-
-  setInfo(key: number, item: MateInfo<TodoItemVO>) {
-    this.mateInfoMap.set(key, item);
-    getListener<MateInfo<TodoItemVO>>(this.LISTENER_KEY).forEach(obs => obs.next(item))
-  }
-
-  // 添加数据监听器
-  addListener = (observer: Observer<MateInfo<TodoItemVO>>) => addListener(this.LISTENER_KEY, observer);
-  notify = (needNotify: boolean, info: MateInfo<TodoItemVO>) => {
-    if (needNotify) getListener<MateInfo<TodoItemVO>>(this.LISTENER_KEY).forEach(obs => obs.next(info))
   }
 }

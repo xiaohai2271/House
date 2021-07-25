@@ -5,30 +5,23 @@ import {TodoItemVO} from "../entity/viewobject/TodoItemVO";
 import {TodoItemApis, TopicApis} from "../../http/apis";
 import {isTodoTopicVO} from "./utils/Types";
 import {Observable, Observer} from "rxjs";
-import {addListener, DATA_LISTENER_KEY, getListener} from "./utils/Listener";
+import {addListener, DATA_LISTENER_KEY, getListener, notifyListener} from "./utils/Listener";
+import {TodoItemService} from "./todo-item.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  public readonly LISTENER_KEY = {
+  public static readonly LISTENER_KEY = {
     topic: 'topic',
     topicList: 'topicList',
-    todoItemList: "itemList"
   }
 
   constructor() {
-    TopicApis.query().subscribe(obs => {
-      this.topicList = obs.data;
-    })
-    TodoItemApis.query().subscribe(obs => {
-      this.itemList = obs.data;
-      this.initMenuItemInfo();
-    })
+    this.initTopicList();
+    this.initMenuItemInfo();
     this.topic = this.menuItemInfos.all
-    new Observable<TodoTopicVO>(obs => {
-      getListener(this.LISTENER_KEY.topic).push(obs)
-    }).subscribe(obs => obs.items = this.itemList?.filter(it => it.topic?.id == obs.id), error => null)
+    this.listenTodoItemChange();
   }
 
   public menuItemInfos: { [name: string]: MenuItemInfo } = {
@@ -38,18 +31,25 @@ export class TodoService {
     task: {menuInfo: MENU.task, show: true, icon: 'icon-plan'}
   }
   public topicList: TodoTopicVO[] = [];
-  public itemList: TodoItemVO[] = [];
+  private _itemList: TodoItemVO[] = [];
   private _topic: TodoTopicVO | MenuItemInfo;
-  private _listeners = new Map<string, Observer<any>[]>()
   public menuInfo: MenuItemInfo[] = [];
 
+  initTopicList() {
+    TopicApis.query().subscribe(obs => {
+      this.topicList = obs.data;
+      notifyListener(TodoService.LISTENER_KEY.topicList, f => {
+        obs.code === 0 ? f.next(obs.data) : f.error(obs)
+      })
+    })
+  }
 
   initMenuItemInfo() {
     this.menuInfo = [this.menuItemInfos.all, this.menuItemInfos.plan, this.menuItemInfos.done, this.menuItemInfos.task]
-    this.menuItemInfos.all.items = this.itemList;
-    this.menuItemInfos.plan.items = this.itemList.filter(it => it.deadlineDate)
-    this.menuItemInfos.done.items = this.itemList.filter(it => it.done);
-    this.menuItemInfos.task.items = this.itemList.filter(it => !it.done);
+    this.menuItemInfos.all.items = this._itemList;
+    this.menuItemInfos.plan.items = this._itemList.filter(it => it.deadlineDate)
+    this.menuItemInfos.done.items = this._itemList.filter(it => it.done);
+    this.menuItemInfos.task.items = this._itemList.filter(it => !it.done);
     this.menuInfo.forEach(menu => menu.title = menu.menuInfo.name)
   }
 
@@ -72,13 +72,13 @@ export class TodoService {
     const filterRule = topic => !topic.done;
     switch (menuItem?.menuInfo) {
       case MENU.all:
-        return this.itemList.filter(filterRule).length || null
+        return this._itemList.filter(filterRule).length || null
       case MENU.plan:
-        return this.itemList.filter(top => top.deadlineDate).filter(filterRule).length || null
+        return this._itemList.filter(top => top.deadlineDate).filter(filterRule).length || null
       case MENU.done:
         return null
       case MENU.task:
-        return this.itemList.filter(filterRule).length || null
+        return this._itemList.filter(filterRule).length || null
       default:
         return topic.items?.filter(filterRule).length || null
     }
@@ -86,18 +86,28 @@ export class TodoService {
 
   set topic(topic: TodoTopicVO | MenuItemInfo) {
     this._topic = topic;
-    if (isTodoTopicVO(topic))
-      getListener(this.LISTENER_KEY.topic).forEach(ons => ons.next(topic));
-    else {
+    if (isTodoTopicVO(topic)) {
+      notifyListener(TodoService.LISTENER_KEY.topic, ons => ons.next(topic));
+      topic.items = this._itemList?.filter(it => it.topic?.id == topic.id)
+    } else {
       this.initMenuItemInfo();
-      getListener(this.LISTENER_KEY.topic).forEach(ons => ons.error(topic));
+      notifyListener(TodoService.LISTENER_KEY.topic, ons => ons.error(topic));
     }
-    getListener(this.LISTENER_KEY.topic).forEach(ons => ons.complete());
   }
 
   get topic(): TodoTopicVO | MenuItemInfo {
     return this._topic;
   }
 
-  addDataListener = <T>(key: DATA_LISTENER_KEY, observer: Observer<T>) => addListener<T>(key, observer);
+  listenTodoItemChange() {
+    addListener<TodoItemVO[]>(TodoItemService.ITEM_LIST_KEY, {
+      next: value => {
+        this._itemList = value
+        // 重新组织菜单数据 // ** 包含界面上的数据 **
+        this.initMenuItemInfo();
+      },
+      error: e => null,
+      complete: () => null
+    })
+  }
 }
