@@ -181,11 +181,11 @@ export class TodoComponent implements OnInit {
   }
 
   getClassifyMateInfo(item: TodoItemVO): MateInfo<TodoItemVO> {
-    return this.todoItemService.getOrDefault(item.id);
+    return this.todoItemService.mateInfo.getOrDefault(item.id);
   }
 
   expandInfoChange(item: TodoItemVO, $event: boolean) {
-    this.todoItemService.mateInfoMap.forEach((v, k) => {
+    this.todoItemService.mateInfo.mateInfoMap.forEach((v, k) => {
       if (v.data?.topic?.id === item.topic?.id) {
         v.topic.expand = $event;
       }
