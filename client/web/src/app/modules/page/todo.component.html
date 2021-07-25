@@ -16,13 +16,20 @@
   </nz-sider>
   <nz-layout class="right-layout">
     <nz-header nz-row><span>{{todoService.topic?.title}}</span></nz-header>
-<!--    <span *ngFor="let item of todoItemService.mateInfoMap|keyvalue">{{item.key}}-{{item.value.topic|json}} {{'\n'}}</span>-->
+    <!--    <span *ngFor="let item of todoItemService.mateInfoMap|keyvalue">{{item.key}}-{{item.value.topic|json}} {{'\n'}}</span>-->
     <nz-content nz-row>
       <div nz-col nzFlex="auto" style="height: 100%">
         <div class="card">
           <div class="todo">
-            <ng-container *ngFor="let item of todoService.topic?.items;let i = index">
-              <app-todo-item [data]="item"
+            <ng-container *ngFor="let item of todoService.topic?.items;">
+              <app-item-classify [title]="item.topic?.title"
+                                 *ngIf="getClassifyMateInfo(item).topic.show"
+                                 [expand]="getClassifyMateInfo(item).topic.expand"
+                                 (expandChange)="expandInfoChange(item,$event)"
+              >
+              </app-item-classify>
+              <app-todo-item *ngIf="getClassifyMateInfo(item).topic.expand"
+                             [data]="item"
                              (onDelete)="deleteItem($event)"
                              (onEdit)="showItemDetail($event,true)"
                              (contentClick)="showItemDetail(item)"

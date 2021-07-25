@@ -92,6 +92,7 @@ export class TodoService {
       this.initMenuItemInfo();
       getListener(this.LISTENER_KEY.topic).forEach(ons => ons.error(topic));
     }
+    getListener(this.LISTENER_KEY.topic).forEach(ons => ons.complete());
   }
 
   get topic(): TodoTopicVO | MenuItemInfo {

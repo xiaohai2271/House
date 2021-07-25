@@ -11,7 +11,8 @@ import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
 import {clearTime, isEqual} from "./utils/Date";
 import {formatDate} from "@angular/common";
 import {copyOf, createModalData, isTodoTopicVO, MateInfo, ModalData} from "./utils/Types";
-import {TodoItemService} from "./components/todo-item/todo-item.service";
+import {TodoItemService} from "./todo-item.service";
+import {$e} from "codelyzer/angular/styles/chars";
 
 @Component({
   selector: 'app-todo',
@@ -179,4 +180,15 @@ export class TodoComponent implements OnInit {
     })
   }
 
+  getClassifyMateInfo(item: TodoItemVO): MateInfo<TodoItemVO> {
+    return this.todoItemService.getOrDefault(item.id);
+  }
+
+  expandInfoChange(item: TodoItemVO, $event: boolean) {
+    this.todoItemService.mateInfoMap.forEach((v, k) => {
+      if (v.data?.topic?.id === item.topic?.id) {
+        v.topic.expand = $event;
+      }
+    })
+  }
 }

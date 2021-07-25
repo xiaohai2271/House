@@ -17,7 +17,7 @@ import {TodoModule} from "./modules/page/todo.module";
 import {setHttpClient} from "./http/apis"
 import {ApiHttpInterceptor} from "./http/api-http.interceptor";
 import {TodoService} from "./modules/page/todo.service";
-import {TodoItemService} from "./modules/page/components/todo-item/todo-item.service";
+import {TodoItemService} from "./modules/page/todo-item.service";
 
 registerLocaleData(zh);
 

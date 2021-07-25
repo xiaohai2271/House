@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
-import {MateInfo, Sortable} from "../../utils/Types";
-import {TodoItemVO} from "../../../entity/viewobject/TodoItemVO";
-import {TodoTopicVO} from "../../../entity/viewobject/TodoTopicVO";
-import {TodoService} from "../../todo.service";
-import {MenuItemInfo} from "../../utils/Menu";
-import {addListener, getListener} from "../../utils/Listener";
+import {MateInfo, Sortable} from "./utils/Types";
+import {TodoItemVO} from "../entity/viewobject/TodoItemVO";
+import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
+import {TodoService} from "./todo.service";
+import {MenuItemInfo} from "./utils/Menu";
+import {addListener, getListener} from "./utils/Listener";
 import {Observer} from "rxjs";
-import {TodoItemApis} from "../../../../http/apis";
+import {TodoItemApis} from "../../http/apis";
 
 
 @Injectable({
@@ -56,8 +56,8 @@ export class TodoItemService {
   public mateInfoMap = new Map<number, MateInfo<TodoItemVO>>();
 
   initMateInfoMap() {
-    console.log("initMateInfoMap")
     if (this.mateInfoMap.size > 0) return
+    console.log("initMateInfoMap")
     let pre = null;
 
     TodoItemApis.query().subscribe(ob => {
