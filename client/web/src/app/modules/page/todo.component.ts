@@ -10,9 +10,9 @@ import {TodoService} from "./todo.service";
 import {TodoTopicVO} from "../entity/viewobject/TodoTopicVO";
 import {clearTime, isEqual} from "./utils/Date";
 import {formatDate} from "@angular/common";
-import {copyOf, createModalData, isTodoTopicVO, MateInfo, ModalData} from "./utils/Types";
+import {isTodoTopicVO, MateInfo, ModalData} from "./utils/Types";
 import {TodoItemService} from "./todo-item.service";
-import {$e} from "codelyzer/angular/styles/chars";
+import {createModalData, copyOf} from "./utils/Object";
 
 @Component({
   selector: 'app-todo',

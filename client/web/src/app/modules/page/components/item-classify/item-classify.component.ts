@@ -2,8 +2,28 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
 
 @Component({
   selector: 'app-item-classify',
-  templateUrl: './item-classify.component.html',
-  styleUrls: ['./item-classify.component.less']
+  template: `
+    <div>
+      <div class="tip" (click)="expandChange()">
+        <i nz-icon [nzType]="expand?'down':'right'" nzTheme="outline"></i>
+        <span class="tip-title">{{title || "未分类"}}</span>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .tip {
+      margin: 20px 0 0 10px;
+      background: rgba(220, 220, 220, .3);
+      padding: 5px 10px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+
+    .tip-title {
+      margin-left: 10px;
+      font-size: medium;
+    }
+  `]
 })
 export class ItemClassifyComponent implements OnInit, OnChanges {
 

@@ -4,7 +4,8 @@ import {NzContextMenuService, NzDropdownMenuComponent} from "ng-zorro-antd/dropd
 import {TodoService} from "../../todo.service";
 import {TodoItem} from "../../../entity/request/TodoItem";
 import {TodoTopicVO} from "../../../entity/viewobject/TodoTopicVO";
-import {createModalData, ModalData, Weak} from "../../utils/Types";
+import {ModalData, Weak} from "../../utils/Types";
+import {createModalData} from "../../utils/Object";
 
 @Component({
   selector: 'app-todo-item',
