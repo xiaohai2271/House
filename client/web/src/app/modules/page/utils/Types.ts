@@ -37,7 +37,8 @@ export declare interface MateInfo<T> {
     show: boolean,
     expand: boolean
   },
-  data: T
+  data: T,
+  title: string
 }
 
 export type Sortable = (o1: any, o2: any) => number

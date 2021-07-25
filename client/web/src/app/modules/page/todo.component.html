@@ -22,7 +22,7 @@
         <div class="card">
           <div class="todo">
             <ng-container *ngFor="let item of todoService.topic?.items;">
-              <app-item-classify [title]="item.topic?.title"
+              <app-item-classify [title]="getClassifyMateInfo(item).title"
                                  *ngIf="getClassifyMateInfo(item).topic.show"
                                  [expand]="getClassifyMateInfo(item).topic.expand"
                                  (expandChange)="expandInfoChange(item,$event)"
