@@ -14,3 +14,10 @@ spring:
   web:
     resources:
       static-locations: classpath:templates/
+  sql:
+    init:
+      schema-locations: classpath:sql/schema.sql
+      data-locations: classpath:sql/data.sql
+      enabled: on
+      platform: h2
+      encoding: utf-8
