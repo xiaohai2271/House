@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #    url: jdbc:mysql://localhost:3306/house?serverTimezone=UTC
+    username: root
+    password: zhenghai
+    url: jdbc:h2:~/house/house.db
+    driver-class-name: org.h2.Driver
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+  web:
+    resources:
+      static-locations: classpath:templates/
+  sql:
+    init:
+      schema-locations: classpath:sql/schema.sql
+      data-locations: classpath:sql/data.sql
+      enabled: on
+      platform: h2
+      encoding: utf-8
