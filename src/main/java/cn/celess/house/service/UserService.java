@@ -1,6 +1,7 @@
 package cn.celess.house.service;
 
 import cn.celess.house.entity.User;
+import cn.celess.house.entity.dto.UserDto;
 import cn.celess.house.entity.vo.UserVO;
 import org.springframework.stereotype.Service;
 
@@ -12,4 +13,19 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface UserService extends IBaseService<User, Integer, UserVO, User> {
+    /**
+     * 登录
+     *
+     * @param userDto user
+     * @return user
+     */
+    UserVO login(UserDto userDto);
+
+    /**
+     * 注册
+     *
+     * @param userDto user
+     * @return user
+     */
+    UserVO registration(UserDto userDto);
 }

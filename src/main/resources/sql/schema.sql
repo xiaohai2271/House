@@ -8,9 +8,15 @@ drop table if exists user;
 -- 用户表
 CREATE TABLE user
 (
-    id       int primary key auto_increment,
-    email    varchar(255) not null,
-    password varchar(255) not null
+    id              int primary key auto_increment,
+    username        varchar(255) not null,
+    email           varchar(255) not null,
+    password        varchar(255) not null,
+    avatar          varchar(255) default null,
+    last_login_time bigint       default null,
+    github_token    varchar(255) default null,
+    wechat_token    varchar(255) default null,
+    qq_token        varchar(255) default null
 );
 
 

@@ -1,6 +1,8 @@
 package cn.celess.house.entity.vo;
 
+import cn.celess.house.entity.BaseUser;
 import cn.celess.house.entity.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -9,8 +11,14 @@ import lombok.Data;
  * @description：
  */
 @Data
-public class UserVO implements BaseVO<User> {
+public class UserVO extends BaseUser implements BaseVO<User> {
     private Integer id;
+    private Long lastLoginTime;
+    private String avatar;
 
-    private String email;
+    @Override
+    @JsonIgnore
+    public String getPassword() {
+        return null;
+    }
 }
