@@ -17,14 +17,14 @@
     <i nz-icon [nzIconfont]="topicVO.icon||'icon-menu'"></i>
     <nz-badge [nzCount]="todoService.calUnDoneCount(topicVO, null)" style="width: 270px"
               [nzStyle]="{backgroundColor:'#ececec',color:'black'}">
-      <input *ngIf="editData.editStatus && topic.id == topicVO.id"
+      <input *ngIf="editData.editStatus && topic.id === topicVO.id"
              nz-input
              id="input-{{topic.id}}"
              [(ngModel)]="editData.data"
              autofocus
              type="text"
              (focusout)="renameTopic(false)">
-      <div *ngIf="!editData.editStatus || topic.id != topicVO.id">{{topicVO.title}}</div>
+      <div *ngIf="!editData.editStatus || topic.id !== topicVO.id">{{topicVO.title}}</div>
     </nz-badge>
   </li>
 </ul>
