@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Angular Github Actions
+        uses: mayurrawte/github-angular-actions@latest
+
+      - name: Install Node Package
+        run: cd client/web && npm install
+
+      - name: Angular code style check
+        run: cd client/web && ng lint
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v2.1.0
+        with:
+          distribution: 'adopt' # See 'Supported distributions' for available options
+          java-version: '16'
+
+      - name: Maven Unit Test
+        run: bash mvnw test -B
