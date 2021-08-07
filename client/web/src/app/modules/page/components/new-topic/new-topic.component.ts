@@ -32,7 +32,7 @@ export class NewTopicComponent implements OnInit {
   }
 
   public addTopicTipVisible: boolean = true;
-  @Output() onCreateTopic: EventEmitter<TodoTopic> = new EventEmitter<TodoTopic>()
+  @Output() createTopicEvent: EventEmitter<TodoTopic> = new EventEmitter<TodoTopic>()
 
   submitTopicInfo(e: InputEvent) {
     // console.log((e.target as HTMLInputElement).value)
@@ -41,7 +41,7 @@ export class NewTopicComponent implements OnInit {
       date: new Date(),
       userId: 1
     }
-    this.onCreateTopic.emit(todoTopic)
+    this.createTopicEvent.emit(todoTopic)
     this.addTopicTipVisible = false;
     (e.target as HTMLInputElement).value = null;
   }

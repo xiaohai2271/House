@@ -17,11 +17,11 @@ export class StatisticsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  @Output() onDateChanged: EventEmitter<Date> = new EventEmitter<Date>();
+  @Output() dateChangeEvent: EventEmitter<Date> = new EventEmitter<Date>();
 
   selectedValue = new Date();
 
-  selectChange = (select: Date) => this.onDateChanged.emit(select);
+  selectChange = (select: Date) => this.dateChangeEvent.emit(select);
 
   getBackground(date: Date): string {
     date.setHours(0, 0, 0, 0)

@@ -16,8 +16,8 @@ export class TopicListComponent implements OnInit {
   ) {
   }
 
-  @Output() onDeleteTopic: EventEmitter<TodoTopicVO> = new EventEmitter<TodoTopicVO>();
-  @Output() onUpdateTopic: EventEmitter<TodoTopicVO> = new EventEmitter<TodoTopicVO>();
+  @Output() deleteTopicEvent: EventEmitter<TodoTopicVO> = new EventEmitter<TodoTopicVO>();
+  @Output() updateTopicEvent: EventEmitter<TodoTopicVO> = new EventEmitter<TodoTopicVO>();
   public topic: TodoTopicVO;
   public deleteModelData: { visible: boolean, onCancel: () => void, onOK: () => void } = {
     visible: false,
@@ -26,7 +26,7 @@ export class TopicListComponent implements OnInit {
     },
     onOK: () => {
       this.deleteModelData.visible = false;
-      this.onDeleteTopic.emit(this.topic)
+      this.deleteTopicEvent.emit(this.topic)
     }
   }
 
@@ -63,7 +63,7 @@ export class TopicListComponent implements OnInit {
       if (this.topic.title == this.editData.data) return
       this.topic.title = this.editData.data;
       this.editData.data = "";
-      this.onUpdateTopic.emit(this.topic)
+      this.updateTopicEvent.emit(this.topic)
     }
   }
 }
