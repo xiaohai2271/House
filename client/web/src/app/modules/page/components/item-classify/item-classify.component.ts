@@ -4,7 +4,7 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges
   selector: 'app-item-classify',
   template: `
     <div>
-      <div class="tip" (click)="expandChange()">
+      <div class="tip" (click)="expandChangeHandler()">
         <i nz-icon [nzType]="expand?'down':'right'" nzTheme="outline"></i>
         <span class="tip-title">{{title || "未分类"}}</span>
       </div>
@@ -30,9 +30,9 @@ export class ItemClassifyComponent implements OnInit, OnChanges {
   constructor() {
   }
 
-  @Input("title") title: string
-  @Input("expand") expand: boolean = true;
-  @Output("expandChange") expandChangeEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() title: string
+  @Input() expand: boolean = true;
+  @Output() expandChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   ngOnInit(): void {
   }
@@ -43,8 +43,8 @@ export class ItemClassifyComponent implements OnInit, OnChanges {
   }
 
 
-  expandChange() {
+  expandChangeHandler() {
     this.expand = !this.expand;
-    this.expandChangeEvent.emit(this.expand)
+    this.expandChange.emit(this.expand)
   }
 }
