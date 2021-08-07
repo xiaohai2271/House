@@ -22,10 +22,10 @@ export class TodoItemComponent implements OnInit, OnChanges {
 
   @Input() data: TodoItemVO;
   // @Output("mateInfoChange") mateInfoChange: EventEmitter<MateInfo<TodoItemVO>> = new EventEmitter<MateInfo<TodoItemVO>>();
-  @Output("onDelete") onDelete: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
-  @Output("onEdit") onEdit: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
-  @Output("onUpdate") onUpdate: EventEmitter<TodoItem> = new EventEmitter<TodoItem>();
-  @Output("contentClick") contentClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() deleteEvent: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
+  @Output() editEvent: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
+  @Output() updateEvent: EventEmitter<TodoItem> = new EventEmitter<TodoItem>();
+  @Output() contentClickEvent: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
 
@@ -39,7 +39,7 @@ export class TodoItemComponent implements OnInit, OnChanges {
     visible: false,
     onOk: () => {
       this.deleteModelData.visible = false;
-      this.delete();
+      this.deleteHandler();
     }
   })
   choseDateData: ModalData<Date> = createModalData<Date>({
@@ -62,12 +62,12 @@ export class TodoItemComponent implements OnInit, OnChanges {
     this.update()
   }
 
-  delete = () => this.onDelete.emit(this.data);
+  deleteHandler = () => this.deleteEvent.emit(this.data);
 
-  edit = () => this.onEdit.emit(this.data);
+  editHandler = () => this.editEvent.emit(this.data);
 
   update() {
-    this.onUpdate.emit({
+    this.updateEvent.emit({
       completeDate: this.data.completeDate ? new Date(this.data.completeDate) : null,
       createDate: new Date(this.data.createDate),
       deadlineDate: this.data.deadlineDate ? new Date(this.data.deadlineDate) : null,

@@ -6,19 +6,19 @@
        <i *ngIf="!data.done" class="task" nz-icon nzIconfont="icon-all_noselects"></i>
         <i *ngIf="data.done" class="done" nz-icon nzIconfont="icon-Done"></i>
     </span>
-    <div class="content" (click)="contentClick.emit()">
-      <div>{{data.title}}</div>
-      <div class="deadline">{{data.deadlineDate|date:'yyy-MM-dd HH:mm:ss'}}</div>
+    <div class="content" (click)="contentClickEvent.emit()">
+        <div>{{data.title}}</div>
+        <div class="deadline">{{data.deadlineDate|date:'yyy-MM-dd HH:mm:ss'}}</div>
     </div>
     <div class="action">
       <i nz-icon
          nz-popconfirm
          nzIconfont="icon-shanchu"
          title="删除"
-         (nzOnConfirm)="delete()"
+         (nzOnConfirm)="deleteHandler()"
          nzPopconfirmPlacement="top"
          nzPopconfirmTitle="是否确定删除当前任务?"></i>
-      <i nz-icon nzIconfont="icon-edit" title="编辑" (click)="edit()"></i>
+        <i nz-icon nzIconfont="icon-edit" title="编辑" (click)="editHandler()"></i>
     </div>
   </div>
 </div>
@@ -36,7 +36,7 @@
         <li nz-menu-item
             *ngFor="let top of todoService.topicList"
             (click)="setTopic(top)"
-            [nzDisabled]="data.topic?.id == top.id">
+            [nzDisabled]="data.topic?.id === top.id">
           <i nz-icon nzIconfont="icon-liebiao"></i>{{top.title}}
         </li>
       </ul>

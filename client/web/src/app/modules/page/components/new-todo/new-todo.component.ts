@@ -35,8 +35,8 @@ export class NewTodoComponent implements OnInit, OnDestroy {
 
   @Input() modelData: ModalData<void>;
   @Output() modelDataChange: EventEmitter<ModalData<void>> = new EventEmitter<ModalData<void>>();
-  @Output() onCancel: EventEmitter<void> = new EventEmitter<void>();
-  @Output() onOk: EventEmitter<TodoItem> = new EventEmitter<TodoItem>();
+  @Output() cancelEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() okEvent: EventEmitter<TodoItem> = new EventEmitter<TodoItem>();
 
   @ViewChild("titleInput", {static: true}) titleInput: ElementRef;
   data: {
@@ -63,7 +63,7 @@ export class NewTodoComponent implements OnInit, OnDestroy {
 
   onOkClick() {
     if (!this.data.title) return
-    this.onOk.emit({
+    this.okEvent.emit({
       createDate: new Date(),
       deadlineDate: this.data.deadLine,
       description: this.data.desc,

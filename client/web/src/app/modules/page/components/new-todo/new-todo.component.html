@@ -2,7 +2,7 @@
   <div class="modal-header">
     <h2>添加待办事项</h2>
     <nz-button-group>
-      <button nz-button nzType="link" class="cancel" (click)="onCancel.emit()">取消</button>
+      <button nz-button nzType="link" class="cancel" (click)="cancelEvent.emit()">取消</button>
       <button nz-button nzType="text" class="ok" (click)="onOkClick()" [disabled]="!data.title">确定</button>
     </nz-button-group>
   </div>
@@ -14,13 +14,13 @@
          nzSize="large"
          class="input"
          (keyup.enter)="onOkClick()"
-         (keyup.escape)="onCancel.emit()"
+         (keyup.escape)="cancelEvent.emit()"
          placeholder="今天想做些什么呢？">
   <textarea nz-input
             [(ngModel)]="data.desc"
             nzBorderless
             (keyup.enter)="onOkClick()"
-            (keyup.escape)="onCancel.emit()"
+            (keyup.escape)="cancelEvent.emit()"
             class="input desc"
             placeholder="今天有啥特别的事呢？备注一下吧！"
             [nzAutosize]="{ minRows: 2, maxRows: 8 }"></textarea>

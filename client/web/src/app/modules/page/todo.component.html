@@ -6,12 +6,12 @@
         <app-user-info></app-user-info>
       </div>
       <div class="topic">
-        <app-topic-list (onUpdateTopic)="updateTopic($event)"
-                        (onDeleteTopic)="deleteTopic($event)">
+        <app-topic-list (updateTopicEvent)="updateTopic($event)"
+                        (deleteTopicEvent)="deleteTopic($event)">
 
         </app-topic-list>
       </div>
-      <app-new-topic class="new-topic" (onCreateTopic)="createTopic($event)"></app-new-topic>
+      <app-new-topic class="new-topic" (createTopicEvent)="createTopic($event)"></app-new-topic>
     </div>
   </nz-sider>
   <nz-layout class="right-layout">
@@ -30,10 +30,10 @@
               </app-item-classify>
               <app-todo-item *ngIf="getClassifyMateInfo(item).topic.expand"
                              [data]="item"
-                             (onDelete)="deleteItem($event)"
-                             (onEdit)="showItemDetail($event,true)"
-                             (contentClick)="showItemDetail(item)"
-                             (onUpdate)="updateTodoItem($event)">
+                             (deleteEvent)="deleteItem($event)"
+                             (editEvent)="showItemDetail($event,true)"
+                             (contentClickEvent)="showItemDetail(item)"
+                             (updateEvent)="updateTodoItem($event)">
               </app-todo-item>
             </ng-container>
           </div>
@@ -46,7 +46,7 @@
       </div>
       <div nz-col nzFlex="350px" nzOffset="1" style="height: 100%">
         <div nz-row class="card" style="height: 60%;">
-          <app-statistics (onDateChanged)="dateChanged($event)"></app-statistics>
+          <app-statistics (dateChangeEvent)="dateChanged($event)"></app-statistics>
         </div>
         <div nz-row class="card" style="height:calc(40% - 30px);margin-top: 30px">
           <app-clock-in></app-clock-in>
@@ -62,8 +62,8 @@
   [nzClosable]="false"
   (nzOnCancel)="addTaskData.onCancel()"
   [nzFooter]="null">
-  <app-new-todo (onCancel)="addTaskData.onCancel()" [(modelData)]="addTaskData"
-                (onOk)="addTaskData.onOk($event)"></app-new-todo>
+  <app-new-todo (cancelEvent)="addTaskData.onCancel()" [(modelData)]="addTaskData"
+                (okEvent)="addTaskData.onOk($event)"></app-new-todo>
 </nz-modal>
 <nz-drawer [nzClosable]="false"
            [nzVisible]="drawer.visible"
