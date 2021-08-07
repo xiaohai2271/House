@@ -22,10 +22,10 @@ export class TodoItemComponent implements OnInit, OnChanges {
 
   @Input() data: TodoItemVO;
   // @Output("mateInfoChange") mateInfoChange: EventEmitter<MateInfo<TodoItemVO>> = new EventEmitter<MateInfo<TodoItemVO>>();
-  @Output("onDelete") onDelete: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
-  @Output("onEdit") onEdit: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
-  @Output("onUpdate") onUpdate: EventEmitter<TodoItem> = new EventEmitter<TodoItem>();
-  @Output("contentClick") contentClick: EventEmitter<void> = new EventEmitter<void>();
+  @Output() onDelete: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
+  @Output() onEdit: EventEmitter<TodoItemVO> = new EventEmitter<TodoItemVO>();
+  @Output() onUpdate: EventEmitter<TodoItem> = new EventEmitter<TodoItem>();
+  @Output() contentClick: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
 
