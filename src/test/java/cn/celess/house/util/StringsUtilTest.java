@@ -42,7 +42,7 @@ class StringsUtilTest extends AbstractTest {
         TodoItemDTO obj = StringsUtil.toObject(s, TodoItemDTO.class);
         assertNotNull(obj);
         assertEquals(1, obj.getId());
-        assertEquals(dateFormatUtil.get(new Date(1622904575221L)), dateFormatUtil.get(obj.getCreateDate()));
+        assertEquals("2021-06-05 22:49:35", dateFormatUtil.get(obj.getCreateDate()));
         assertEquals("", obj.getDescription());
         assertEquals("hello test", obj.getTitle());
         assertEquals(1, obj.getTopicId());
