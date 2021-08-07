@@ -4,12 +4,16 @@ import cn.celess.house.AbstractTest;
 import cn.celess.house.entity.dto.TodoItemDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StringsUtilTest extends AbstractTest {
+
+    @Autowired
+    DateFormatUtil dateFormatUtil;
 
     @Test
     void getMD5() {
@@ -38,7 +42,7 @@ class StringsUtilTest extends AbstractTest {
         TodoItemDTO obj = StringsUtil.toObject(s, TodoItemDTO.class);
         assertNotNull(obj);
         assertEquals(1, obj.getId());
-        assertEquals(new Date(1622904575000L).getTime(), obj.getCreateDate().getTime());
+        assertEquals(dateFormatUtil.get(new Date(1622904575221L)), dateFormatUtil.get(obj.getCreateDate()));
         assertEquals("", obj.getDescription());
         assertEquals("hello test", obj.getTitle());
         assertEquals(1, obj.getTopicId());
