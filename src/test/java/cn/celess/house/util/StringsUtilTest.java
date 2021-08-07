@@ -1,5 +1,6 @@
 package cn.celess.house.util;
 
+import cn.celess.house.AbstractTest;
 import cn.celess.house.entity.dto.TodoItemDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -8,7 +9,7 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class StringsUtilTest {
+class StringsUtilTest extends AbstractTest {
 
     @Test
     void getMD5() {
