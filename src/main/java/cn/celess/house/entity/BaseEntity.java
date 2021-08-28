@@ -8,7 +8,7 @@ import org.springframework.beans.BeanUtils;
  * @date： 2021/06/05 11:34
  * @description：
  */
-public interface BaseEntity<T, ID> {
+public interface BaseEntity<T, ID> extends BaseBean {
     /**
      * 返回主键值
      *
@@ -23,8 +23,4 @@ public interface BaseEntity<T, ID> {
      */
     <VO extends BaseVO<?>> VO toViewObject();
 
-    default <VO extends BaseVO<?>> VO beanCopy(T entity, VO vo) {
-        BeanUtils.copyProperties(entity, vo);
-        return vo;
-    }
 }

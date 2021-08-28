@@ -29,7 +29,7 @@ class BaseEntityTest extends AbstractTest {
 
         @Override
         public TestVO toViewObject() {
-            return beanCopy(this, new TestVO());
+            return copy(this, new TestVO());
         }
     }
 

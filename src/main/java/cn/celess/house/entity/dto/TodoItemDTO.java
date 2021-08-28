@@ -30,7 +30,7 @@ public class TodoItemDTO implements BaseDTO<TodoItem> {
 
     @Override
     public TodoItem toEntity() {
-        TodoItem todoItem = beanCopy(this, new TodoItem());
+        TodoItem todoItem = copy(this, new TodoItem());
         todoItem.setIsDone(done);
         return todoItem;
     }

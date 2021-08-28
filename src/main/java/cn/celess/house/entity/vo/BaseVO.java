@@ -1,5 +1,6 @@
 package cn.celess.house.entity.vo;
 
+import cn.celess.house.entity.BaseBean;
 import cn.celess.house.entity.BaseEntity;
 import lombok.Data;
 
@@ -8,5 +9,5 @@ import lombok.Data;
  * @date： 2021/06/05 14:51
  * @description：
  */
-public interface BaseVO<T extends BaseEntity<T, ?>> {
+public interface BaseVO<T extends BaseEntity<T, ?>> extends BaseBean {
 }

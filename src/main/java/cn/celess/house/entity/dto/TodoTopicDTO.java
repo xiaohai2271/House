@@ -26,6 +26,6 @@ public class TodoTopicDTO implements BaseDTO<TodoTopic> {
 
     @Override
     public TodoTopic toEntity() {
-        return beanCopy(this, new TodoTopic());
+        return copy(this, new TodoTopic());
     }
 }

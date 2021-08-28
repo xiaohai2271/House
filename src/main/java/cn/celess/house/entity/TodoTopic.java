@@ -1,10 +1,7 @@
 package cn.celess.house.entity;
 
 import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import cn.celess.house.entity.vo.BaseVO;
 import cn.celess.house.entity.vo.TodoTopicVO;
 import lombok.Data;
 
@@ -42,6 +39,6 @@ public class TodoTopic implements BaseEntity<TodoTopic, Integer> {
 
     @Override
     public TodoTopicVO toViewObject() {
-        return beanCopy(this, new TodoTopicVO());
+        return copy(this, new TodoTopicVO());
     }
 }

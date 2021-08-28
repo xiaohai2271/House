@@ -33,7 +33,7 @@ public class User implements BaseEntity<User, Integer>, BaseDTO<User> {
 
     @Override
     public UserVO toViewObject() {
-        return beanCopy(this, new UserVO());
+        return copy(this, new UserVO());
     }
 
     @Override
